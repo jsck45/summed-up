@@ -1,0 +1,27 @@
+{
+  "name": "summed-up",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server/server.js --ignore client",
+    "develop": "concurrently \"cd server && npm run watch\" \"cd client && npm run dev\"",
+    "install": "cd server && npm i && cd ../client && npm i",
+    "seed": "cd server && npm run seed",
+    "build": "cd client && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ThorstenBeowulf/summed-up.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ThorstenBeowulf/summed-up/issues"
+  },
+  "homepage": "https://github.com/ThorstenBeowulf/summed-up#readme",
+  "devDependencies": {
+    "concurrently": "^5.3.0"
+  }
+}

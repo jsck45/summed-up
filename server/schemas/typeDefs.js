@@ -17,10 +17,15 @@ const typeDefs = `#graphql
     subcategories: [SubCategory]
   }
 
+  type SubCategory {
+    _id: ID
+    name: String
+  }
+
   type Post {
     _id: ID
     title: String
-    content: string
+    content: String
     author: User
     dateCreated: String
     comments: [Comment]
@@ -50,8 +55,8 @@ const typeDefs = `#graphql
     ): Auth
     addPost(
       title: String!
-      content: string
-      author: User!
+      content: String
+      author: ID
     ): Post
   }
 `;

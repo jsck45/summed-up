@@ -1,13 +1,29 @@
 import React, { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
+import { useMutation } from '@apollo/client'; 
+import { CREATE_POST } from '../utils/mutations'; 
 
-const PostForm = ({ show, handleClose, handleCreatePost }) => {
+
+const PostForm = ({ show, handleClose }) => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
 
+  const [createPost] = useMutation(CREATE_POST); 
+
   const handleSubmit = () => {
-    handleCreatePost({ title, content });
-    handleClose();
+    createPost({
+      variables: {
+        title,
+        content,
+      },
+    })
+      .then((response) => {
+        console.log('New post created:', response.data.createPost);
+        handleClose(); 
+      })
+      .catch((error) => {
+        console.error('Error creating a new post:', error);
+      });
   };
 
   return (

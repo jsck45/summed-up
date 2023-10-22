@@ -1,5 +1,5 @@
 body {
-    font-family: 'Rubik', sans-serif;
+  font-family: 'Poppins', sans-serif;
   }
   
   h1,
@@ -15,4 +15,12 @@ body {
     font-weight: 300;
     font-style: italic;
   }
+
+  @media (max-width: 991px) {
+    .navbar .login-signup {
+      display: none;
+    }
+  }
+  
+
   

@@ -4,7 +4,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import App from './App.jsx';
 import Homepage from './pages/Home';
-import Posts from './components/PostList';
+import PostDetail from './pages/PostDetail.jsx';
+import Profile from './pages/Profile.jsx';
 
 const router = createBrowserRouter([
   {
@@ -16,10 +17,13 @@ const router = createBrowserRouter([
         element: <Homepage />,
       },
       {
-        path: 'posts',
-        element: <Posts />,
+        path: 'posts/:postId',
+        element: <PostDetail />, // Create the PostDetail component
       },
-      // Add other routes as needed
+      {
+        path: 'me',
+        element: <Profile />, // Create the Profile component
+      },
     ],
   },
 ]);

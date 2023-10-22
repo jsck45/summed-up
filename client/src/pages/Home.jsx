@@ -60,7 +60,7 @@ const Home = () => {
             {showMessage && !Auth.loggedIn() && (
               <Modal show={showMessage} onHide={() => setShowMessage(false)}>
                 <Modal.Header closeButton>
-                  <Modal.Title>Message</Modal.Title>
+                  <Modal.Title>oops!</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                   Please log in or sign up to post.

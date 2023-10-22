@@ -7,10 +7,16 @@ export const GET_ME = gql`
             _id
             username
             email
-            
+            posts {
+         _id
+        title
+        content
+        date
+      }
         }
     }
 `;
+
 
 export const GET_POSTS = gql`
   query getPosts {

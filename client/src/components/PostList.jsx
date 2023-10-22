@@ -3,6 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComment, faShare } from '@fortawesome/free-solid-svg-icons';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import { Link } from 'react-router-dom';
+
 
 function PostList({postLink}) {
   const [showModal, setShowModal] = useState(false);
@@ -59,8 +61,8 @@ function PostList({postLink}) {
   };
 
   const handleCommentButtonClick = (postId) => {
-    console.log(`Button clicked for post ID: ${postId}`);
-  };
+    return <Link to={`/post/${postId}`}>View Post</Link>;
+  }
 
   const handleShareButtonClick = (postId) => {
     const postLink = `https://yourwebsite.com/post/${postId}`;

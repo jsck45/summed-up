@@ -16,11 +16,9 @@ body {
     font-style: italic;
   }
 
-  @media (max-width: 991px) {
-    .navbar .login-signup {
-      display: none;
-    }
+  .categories {
+    padding-top: 3rem;
   }
-  
+
 
   

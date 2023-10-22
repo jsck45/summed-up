@@ -3,9 +3,9 @@ import { Container, Button, Modal, Row, Col } from 'react-bootstrap';
 import { useMutation } from '@apollo/client'; 
 import { CREATE_POST } from '../utils/mutations'; 
 import Auth from '../utils/auth';
-
 import PostList from '../components/PostList';
 import PostForm from '../components/PostForm';
+import './Home.css';
 
 const Home = () => {
   const [showModal, setShowModal] = useState(false);
@@ -34,19 +34,8 @@ const Home = () => {
   const [createPost] = useMutation(CREATE_POST);
 
   return (
-    <div className="py-5">
-      <Container>
-        <Row>
-          {/* Hide the categories sidebar on small screens (sm and below) */}
-          <Col lg={3} className="mb-4 d-none d-sm-block">
-            {/* Sidebar Content */}
-            <div className="sidebar py-3">
-              <h4>categories</h4>
-              {/* Add your category links or content here */}
-            </div>
-          </Col>
-          <Col lg={9} style={{ borderLeft: '1px solid #ccc', paddingLeft: '3rem' }} >
-            {/* <h1>Posts</h1> */}
+      <div className="py-5">
+      <Container style={{ borderLeft: '1px solid #ccc', paddingLeft: '3rem' }} className="container">
             <Button variant="success" onClick={handleShowModal} className="my-3">
               Create Post
             </Button>
@@ -68,11 +57,9 @@ const Home = () => {
               </Modal>
             )}
             <PostList />
-          </Col>
-        </Row>
-      </Container>
-    </div>
-  );
-};
+        </Container>
+      </div>
+    );
+  };
 
 export default Home;

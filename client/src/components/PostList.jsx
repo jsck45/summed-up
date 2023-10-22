@@ -4,15 +4,26 @@ import { faComment, faShare } from '@fortawesome/free-solid-svg-icons';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
-
+import { useQuery } from '@apollo/client';
+import { GET_POSTS } from '../utils/queries'; 
+import './PostList.css';
 
 function PostList({postLink}) {
+
+// const { loading, error, data } = useQuery(GET_POSTS);
+
+// if (loading) return <p>Loading...</p>;
+// if (error) return <p>Error: {error.message}</p>;
+
+// const posts = data.posts;
+
   const [showModal, setShowModal] = useState(false);
   const handleShowModal = () => {
     setShowModal(true);
   };
 
   const placeholderPosts = [
+    // comment out when connected and uncomment the above
     {
       _id: '1',
       title: 'Placeholder Post 1',
@@ -41,10 +52,12 @@ function PostList({postLink}) {
   const cardTitleStyle = {
     fontSize: '1.5rem',
     fontWeight: 'bold',
+    textDecoration: 'none',
   };
 
   const cardTextStyle = {
     fontSize: '1rem',
+    marginTop: '1rem'
   };
 
   const cardBodyStyle = {
@@ -61,9 +74,10 @@ function PostList({postLink}) {
   };
 
   const handleCommentButtonClick = (postId) => {
-    return <Link to={`/post/${postId}`}>View Post</Link>;
+    return (
+      <Link to={`/posts/${postId}`}>View Post</Link>
+    );
   }
-
   const handleShareButtonClick = (postId) => {
     const postLink = `https://yourwebsite.com/post/${postId}`;
 
@@ -87,9 +101,9 @@ handleShowModal()
           <div key={post._id} className="card" style={cardStyle}>
             <div className="card-body" style={cardBodyStyle}>
               <p className="card-text">{new Date(post.date).toLocaleString()}</p>
-              <h2 className="card-title" style={cardTitleStyle}>
-                {post.title}
-              </h2>
+              <Link to={`/posts/${post._id}`} className="card-title" style={cardTitleStyle}>
+  {post.title}
+</Link>
               <p className="card-text" style={cardTextStyle}>
                 {post.content}
               </p>

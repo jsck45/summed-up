@@ -3,6 +3,7 @@ import { useQuery } from '@apollo/client';
 import { GET_ME } from '../utils/queries';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
+import Categories from '../components/Categories';
 
 function UserProfile({ userId }) {
 //   const { loading, error, data } = useQuery(GET_ME, {
@@ -13,6 +14,7 @@ function UserProfile({ userId }) {
 //   if (error) return <p>Error: {error.message}</p>;
 
 //   const user = data.user;
+
 const cardStyle = {
     background: '#fff',
     padding: '0.5rem 0',
@@ -23,10 +25,12 @@ const cardStyle = {
   const cardTitleStyle = {
     fontSize: '1.5rem',
     fontWeight: 'bold',
+    textDecoration: 'none',
   };
 
   const cardTextStyle = {
     fontSize: '1rem',
+    marginTop: '1rem'
   };
 
   const cardBodyStyle = {
@@ -35,6 +39,7 @@ const cardStyle = {
   };
 
 const [user, setUser] = useState({
+    // comment this out when connected to back end
     username: 'JohnDoe',
     email: 'john.doe@example.com',
     posts: [
@@ -42,45 +47,36 @@ const [user, setUser] = useState({
         _id: '1',
         title: 'Sample Post 1',
         content: 'This is a sample post content.',
-        date: '2022-01-01',
-      },
+        date: new Date().toISOString(),
+    },
       {
         _id: '2',
         title: 'Sample Post 2',
         content: 'Another sample post content.',
-        date: '2022-02-01',
-      },
+        date: new Date().toISOString(),
+    },
     ],
   });
 
 
   return (
     <div className="py-5">
-      <Container>
-        <Row>
-          <Col lg={3} className="mb-4 d-none d-sm-block">
-            <div className="sidebar py-3">
-              <h4>categories</h4>
-              {/* Add your category links or content here */}
-            </div>
-          </Col>
-          <Col lg={9} style={{ borderLeft: '1px solid #ccc', paddingLeft: '3rem' }}>
-            <h1>hi, {user.username}!</h1>
-            {/* Display user information (username, email, etc.) here */}
-            
-            <h2>your posts</h2>
+      <Container style={{ borderLeft: '1px solid #ccc', paddingLeft: '3rem' }}>
+            <h1 style={{paddingBottom: '1rem', textAlign:'end'}}>hi, {user.username}!</h1>
+                      
+            <h2 style={{fontWeight:'bolder'}}>your posts</h2>
             {user.posts.map((post) => (
               <div className="card" key={post._id} style={cardStyle}>
                 <div className="card-body" style={cardBodyStyle}>
-                <p className="card-text">Date: {post.date}</p>
-                  <h5 className="card-title" style={cardTitleStyle}>{post.title}</h5>
+                <p className="card-text">{new Date(post.date).toLocaleString()}</p>
+                <Link to={`/posts/${post._id}`} className="card-title" style={cardTitleStyle}>
+  {post.title}
+</Link>
                   <p className="card-text" style={cardTextStyle}>{post.content}</p>
                 
                 </div>
               </div>
             ))}
-          </Col>          
-        </Row>
       </Container>
     </div>
   );

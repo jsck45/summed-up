@@ -1,0 +1,7 @@
+@media (max-width: 767px) {
+    .card-container {
+      border-left: none!important;
+      padding: 0!important;
+    }
+  }
+  

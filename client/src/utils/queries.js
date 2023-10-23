@@ -11,7 +11,12 @@ export const GET_ME = gql`
          _id
         title
         content
-        date
+        createdAt
+      }
+      comments {
+        _id
+        content
+        createdAt
       }
         }
     }
@@ -24,8 +29,23 @@ export const GET_POSTS = gql`
       _id
       title
       content
-      author
-      date
+      user {
+        username
+      }
+      createdAt
+    }
+  }
+`;
+
+export const GET_COMMENTS = gql`
+  query GetComments($postId: ID!) {
+    comments(postId: $postId) {
+      _id
+      text
+      user {
+        username
+      }
+      createdAt
     }
   }
 `;

@@ -32,8 +32,23 @@ export const CREATE_POST = gql`
       _id
       title
       content
-      author
-      date
+      user {
+        username
+      }
+      createdAt
+    }
+  }
+`;
+
+export const ADD_COMMENT = gql`
+  mutation addComment($postId: ID!, $text: String!) {
+    addComment(postId: $postId, text: $text) {
+      _id
+      text
+      user {
+        username
+      }
+      createdAt
     }
   }
 `;

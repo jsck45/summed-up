@@ -33,19 +33,35 @@ export const GET_POSTS = gql`
         username
       }
       createdAt
+      comments {
+        _id
+        content
+        createdAt
+        user {
+          username
+        }
+      }
     }
   }
 `;
 
-export const GET_COMMENTS = gql`
-  query GetComments($postId: ID!) {
-    comments(postId: $postId) {
+export const GET_SINGLE_POST = gql`
+query getSinglePost($postId: ID!) {
+  post(postId: $postId) {
+    _id
+    title
+    content
+    user {
+      username
+    }
+    createdAt
+    comments {
       _id
-      text
+      content
+      createdAt
       user {
         username
       }
-      createdAt
     }
   }
-`;
+}`

@@ -45,7 +45,7 @@ function CommentForm({ postId }) {
       </button>
       <Modal show={showModal} onHide={() => setShowModal(false)}>
   <Modal.Header closeButton>
-    <Modal.Title>Error</Modal.Title>
+    <Modal.Title>oops!</Modal.Title>
   </Modal.Header>
   <Modal.Body>
     <p>Please log in or sign up to post a comment.</p>

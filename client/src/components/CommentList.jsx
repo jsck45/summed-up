@@ -2,7 +2,25 @@ import React from 'react';
 import { useQuery } from '@apollo/client';
 import { GET_COMMENTS } from '../utils/queries'; 
 import { Container, Row, Col } from 'react-bootstrap';
+import './CommentList.css';
+import styled from 'styled-components';
 
+const CommentCard = styled.div`
+  background: #fff;
+  padding: 0.5rem 0;
+  margin: 1rem 3rem 0;
+  border: none;
+
+  .comment-details {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .card-body {
+    border-bottom: 1px solid #ddd;
+    padding: 1rem 0;
+  }
+`;
 
 function CommentList({ postId }) {
 //   const { loading, error, data } = useQuery(GET_COMMENTS, {
@@ -19,6 +37,8 @@ function CommentList({ postId }) {
 //   }
 
 //   const comments = data.comments; 
+
+
 
 const cardStyle = {
     background: '#fff',
@@ -67,8 +87,10 @@ const cardStyle = {
       <Container>
         {placeholderComments.map((comment) => (
           <div className="card" style={cardStyle} key={comment._id}>
+            <div className="comment-details">
             <strong>{comment.user.username}</strong>
             <small>{new Date(comment.createdAt).toLocaleString()}</small>
+            </div>
             <div style={cardBodyStyle}>{comment.text}</div>
             
           </div>

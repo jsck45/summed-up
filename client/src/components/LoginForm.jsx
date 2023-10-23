@@ -3,22 +3,24 @@ import { Form, Button, Alert } from 'react-bootstrap';
 
 import Auth from '../utils/auth';
 import { useMutation } from '@apollo/client';
-import { LOGIN_USER } from '../utils/mutations';
+import { LOGIN_USER_EMAIL, LOGIN_USER_USERNAME } from '../utils/mutations';
 
 
 const LoginForm = () => {
-  const [login, { error }] = useMutation(LOGIN_USER);
-  const [userFormData, setUserFormData] = useState({ login: "", password: "" }); 
+  const [userFormData, setUserFormData] = useState({ login: "", password: "" });
   const [validated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
+  const [emailLogin, { error: emailError }] = useMutation(LOGIN_USER_EMAIL); 
+  const [usernameLogin, { error: usernameError }] = useMutation(LOGIN_USER_USERNAME); 
+
 
   useEffect(() => {
-    if (error) {
+    if (emailError || usernameError) {
       setShowAlert(true);
     } else {
       setShowAlert(false);
     }
-  }, [error]);
+  }, [emailError, usernameError]);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -35,13 +37,24 @@ const LoginForm = () => {
     }
 
     try {
-      const { data } = await login({
-        variables: {
-          email: userFormData.login, 
-          password: userFormData.password,
-        },      });
-      Auth.login(data.login.token);
+      let data;
+      if (userFormData.login.includes('@')) {
+        data = await emailLogin({
+          variables: {
+            email: userFormData.login,
+            password: userFormData.password,
+          },
+        });
+      } else {
+        data = await usernameLogin({
+          variables: {
+            username: userFormData.login,
+            password: userFormData.password,
+          },
+        });
+      }
 
+      Auth.login(data.data.login.token);
     } catch (err) {
       console.error(err);
     }

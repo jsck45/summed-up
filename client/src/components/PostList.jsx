@@ -8,7 +8,6 @@ import { useQuery } from '@apollo/client';
 import { GET_POSTS } from '../utils/queries'; 
 import styled from 'styled-components';
 
-
 const CardContainer = styled.div`
   @media (max-width: 767px) {
     border-left: none !important;

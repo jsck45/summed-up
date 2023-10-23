@@ -5,13 +5,12 @@ import { CREATE_POST } from '../utils/mutations';
 import Auth from '../utils/auth';
 import PostList from '../components/PostList';
 import PostForm from '../components/PostForm';
-// import './Home.css';
 import styled from 'styled-components';
 
 const MainContainer = styled.div`
   @media (max-width: 767px) {
     border-left: none !important;
-    padding-left: none !important;
+    padding: 0 !important;
   }
 `;
 

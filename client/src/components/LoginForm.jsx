@@ -3,22 +3,24 @@ import { Form, Button, Alert } from 'react-bootstrap';
 
 import Auth from '../utils/auth';
 import { useMutation } from '@apollo/client';
-import { LOGIN_USER } from '../utils/mutations';
+import { LOGIN_USER_EMAIL, LOGIN_USER_USERNAME } from '../utils/mutations';
 
 
 const LoginForm = () => {
-  const [login, { error }] = useMutation(LOGIN_USER);
-  const [userFormData, setUserFormData] = useState({ email: "", password: "" });
+  const [userFormData, setUserFormData] = useState({ login: "", password: "" });
   const [validated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
+  const [emailLogin, { error: emailError }] = useMutation(LOGIN_USER_EMAIL); 
+  const [usernameLogin, { error: usernameError }] = useMutation(LOGIN_USER_USERNAME); 
+
 
   useEffect(() => {
-    if (error) {
+    if (emailError || usernameError) {
       setShowAlert(true);
     } else {
       setShowAlert(false);
     }
-  }, [error]);
+  }, [emailError, usernameError]);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -28,7 +30,6 @@ const LoginForm = () => {
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
-    // check if form has everything (as per react-bootstrap docs)
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();
@@ -36,17 +37,30 @@ const LoginForm = () => {
     }
 
     try {
-      const { data } = await login({
-        variables: { ...userFormData },
-      });
-      Auth.login(data.login.token);
+      let data;
+      if (userFormData.login.includes('@')) {
+        data = await emailLogin({
+          variables: {
+            email: userFormData.login,
+            password: userFormData.password,
+          },
+        });
+      } else {
+        data = await usernameLogin({
+          variables: {
+            username: userFormData.login,
+            password: userFormData.password,
+          },
+        });
+      }
 
+      Auth.login(data.data.login.token);
     } catch (err) {
       console.error(err);
     }
 
     setUserFormData({
-      email: "",
+      login: "",
       password: "",
     });
   };
@@ -61,13 +75,13 @@ const LoginForm = () => {
           <Form.Label htmlFor='email'>Email</Form.Label>
           <Form.Control
             type='text'
-            placeholder='Your email'
-            name='email'
+            placeholder='Your email or username'
+            name='login'
             onChange={handleInputChange}
-            value={userFormData.email}
+            value={userFormData.login}
             required
           />
-          <Form.Control.Feedback type='invalid'>Email is required!</Form.Control.Feedback>
+          <Form.Control.Feedback type='invalid'>Email or username is required!</Form.Control.Feedback>
         </Form.Group>
 
         <Form.Group className='mb-3'>

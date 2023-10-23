@@ -6,41 +6,47 @@ import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { GET_POSTS } from '../utils/queries'; 
-import './PostList.css';
+import styled from 'styled-components';
+
+const CardContainer = styled.div`
+  @media (max-width: 767px) {
+    border-left: none !important;
+  }
+`;
 
 function PostList({postLink}) {
 
-// const { loading, error, data } = useQuery(GET_POSTS);
+const { loading, error, data } = useQuery(GET_POSTS);
 
-// if (loading) return <p>Loading...</p>;
-// if (error) return <p>Error: {error.message}</p>;
+if (loading) return <p>Loading...</p>;
+if (error) return <p>Error: {error.message}</p>;
 
-// const posts = data.posts;
+const posts = data.posts;
 
   const [showModal, setShowModal] = useState(false);
   const handleShowModal = () => {
     setShowModal(true);
   };
 
-  const placeholderPosts = [
-    // comment out when connected and uncomment the above
-    {
-      _id: '1',
-      title: 'Placeholder Post 1',
-      content: 'This is the content of Placeholder Post 1.',
-      author: 'John Doe',
-      date: new Date().toISOString(),
-    },
-    {
-      _id: '2',
-      title: 'Placeholder Post 2',
-      content: 'This is the content of Placeholder Post 2.',
-      author: 'Jane Smith',
-      date: new Date().toISOString(),
-    },
-  ];
+  // const placeholderPosts = [
+   
+  //   {
+  //     _id: '1',
+  //     title: 'Placeholder Post 1',
+  //     content: 'This is the content of Placeholder Post 1.',
+  //     author: 'John Doe',
+  //     date: new Date().toISOString(),
+  //   },
+  //   {
+  //     _id: '2',
+  //     title: 'Placeholder Post 2',
+  //     content: 'This is the content of Placeholder Post 2.',
+  //     author: 'Jane Smith',
+  //     date: new Date().toISOString(),
+  //   },
+  // ];
 
-  const [posts, setPosts] = useState(placeholderPosts);
+  // const [posts, setPosts] = useState(placeholderPosts);
 
   const cardStyle = {
     background: '#fff',
@@ -96,6 +102,8 @@ handleShowModal()
 
   return (
     <div>
+            <CardContainer>
+
       <div className="card-container">
         {posts.map((post) => (
           <div key={post._id} className="card" style={cardStyle}>
@@ -117,6 +125,7 @@ handleShowModal()
           </div>
         ))}
       </div>
+      </CardContainer>
 
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>

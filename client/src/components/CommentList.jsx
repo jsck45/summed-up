@@ -2,7 +2,6 @@ import React from 'react';
 import { useQuery } from '@apollo/client';
 import { GET_COMMENTS } from '../utils/queries'; 
 import { Container, Row, Col } from 'react-bootstrap';
-import './CommentList.css';
 import styled from 'styled-components';
 
 const CommentCard = styled.div`

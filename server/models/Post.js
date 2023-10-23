@@ -8,11 +8,17 @@ const postSchema = new Schema({
     {
       type: Schema.Types.ObjectId,
       ref: 'User',
+      required: true
     },
   ], // reference
   dateCreated: { type: Date, default: Date.now(), },
   comments: [Comment], // subdocument
-
+  category: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Category',
+    }
+  ]
 })
 
 const Post = model('Post', postSchema);

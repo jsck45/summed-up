@@ -39,7 +39,7 @@ const typeDefs = `#graphql
   }
 
   type Query {
-    user: User
+    me: User
     users: [User]
     category: Category
     categories: [Category]
@@ -58,6 +58,14 @@ const typeDefs = `#graphql
       content: String
       author: ID
     ): Post
+    loginEmail(
+      email: String!
+      password: String!
+    ): Auth
+    loginUserName(
+      userName: String!
+      password: String!
+    ): Auth
   }
 `;
 

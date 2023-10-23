@@ -5,11 +5,19 @@ import { CREATE_POST } from '../utils/mutations';
 import Auth from '../utils/auth';
 import PostList from '../components/PostList';
 import PostForm from '../components/PostForm';
-import './Home.css';
+// import './Home.css';
+import styled from 'styled-components';
+
+const MainContainer = styled.div`
+  @media (max-width: 767px) {
+    border-left: none !important;
+    padding-left: none !important;
+  }
+`;
 
 const Home = () => {
   const [showModal, setShowModal] = useState(false);
-  const [showMessage, setShowMessage] = useState(false); // State to control the message modal
+  const [showMessage, setShowMessage] = useState(false); 
 
   const handleShowModal = () => {
     if (Auth.loggedIn()) {
@@ -35,7 +43,8 @@ const Home = () => {
 
   return (
       <div className="py-5">
-      <Container style={{ borderLeft: '1px solid #ccc', paddingLeft: '3rem' }} className="container">
+      <Container >
+            <MainContainer style={{ borderLeft: '1px solid #ccc', paddingLeft: '3rem' }} >
             <Button variant="success" onClick={handleShowModal} className="my-3">
               Create Post
             </Button>
@@ -57,6 +66,7 @@ const Home = () => {
               </Modal>
             )}
             <PostList />
+            </MainContainer>
         </Container>
       </div>
     );

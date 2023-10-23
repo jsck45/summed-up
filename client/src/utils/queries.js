@@ -1,7 +1,6 @@
 import { gql } from '@apollo/client';
 
 export const GET_ME = gql`
-# needs more work
     query me {
         me {
             _id
@@ -12,13 +11,13 @@ export const GET_ME = gql`
         title
         content
         createdAt
-      }
-      comments {
-        _id
-        content
-        createdAt
-      }
+        comments {
+          _id
+          content
+          createdAt
         }
+      }
+      }
     }
 `;
 

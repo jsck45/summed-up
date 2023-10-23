@@ -28,6 +28,7 @@
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
     "@fortawesome/free-regular-svg-icons": "^6.4.2",
     "@fortawesome/free-solid-svg-icons": "^6.4.2",
+    "bcrypt": "^5.1.1",
     "react-router-dom": "^6.17.0",
     "styled-components": "^6.1.0"
   }

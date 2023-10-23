@@ -4,7 +4,12 @@ import { Link } from 'react-router-dom';
 import { Container, Button, Modal, Row, Col } from 'react-bootstrap';
 import CommentList from '../components/CommentList';
 import CommentForm from '../components/CommentForm';
-import './PostDetail.css';
+import styled from 'styled-components';
+
+const UserDateWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
 
 function PostDetail() {
   const { postId } = useParams();
@@ -57,22 +62,21 @@ function PostDetail() {
 
   return (
     <div className="card py-5" key={post._id} style={cardStyle}>
-            <Container style={{ borderLeft: '1px solid #ccc', paddingLeft: '3rem' }} className="container">
-
-            <div className="card-body" style={cardBodyStyle}>
-  <div className="user-date">
-    <p className="card-text">Posted by {post.user}</p>
-    <p className="card-text"><small>{new Date(post.date).toLocaleString()}</small></p>
-  </div>
-  <h2 className="card-title" style={cardTitleStyle}>
-    {post.title}
-  </h2>
-  <p className="card-text" style={cardTextStyle}>
-    {post.content}
-  </p>
-</div>
-      <CommentForm postId={postId} /> 
-      <CommentList postId={postId} />
+      <Container style={{ borderLeft: '1px solid #ccc', paddingLeft: '3rem' }} className="container">
+        <div className="card-body" style={cardBodyStyle}>
+          <UserDateWrapper>
+            <p className="card-text">Posted by {post.user}</p>
+            <p className="card-text"><small>{new Date(post.date).toLocaleString()}</small></p>
+          </UserDateWrapper>
+          <h2 className="card-title" style={cardTitleStyle}>
+            {post.title}
+          </h2>
+          <p className="card-text" style={cardTextStyle}>
+            {post.content}
+          </p>
+        </div>
+        <CommentForm postId={postId} /> 
+        <CommentList postId={postId} />
       </Container>
     </div>
   );

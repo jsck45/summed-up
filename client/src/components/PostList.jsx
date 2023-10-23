@@ -6,7 +6,14 @@ import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { GET_POSTS } from '../utils/queries'; 
-import './PostList.css';
+import styled from 'styled-components'; 
+
+const CardContainer = styled.div`
+  @media (max-width: 767px) {
+    border-left: none !important;
+    padding: 2rem !important;
+  }
+`;
 
 function PostList({postLink}) {
 
@@ -96,6 +103,7 @@ handleShowModal()
 
   return (
     <div>
+      <CardContainer>
       <div className="card-container">
         {posts.map((post) => (
           <div key={post._id} className="card" style={cardStyle}>
@@ -117,6 +125,8 @@ handleShowModal()
           </div>
         ))}
       </div>
+      </CardContainer>
+
 
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>

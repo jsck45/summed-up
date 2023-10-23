@@ -2,7 +2,6 @@ import React from 'react';
 import { useQuery } from '@apollo/client';
 import { GET_COMMENTS } from '../utils/queries'; 
 import { Container, Row, Col } from 'react-bootstrap';
-import './CommentList.css';
 import styled from 'styled-components';
 
 const CommentCard = styled.div`
@@ -40,18 +39,6 @@ function CommentList({ postId }) {
 
 
 
-const cardStyle = {
-    background: '#fff',
-    padding: '0.5rem 0',
-    margin: '1rem 3rem 0 ',
-    border: 'none',
-  };
-
-  const cardBodyStyle = {
-    borderBottom: '1px solid #ddd',
-    padding: '1rem 0', 
-  };
-
   const placeholderComments = [
     {
       _id: 'comment1',
@@ -84,16 +71,15 @@ const cardStyle = {
         ))}
       </ul> */}
 
-      <Container>
+<Container>
         {placeholderComments.map((comment) => (
-          <div className="card" style={cardStyle} key={comment._id}>
+          <CommentCard key={comment._id}>
             <div className="comment-details">
-            <strong>{comment.user.username}</strong>
-            <small>{new Date(comment.createdAt).toLocaleString()}</small>
+              <strong>{comment.user.username}</strong>
+              <small>{new Date(comment.createdAt).toLocaleString()}</small>
             </div>
-            <div style={cardBodyStyle}>{comment.text}</div>
-            
-          </div>
+            <div className="card-body">{comment.text}</div>
+          </CommentCard>
         ))}
       </Container>
 

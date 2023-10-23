@@ -8,7 +8,7 @@ import { LOGIN_USER } from '../utils/mutations';
 
 const LoginForm = () => {
   const [login, { error }] = useMutation(LOGIN_USER);
-  const [userFormData, setUserFormData] = useState({ email: "", password: "" });
+  const [userFormData, setUserFormData] = useState({ login: "", password: "" }); 
   const [validated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
 
@@ -28,7 +28,6 @@ const LoginForm = () => {
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
-    // check if form has everything (as per react-bootstrap docs)
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();
@@ -37,8 +36,10 @@ const LoginForm = () => {
 
     try {
       const { data } = await login({
-        variables: { ...userFormData },
-      });
+        variables: {
+          email: userFormData.login, 
+          password: userFormData.password,
+        },      });
       Auth.login(data.login.token);
 
     } catch (err) {
@@ -46,7 +47,7 @@ const LoginForm = () => {
     }
 
     setUserFormData({
-      email: "",
+      login: "",
       password: "",
     });
   };
@@ -61,13 +62,13 @@ const LoginForm = () => {
           <Form.Label htmlFor='email'>Email</Form.Label>
           <Form.Control
             type='text'
-            placeholder='Your email'
-            name='email'
+            placeholder='Your email or username'
+            name='login'
             onChange={handleInputChange}
-            value={userFormData.email}
+            value={userFormData.login}
             required
           />
-          <Form.Control.Feedback type='invalid'>Email is required!</Form.Control.Feedback>
+          <Form.Control.Feedback type='invalid'>Email or username is required!</Form.Control.Feedback>
         </Form.Group>
 
         <Form.Group className='mb-3'>

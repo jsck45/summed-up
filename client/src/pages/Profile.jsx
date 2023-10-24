@@ -3,7 +3,6 @@ import { useQuery } from '@apollo/client';
 import { GET_ME } from '../utils/queries';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
-import Categories from '../components/Categories';
 import styled from 'styled-components';
 
 

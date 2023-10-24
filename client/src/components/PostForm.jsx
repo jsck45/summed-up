@@ -66,6 +66,7 @@ const PostForm = ({ show, handleClose }) => {
     })
       .then((response) => {
         console.log("New category added:", response.data.addCategory);
+        setNewCategory(""); 
       })
       .catch((error) => {
         console.error("Error adding a new category:", error);

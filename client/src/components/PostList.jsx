@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComment, faShare } from '@fortawesome/free-solid-svg-icons';
-import Modal from 'react-bootstrap/Modal';
-import Button from 'react-bootstrap/Button';
+import { Container, Row, Col, Modal, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { GET_POSTS } from '../utils/queries'; 
@@ -99,6 +98,8 @@ const posts = data.posts;
     document.body.removeChild(inputElement);
 
 handleShowModal()
+setPostLink(postLink);
+
   };
 
   return (
@@ -116,7 +117,7 @@ handleShowModal()
                 {post.content}
               </p>
               <button onClick={() => handleCommentButtonClick(post._id)} style={commentButtonStyle}>
-                <FontAwesomeIcon icon={faComment} /> Comment
+                <FontAwesomeIcon icon={faComment} />  {post.comments ? post.comments.length : 0}
               </button>
               <button onClick={() => handleShareButtonClick(post._id)} style={commentButtonStyle}>
                 <FontAwesomeIcon icon={faShare} /> Share

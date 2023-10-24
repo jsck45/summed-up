@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { useQuery } from '@apollo/client';
 import { GET_ME } from '../utils/queries';
 import { Link } from 'react-router-dom';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Modal, Button } from 'react-bootstrap';
 import styled from 'styled-components';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faComment, faShare } from '@fortawesome/free-solid-svg-icons';
 
 const ProfileContainer = styled.div`
   @media (max-width: 767px) {
@@ -14,6 +15,12 @@ const ProfileContainer = styled.div`
 `;
 
 function UserProfile({ userId }) {
+
+  const [showModal, setShowModal] = useState(false);
+  const handleShowModal = () => {
+    setShowModal(true);
+  };
+
 //   const { loading, error, data } = useQuery(GET_ME, {
 //     variables: { userId },
 //   });
@@ -46,6 +53,41 @@ const cardStyle = {
     padding: '1rem 0', 
   };
 
+  const commentButtonStyle = {
+    background: 'none',
+    color: 'grey',
+    border: 'none',
+    padding: '1rem 2rem 1rem 0',
+    cursor: 'pointer',
+  };
+
+  const handleCommentButtonClick = (postId) => {
+    return (
+      <Link to={`/posts/${postId}`}>View Post</Link>
+    );
+  }
+
+  const [postLink, setPostLink] = useState(""); // Define postLink using useState
+
+  const handleShareButtonClick = (postId) => {
+    const postLink = `https://yourwebsite.com/post/${postId}`;
+
+    const inputElement = document.createElement('input');
+    inputElement.value = postLink;
+
+    document.body.appendChild(inputElement);
+
+    inputElement.select();
+    document.execCommand('copy');
+
+    document.body.removeChild(inputElement);
+
+handleShowModal()
+setPostLink(postLink);
+
+  };
+
+
 const [user, setUser] = useState({
     // comment this out when connected to back end
     username: 'JohnDoe',
@@ -56,6 +98,16 @@ const [user, setUser] = useState({
         title: 'Sample Post 1',
         content: 'This is a sample post content.',
         date: new Date().toISOString(),
+        comments: [
+          {
+            _id: "comment1",
+            content: "This is a sample comment.",
+            createdAt: new Date().toISOString(),
+            user: {
+              username: "Alice",
+            },
+          },
+        ]
     },
       {
         _id: '2',
@@ -81,10 +133,28 @@ const [user, setUser] = useState({
   {post.title}
 </Link>
                   <p className="card-text" style={cardTextStyle}>{post.content}</p>
-                
+                  <button onClick={() => handleCommentButtonClick(post._id)} style={commentButtonStyle}>
+                <FontAwesomeIcon icon={faComment} />  {post.comments ? post.comments.length : 0}
+              </button>
+              <button onClick={() => handleShareButtonClick(post._id)} style={commentButtonStyle}>
+                <FontAwesomeIcon icon={faShare} /> Share
+              </button>
                 </div>
               </div>
             ))}
+            <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>share this post</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Link copied to clipboard: {postLink}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowModal(false)}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
       </ProfileContainer>
     </div>
   );

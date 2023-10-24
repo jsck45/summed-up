@@ -65,3 +65,12 @@ export const ADD_COMMENT = gql`
     }
   }
 `;
+
+export const ADD_CATEGORY = gql`
+  mutation addCategory($name: String!) {
+    addCategory(name: $name) {
+      _id
+      name
+    }
+  }
+`;

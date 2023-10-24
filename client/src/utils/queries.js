@@ -77,3 +77,12 @@ export const GET_COMMENTS = gql`
     }
   }
 `;
+
+export const GET_CATEGORIES = gql`
+query GetCategories {
+  categories {
+    _id
+    name
+  }
+}
+`;

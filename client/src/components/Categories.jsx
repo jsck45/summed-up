@@ -14,7 +14,7 @@ import {
   faMoneyBill,
 } from "@fortawesome/free-solid-svg-icons";
 
-function Categories(categories, onCategorySelect) {
+function Categories() {
   const categories = [
     { name: "Tech", icon: faLaptop },
     { name: "Science", icon: faFlask },

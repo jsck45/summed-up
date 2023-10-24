@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Button, Modal, Row, Col } from 'react-bootstrap';
 import { useMutation } from '@apollo/client'; 
 import { CREATE_POST } from '../utils/mutations'; 

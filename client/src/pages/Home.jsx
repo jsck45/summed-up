@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Container, Button, Modal, Row, Col } from 'react-bootstrap';
 import { useMutation } from '@apollo/client'; 
 import { CREATE_POST } from '../utils/mutations'; 
@@ -17,7 +17,6 @@ const MainContainer = styled.div`
 const Home = () => {
   const [showModal, setShowModal] = useState(false);
   const [showMessage, setShowMessage] = useState(false); 
-  const [refreshPosts, setRefreshPosts] = useState(false); 
 
   const handleShowModal = () => {
     if (Auth.loggedIn()) {
@@ -35,29 +34,17 @@ const Home = () => {
     createPost({
       variables: { title: post.title, content: post.content },
       refetchQueries: ['GetPosts'],
-    })
-      .then(() => {
-        setRefreshPosts(true); 
-        handleCloseModal();
-      })
-      .catch((error) => {
-        console.error('Error creating a new post:', error);
-      });
+    });
+    handleCloseModal();
   };
 
   const [createPost] = useMutation(CREATE_POST);
-
-  useEffect(() => {
-    if (refreshPosts) {
-      setRefreshPosts(false); 
-    }
-  }, [refreshPosts]);
 
   return (
       <div className="py-5">
       <Container >
             <MainContainer style={{ borderLeft: '1px solid #ccc', paddingLeft: '3rem' }} >
-            {/* <Button variant="success" onClick={handleShowModal} className="my-3">
+            <Button variant="success" onClick={handleShowModal} className="my-3">
               Create Post
             </Button>
             {showModal ? (
@@ -66,7 +53,7 @@ const Home = () => {
                 handleClose={handleCloseModal}
                 handleCreatePost={handleCreatePost}
               />
-            ) : null} */}
+            ) : null}
             {showMessage && !Auth.loggedIn() && (
               <Modal show={showMessage} onHide={() => setShowMessage(false)}>
                 <Modal.Header closeButton>
@@ -85,3 +72,4 @@ const Home = () => {
   };
 
 export default Home;
+

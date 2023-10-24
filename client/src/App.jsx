@@ -10,6 +10,7 @@ import { setContext } from '@apollo/client/link/context';
 import Navbar from './components/Navbar';
 import Categories from './components/Categories';
 import { Container, Row, Col } from 'react-bootstrap'; 
+import PostForm from './components/PostForm';
 
 const httpLink = createHttpLink({
   uri: '/graphql',

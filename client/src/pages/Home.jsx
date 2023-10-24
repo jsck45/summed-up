@@ -17,6 +17,7 @@ const MainContainer = styled.div`
 const Home = () => {
   const [showModal, setShowModal] = useState(false);
   const [showMessage, setShowMessage] = useState(false); 
+  const [refreshPosts, setRefreshPosts] = useState(false); 
 
   const handleShowModal = () => {
     if (Auth.loggedIn()) {
@@ -34,11 +35,23 @@ const Home = () => {
     createPost({
       variables: { title: post.title, content: post.content },
       refetchQueries: ['GetPosts'],
-    });
-    handleCloseModal();
+    })
+      .then(() => {
+        setRefreshPosts(true); 
+        handleCloseModal();
+      })
+      .catch((error) => {
+        console.error('Error creating a new post:', error);
+      });
   };
 
   const [createPost] = useMutation(CREATE_POST);
+
+  useEffect(() => {
+    if (refreshPosts) {
+      setRefreshPosts(false); 
+    }
+  }, [refreshPosts]);
 
   return (
       <div className="py-5">

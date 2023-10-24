@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Button, Modal, Row, Col } from 'react-bootstrap';
 import { useMutation } from '@apollo/client'; 
 import { CREATE_POST } from '../utils/mutations'; 
@@ -57,7 +57,7 @@ const Home = () => {
       <div className="py-5">
       <Container >
             <MainContainer style={{ borderLeft: '1px solid #ccc', paddingLeft: '3rem' }} >
-            <Button variant="success" onClick={handleShowModal} className="my-3">
+            {/* <Button variant="success" onClick={handleShowModal} className="my-3">
               Create Post
             </Button>
             {showModal ? (
@@ -66,7 +66,7 @@ const Home = () => {
                 handleClose={handleCloseModal}
                 handleCreatePost={handleCreatePost}
               />
-            ) : null}
+            ) : null} */}
             {showMessage && !Auth.loggedIn() && (
               <Modal show={showMessage} onHide={() => setShowMessage(false)}>
                 <Modal.Header closeButton>

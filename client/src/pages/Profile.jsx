@@ -3,7 +3,15 @@ import { useQuery } from '@apollo/client';
 import { GET_ME } from '../utils/queries';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
-import Categories from '../components/Categories';
+import styled from 'styled-components';
+
+
+const ProfileContainer = styled.div`
+  @media (max-width: 767px) {
+    border-left: none !important;
+    padding: 0 !important;
+  }
+`;
 
 function UserProfile({ userId }) {
 //   const { loading, error, data } = useQuery(GET_ME, {
@@ -61,7 +69,7 @@ const [user, setUser] = useState({
 
   return (
     <div className="py-5">
-      <Container style={{ borderLeft: '1px solid #ccc', paddingLeft: '3rem' }}>
+      <ProfileContainer style={{ borderLeft: '1px solid #ccc', paddingLeft: '3rem' }}>
             <h1 style={{paddingBottom: '1rem', textAlign:'end'}}>hi, {user.username}!</h1>
                       
             <h2 style={{fontWeight:'bolder'}}>your posts</h2>
@@ -77,7 +85,7 @@ const [user, setUser] = useState({
                 </div>
               </div>
             ))}
-      </Container>
+      </ProfileContainer>
     </div>
   );
 }

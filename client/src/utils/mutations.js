@@ -62,9 +62,9 @@ export const DELETE_POST = gql`
   }
 `;
 
-export const UPDATE_POST = gql`
-  mutation updatePost($postId: ID!, $title: String!, $content: String!) {
-    updatePost(postId: $postId, title: $title, content: $content) {
+export const EDIT_POST = gql`
+  mutation editPost($postId: ID!, $title: String!, $content: String!) {
+    editPost(postId: $postId, title: $title, content: $content) {
       _id
       title
       content
@@ -93,9 +93,9 @@ export const DELETE_COMMENT = gql`
   }
 `;
 
-export const UPDATE_COMMENT = gql`
-  mutation updateComment($commentId: ID!, $text: String!) {
-    updateComment(commentId: $commentId, text: $text) {
+export const EDIT_COMMENT = gql`
+  mutation editComment($commentId: ID!, $text: String!) {
+    editComment(commentId: $commentId, text: $text) {
       _id
       text
     }

@@ -1,8 +1,11 @@
 import React from 'react';
-import { useQuery } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
+import { DELETE_COMMENT, EDIT_COMMENT } from '../utils/mutations';
 import { GET_COMMENTS } from '../utils/queries'; 
 import { Container, Row, Col } from 'react-bootstrap';
 import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 const CommentCard = styled.div`
   background: #fff;
@@ -17,7 +20,7 @@ const CommentCard = styled.div`
 
   .card-body {
     border-bottom: 1px solid #ddd;
-    padding: 1rem 0;
+    padding: 1rem 0 0 1rem;
   }
 `;
 
@@ -58,6 +61,15 @@ function CommentList({ postId }) {
     },
   ];
 
+  const commentButtonStyle = {
+    background: 'none',
+    color: 'grey',
+    border: 'none',
+    padding: '1rem 2rem 1rem 0',
+    cursor: 'pointer',
+  };
+
+
   return (
     <div>
       <h4 className='my-3'><strong>comments</strong></h4>
@@ -78,7 +90,16 @@ function CommentList({ postId }) {
               <strong>{comment.user.username}</strong>
               <small>{new Date(comment.createdAt).toLocaleString()}</small>
             </div>
-            <div className="card-body">{comment.text}</div>
+            
+            <div className="card-body">{comment.text}
+            <br/>
+            <button onClick={() => handleEditPost(post._id)} style={commentButtonStyle}>
+  <FontAwesomeIcon icon={faEdit} /> Edit
+</button>
+<button onClick={() => handleDeletePost(post._id)} style={commentButtonStyle}>
+  <FontAwesomeIcon icon={faTrash} /> Delete
+</button>
+</div>
           </CommentCard>
         ))}
       </Container>

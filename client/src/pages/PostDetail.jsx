@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { Container, Button, Modal, Row, Col } from 'react-bootstrap';
+import { EDIT_POST, DELETE_POST } from '../utils/mutations';
+import { useMutation } from '@apollo/client';
 import CommentList from '../components/CommentList';
 import CommentForm from '../components/CommentForm';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faComment, faShare } from '@fortawesome/free-solid-svg-icons';
+import { faComment, faShare, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 const UserDateWrapper = styled.div`
   display: flex;
@@ -112,6 +114,15 @@ function PostDetail() {
 
     document.body.removeChild(inputElement);
 
+    const handleEditPost = (postId) => {
+      // Implement logic to edit the post using a modal or form.
+    };
+    
+    const handleDeletePost = (postId) => {
+      // Implement logic to confirm the deletion of the post and send a mutation to delete the post.
+    };
+    
+
 handleShowModal()
 setPostLink(postLink);
   };
@@ -137,6 +148,12 @@ setPostLink(postLink);
               <button onClick={() => handleShareButtonClick(post._id)} style={commentButtonStyle}>
                 <FontAwesomeIcon icon={faShare} /> Share
               </button>
+              <button onClick={() => handleEditPost(post._id)} style={commentButtonStyle}>
+  <FontAwesomeIcon icon={faEdit} /> Edit
+</button>
+<button onClick={() => handleDeletePost(post._id)} style={commentButtonStyle}>
+  <FontAwesomeIcon icon={faTrash} /> Delete
+</button>
         </div>
         <CommentForm postId={postId} /> 
         <CommentList postId={postId} />

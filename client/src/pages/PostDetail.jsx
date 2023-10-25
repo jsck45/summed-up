@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from "react";
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { Container, Button, Modal, Row, Col } from 'react-bootstrap';
 import CommentList from '../components/CommentList';
 import CommentForm from '../components/CommentForm';
 import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faComment, faShare } from '@fortawesome/free-solid-svg-icons';
 
 const UserDateWrapper = styled.div`
   display: flex;
@@ -13,7 +15,10 @@ const UserDateWrapper = styled.div`
 
 function PostDetail() {
   const { postId } = useParams();
-
+  const [showModal, setShowModal] = useState(false);
+  const handleShowModal = () => {
+    setShowModal(true);
+  };
   // const { loading, error, data } = useQuery(GET_POST, {
   //   variables: { postId }, 
   // });
@@ -36,6 +41,24 @@ function PostDetail() {
     content: 'This is the content of the sample post.',
     user: 'JohnDoe',
     date: new Date().toISOString(),
+    comments: [
+      {
+        _id: 'comment1',
+        user: {
+          username: 'user 1',
+        },
+        text: 'This is a placeholder comment 1.',
+        createdAt: new Date().toISOString(),
+      },
+      {
+        _id: 'comment2',
+        user: {
+          username: 'user 2',
+        },
+        text: 'This is a placeholder comment 2.',
+        createdAt: new Date().toISOString(),
+      },
+    ]
   };
 
   const cardStyle = {
@@ -60,6 +83,40 @@ function PostDetail() {
     padding: '1rem 0',
   };
 
+  const commentButtonStyle = {
+    background: 'none',
+    color: 'grey',
+    border: 'none',
+    padding: '1rem 2rem 1rem 0',
+    cursor: 'pointer',
+  };
+
+  const handleCommentButtonClick = (postId) => {
+    return (
+      <Link to={`/posts/${postId}`}>View Post</Link>
+    );
+  }
+
+  const [postLink, setPostLink] = useState(""); 
+
+  const handleShareButtonClick = (postId) => {
+    const postLink = `https://yourwebsite.com/post/${postId}`;
+
+    const inputElement = document.createElement('input');
+    inputElement.value = postLink;
+
+    document.body.appendChild(inputElement);
+
+    inputElement.select();
+    document.execCommand('copy');
+
+    document.body.removeChild(inputElement);
+
+handleShowModal()
+setPostLink(postLink);
+  };
+
+
   return (
     <div className="card py-5" key={post._id} style={cardStyle}>
       <Container style={{ borderLeft: '1px solid #ccc', paddingLeft: '3rem' }} className="container">
@@ -74,9 +131,29 @@ function PostDetail() {
           <p className="card-text" style={cardTextStyle}>
             {post.content}
           </p>
+          <button onClick={() => handleCommentButtonClick(post._id)} style={commentButtonStyle}>
+                <FontAwesomeIcon icon={faComment} />  {post.comments ? post.comments.length : 0}
+              </button>
+              <button onClick={() => handleShareButtonClick(post._id)} style={commentButtonStyle}>
+                <FontAwesomeIcon icon={faShare} /> Share
+              </button>
         </div>
         <CommentForm postId={postId} /> 
         <CommentList postId={postId} />
+        
+        <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>share this post</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Link copied to clipboard: {postLink}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowModal(false)}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
       </Container>
     </div>
   );

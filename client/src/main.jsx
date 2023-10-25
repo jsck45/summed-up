@@ -5,6 +5,7 @@ import App from './App.jsx';
 import Homepage from './pages/Home';
 import PostDetail from './pages/PostDetail.jsx';
 import Profile from './pages/Profile.jsx';
+import Category from './pages/Category.jsx';
 
 const router = createBrowserRouter([
   {
@@ -17,11 +18,15 @@ const router = createBrowserRouter([
       },
       {
         path: 'posts/:postId',
-        element: <PostDetail />, // Create the PostDetail component
+        element: <PostDetail />, 
+      },
+      {
+        path: 'category/:categoryName',
+        element: <Category />,
       },
       {
         path: 'me',
-        element: <Profile />, // Create the Profile component
+        element: <Profile />, 
       },
     ],
   },

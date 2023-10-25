@@ -65,7 +65,7 @@ const [editComment] = useMutation(EDIT_COMMENT);
       setEditingCommentId(null); // Reset editing state
     } else {
       // User is starting to edit
-      setEditCommentText(''); // Initialize edit text
+      setEditCommentText(commentText); // Initialize edit text
       setEditingCommentId(commentId);
     }
   };

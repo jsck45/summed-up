@@ -25,6 +25,26 @@ const CommentCard = styled.div`
 `;
 
 function CommentList({ postId }) {
+
+  const placeholderComments = [
+    {
+      _id: "comment1",
+      user: {
+        username: "user 1",
+      },
+      text: "This is a placeholder comment 1.",
+      createdAt: new Date().toISOString(),
+    },
+    {
+      _id: "comment2",
+      user: {
+        username: "user 2",
+      },
+      text: "This is a placeholder comment 2.",
+      createdAt: new Date().toISOString(),
+    },
+  ];
+
   //   const { loading, error, data } = useQuery(GET_COMMENTS, {
   //     variables: { postId },
   //   });
@@ -97,25 +117,6 @@ function CommentList({ postId }) {
     }
   };
 
-  const placeholderComments = [
-    {
-      _id: "comment1",
-      user: {
-        username: "user 1",
-      },
-      text: "This is a placeholder comment 1.",
-      createdAt: new Date().toISOString(),
-    },
-    {
-      _id: "comment2",
-      user: {
-        username: "user 2",
-      },
-      text: "This is a placeholder comment 2.",
-      createdAt: new Date().toISOString(),
-    },
-  ];
-
   const commentButtonStyle = {
     background: "none",
     color: "grey",
@@ -153,6 +154,7 @@ function CommentList({ postId }) {
                   <textarea
                     value={editCommentText}
                     onChange={(e) => setEditCommentText(e.target.value)}
+                    style={{ width: "100%" }}
                   />
                   <br />
                   <button

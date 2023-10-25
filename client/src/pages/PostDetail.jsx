@@ -63,6 +63,31 @@ function PostDetail() {
     ]
   };
 
+  const [deletePost] = useMutation(DELETE_POST, {
+    onCompleted: (data) => {
+      console.log('Post deleted')
+    },
+    onError: (error) => {
+      console.error('Error deleting post:', error)
+    }
+  });
+
+  const handleEditPost = (postId) => {
+    // Implement logic to edit the post using a modal or form.
+  };
+
+  const handleDeletePost = (postId) => {
+    const confirmed = window.confirm('Are you sure you want to delete this post?');
+     if (confirmed) {
+      deletePost({
+        variables: {
+          postId: post._id,
+        }
+      })
+     }
+
+  };
+  
   const cardStyle = {
     background: '#fff',
     padding: '0.5rem 0',
@@ -113,15 +138,7 @@ function PostDetail() {
     document.execCommand('copy');
 
     document.body.removeChild(inputElement);
-
-    const handleEditPost = (postId) => {
-      // Implement logic to edit the post using a modal or form.
-    };
-    
-    const handleDeletePost = (postId) => {
-      // Implement logic to confirm the deletion of the post and send a mutation to delete the post.
-    };
-    
+  
 
 handleShowModal()
 setPostLink(postLink);

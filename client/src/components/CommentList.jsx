@@ -40,7 +40,25 @@ function CommentList({ postId }) {
 
 //   const comments = data.comments; 
 
+const [deleteComment] = useMutation(DELETE_COMMENT, {
+  onCompleted: (data) => {
+    console.log('Comment deleted')
+  },
+  onError: (error) => {
+    console.error('Error deleting comment:', error)
+  }
+});
 
+const handleDeleteComment = (commentId) => {
+  const confirmed = window.confirm('Are you sure you want to delete this comment?');
+  if (confirmed) {
+    deleteComment({
+      variables: {
+        commentId: commentId,
+      }
+    })
+  }
+}
 
   const placeholderComments = [
     {
@@ -93,10 +111,10 @@ function CommentList({ postId }) {
             
             <div className="card-body">{comment.text}
             <br/>
-            <button onClick={() => handleEditPost(post._id)} style={commentButtonStyle}>
+            <button onClick={() => handleEditComment(comment._id)} style={commentButtonStyle}>
   <FontAwesomeIcon icon={faEdit} /> Edit
 </button>
-<button onClick={() => handleDeletePost(post._id)} style={commentButtonStyle}>
+<button onClick={() => handleDeleteComment(comment._id)} style={commentButtonStyle}>
   <FontAwesomeIcon icon={faTrash} /> Delete
 </button>
 </div>

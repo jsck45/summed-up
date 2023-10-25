@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 import { DELETE_COMMENT, EDIT_COMMENT } from '../utils/mutations';
 import { GET_COMMENTS } from '../utils/queries'; 
@@ -39,6 +39,36 @@ function CommentList({ postId }) {
 //   }
 
 //   const comments = data.comments; 
+const [editCommentText, setEditCommentText] = useState(''); 
+  const [editingCommentId, setEditingCommentId] = useState(null);
+
+const [editComment] = useMutation(EDIT_COMMENT);
+
+  const handleEditComment = (commentId) => {
+    if (editingCommentId === commentId) {
+      // User is saving the edit
+      if (editCommentText) {
+        // Save the edited comment text
+        editComment({
+          variables: {
+            commentId,
+            text: editCommentText,
+          },
+          onCompleted: (data) => {
+            console.log('Comment edited:', data.editComment);
+          },
+          onError: (error) => {
+            console.error('Error editing comment:', error);
+          },
+        });
+      }
+      setEditingCommentId(null); // Reset editing state
+    } else {
+      // User is starting to edit
+      setEditCommentText(''); // Initialize edit text
+      setEditingCommentId(commentId);
+    }
+  };
 
 const [deleteComment] = useMutation(DELETE_COMMENT, {
   onCompleted: (data) => {
@@ -109,15 +139,33 @@ const handleDeleteComment = (commentId) => {
               <small>{new Date(comment.createdAt).toLocaleString()}</small>
             </div>
             
-            <div className="card-body">{comment.text}
-            <br/>
-            <button onClick={() => handleEditComment(comment._id)} style={commentButtonStyle}>
-  <FontAwesomeIcon icon={faEdit} /> Edit
-</button>
-<button onClick={() => handleDeleteComment(comment._id)} style={commentButtonStyle}>
-  <FontAwesomeIcon icon={faTrash} /> Delete
-</button>
-</div>
+            <div className="card-body">
+              {editingCommentId === comment._id ? (
+                <div>
+                  <textarea
+                    value={editCommentText}
+                    onChange={(e) => setEditCommentText(e.target.value)}
+                  />
+                  <br/>
+                  <button onClick={() => handleEditComment(comment._id)} style={commentButtonStyle}>Save</button>
+                </div>
+              ) : (
+                comment.text
+              )}
+              
+              <br />
+              {editingCommentId !== comment._id && (
+  <div>
+    <button onClick={() => handleEditComment(comment._id)} style={commentButtonStyle}>
+      <FontAwesomeIcon icon={faEdit} /> Edit
+    </button>
+    <button onClick={() => handleDeleteComment(comment._id)} style={commentButtonStyle}>
+      <FontAwesomeIcon icon={faTrash} /> Delete
+    </button>
+  </div>
+)}
+
+            </div>
           </CommentCard>
         ))}
       </Container>

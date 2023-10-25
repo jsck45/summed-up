@@ -5,8 +5,8 @@ const resolvers = {
   Query: {
     users: async () => User.find(),
     categories: async () => Category.find(),
-    posts: async () => Post.find(),
-
+    getPosts: async () => Post.find(),
+    getSinglePost: async (parent, { _id }) => { Post.findById(_id) },
 
   },
   Mutation: {

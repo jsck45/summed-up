@@ -43,7 +43,7 @@ const typeDefs = `#graphql
     users: [User]
     category: Category
     categories: [Category]
-    post: Post
+    getSinglePost(_id: ID!): Post
     posts: [Post]
   }
 

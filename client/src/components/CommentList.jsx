@@ -26,39 +26,40 @@ const CommentCard = styled.div`
 
 function CommentList({ postId }) {
 
-  const placeholderComments = [
-    {
-      _id: "comment1",
-      user: {
-        username: "user 1",
-      },
-      text: "This is a placeholder comment 1.",
-      createdAt: new Date().toISOString(),
-    },
-    {
-      _id: "comment2",
-      user: {
-        username: "user 2",
-      },
-      text: "This is a placeholder comment 2.",
-      createdAt: new Date().toISOString(),
-    },
-  ];
+  // const placeholderComments = [
+  //   {
+  //     _id: "comment1",
+  //     user: {
+  //       username: "user 1",
+  //     },
+  //     text: "This is a placeholder comment 1.",
+  //     createdAt: new Date().toISOString(),
+  //   },
+  //   {
+  //     _id: "comment2",
+  //     user: {
+  //       username: "user 2",
+  //     },
+  //     text: "This is a placeholder comment 2.",
+  //     createdAt: new Date().toISOString(),
+  //   },
+  // ];
 
-  //   const { loading, error, data } = useQuery(GET_COMMENTS, {
-  //     variables: { postId },
-  //   });
+    const { loading, error, data } = useQuery(GET_COMMENTS, {
+      variables: { postId },
+    });
 
-  //   if (loading) {
-  //     return <p>Loading comments...</p>;
-  //   }
+    if (loading) {
+      return <p>Loading comments...</p>;
+    }
 
-  //   if (error) {
-  //     console.error('Error fetching comments:', error);
-  //     return <p>Error loading comments.</p>;
-  //   }
+    if (error) {
+      console.error('Error fetching comments:', error);
+      return <p>Error loading comments.</p>;
+    }
 
-  //   const comments = data.comments;
+    const comments = data.comments;
+
   const [editCommentText, setEditCommentText] = useState("");
   const [editingCommentId, setEditingCommentId] = useState(null);
   const [commentText, setCommentText] = useState("");
@@ -67,9 +68,7 @@ function CommentList({ postId }) {
 
   const handleEditComment = (commentId) => {
     if (editingCommentId === commentId) {
-      // User is saving the edit
       if (editCommentText) {
-        // Save the edited comment text
         editComment({
           variables: {
             commentId,
@@ -85,7 +84,7 @@ function CommentList({ postId }) {
       }
       setEditingCommentId(null); 
     } else {
-      const commentToEdit = placeholderComments.find((comment) => comment._id === commentId);
+      const commentToEdit = comments.find((comment) => comment._id === commentId);
 
       if (commentToEdit) {
         setEditCommentText(commentToEdit.text); 
@@ -130,18 +129,9 @@ function CommentList({ postId }) {
       <h4 className="my-3">
         <strong>comments</strong>
       </h4>
-      {/* <ul>
-        {comments.map((comment) => (
-          <li key={comment._id}>
-            <strong>{comment.user.username}</strong>: {comment.text}
-            <br />
-            <small>{new Date(comment.createdAt).toLocaleString()}</small>
-          </li>
-        ))}
-      </ul> */}
-
+  
       <Container>
-        {placeholderComments.map((comment) => (
+        {comments.map((comment) => (
           <CommentCard key={comment._id}>
             <div className="comment-details">
               <strong>{comment.user.username}</strong>

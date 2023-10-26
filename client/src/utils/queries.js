@@ -21,31 +21,31 @@ export const GET_ME = gql`
     }
 `;
 
-
 export const GET_POSTS = gql`
   query getPosts {
-    posts {
+    _id
+    title
+    content
+    author {
       _id
-      title
+      userName
+      email
+      password
+    }
+    dateCreated
+    comments {
+      _id
       content
-      user {
-        username
-      }
-      createdAt
-      comments {
+      author {
         _id
-        content
-        createdAt
-        user {
-          username
-        }
+        userName
+        email
+        password
       }
-      categories {
-        _id
-        name
-      }
+      dateCreated
     }
   }
+
 `;
 
 export const GET_SINGLE_POST = gql`

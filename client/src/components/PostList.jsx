@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComment, faShare } from '@fortawesome/free-solid-svg-icons';
-import { Container, Row, Col, Modal, Button } from 'react-bootstrap';
+import { Modal, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { GET_POSTS } from '../utils/queries'; 
@@ -27,26 +27,6 @@ const posts = data.posts;
   const handleShowModal = () => {
     setShowModal(true);
   };
-
-  // const placeholderPosts = [
-   
-  //   {
-  //     _id: '1',
-  //     title: 'Placeholder Post 1',
-  //     content: 'This is the content of Placeholder Post 1.',
-  //     author: 'John Doe',
-  //     date: new Date().toISOString(),
-  //   },
-  //   {
-  //     _id: '2',
-  //     title: 'Placeholder Post 2',
-  //     content: 'This is the content of Placeholder Post 2.',
-  //     author: 'Jane Smith',
-  //     date: new Date().toISOString(),
-  //   },
-  // ];
-
-  // const [posts, setPosts] = useState(placeholderPosts);
 
   const cardStyle = {
     background: '#fff',
@@ -86,7 +66,7 @@ const posts = data.posts;
   }
 
   const handleShareButtonClick = (postId) => {
-    const postLink = `https://yourwebsite.com/post/${postId}`;
+    const postLink = `https://lit-scrubland-56813-23b87facb8d8.herokuapp.com/post/${postId}`;
 
     const inputElement = document.createElement('input');
     inputElement.value = postLink;

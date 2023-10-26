@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { Container, Button, Modal, Row, Col } from "react-bootstrap";
+import { Container, Button, Modal } from "react-bootstrap";
 import { EDIT_POST, DELETE_POST } from "../utils/mutations";
 import { useMutation } from "@apollo/client";
 import CommentList from "../components/CommentList";
@@ -110,18 +110,21 @@ function PostDetail() {
     },
   });
 
-  const handleDeletePost = (postId) => {
-    const confirmed = window.confirm(
-      "Are you sure you want to delete this post?"
-    );
-    if (confirmed) {
-      deletePost({
-        variables: {
-          postId: post._id,
-        },
-      });
-    }
+  const handleDeletePost = () => {
+    setShowModal(true); 
   };
+
+  const handleDeleteConfirmed = (postId) => {
+    deletePost({
+      variables: {
+        postId: post._id,
+      },
+    });
+  
+    setShowModal(false); 
+  };
+  
+  
 
   const handleCommentButtonClick = (postId) => {
     return <Link to={`/posts/${postId}`}>View Post</Link>;
@@ -268,6 +271,23 @@ function PostDetail() {
             </Button>
           </Modal.Footer>
         </Modal>
+
+        <Modal show={showModal} onHide={() => setShowModal(false)}>
+      <Modal.Header closeButton>
+        <Modal.Title>Confirm Delete</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        Are you sure you want to delete this post?
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={() => setShowModal(false)}>
+          Cancel
+        </Button>
+        <Button variant="danger" onClick={() => handleDeleteConfirmed(post._id)}>
+          Delete
+        </Button>
+      </Modal.Footer>
+    </Modal>
       </Container>
     </div>
   );

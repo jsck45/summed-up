@@ -12,20 +12,7 @@ const PostForm = ({ show, handleClose }) => {
 
   const { loading, data } = useQuery(GET_CATEGORIES);
   
-  // const existingCategories = data ? data.categories : [];
-
-  const existingCategories = [
-    { name: "Tech" },
-    { name: "Science" },
-    { name: "Health" },
-    { name: "Travel" },
-    { name: "Food" },
-    { name: "Sports" },
-    { name: "Entertainment" },
-    { name: "Fashion" },
-    { name: "Music" },
-    { name: "Finance" },
-  ];
+  const existingCategories = data ? data.categories : [];
 
   const [createPost] = useMutation(CREATE_POST);
   const [addCategory] = useMutation(ADD_CATEGORY, {
@@ -48,7 +35,6 @@ const PostForm = ({ show, handleClose }) => {
         title,
         content,
         category: selectedCategory || newCategory,
-        // emoji: selectedEmoji,
       },
     })
       .then((response) => {

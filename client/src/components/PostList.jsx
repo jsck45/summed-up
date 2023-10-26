@@ -84,6 +84,7 @@ const posts = data.posts;
       <Link to={`/posts/${postId}`}>View Post</Link>
     );
   }
+
   const handleShareButtonClick = (postId) => {
     const postLink = `https://yourwebsite.com/post/${postId}`;
 

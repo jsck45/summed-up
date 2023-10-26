@@ -48,7 +48,7 @@ const PostForm = ({ show, handleClose }) => {
         title,
         content,
         category: selectedCategory || newCategory,
-        emoji: selectedEmoji,
+        // emoji: selectedEmoji,
       },
     })
       .then((response) => {

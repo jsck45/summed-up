@@ -66,7 +66,7 @@ function CategoryPage({ selectedCategory }) {
     );
   }
 
-  const [postLink, setPostLink] = useState(""); // Define postLink using useState
+  const [postLink, setPostLink] = useState(""); 
 
   const handleShareButtonClick = (postId) => {
     const postLink = `https://yourwebsite.com/post/${postId}`;

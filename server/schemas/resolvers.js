@@ -18,6 +18,11 @@ const resolvers = {
 
       return { token, user };
     },
+    addPost: async (parent, args) => {
+      await Post.create(args);
+
+      return
+    },
     loginEmail: async (parent, { email, password }) => {
       const user = await User.findOne({ email });
 

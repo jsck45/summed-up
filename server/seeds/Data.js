@@ -45,11 +45,6 @@ module.exports = {//category
       password: "Qu3st#Tim3!"
     },
     {
-      username: "AdventureSeeker99",
-      email: "AdventureSeeker99@email.com",
-      password: "Qu3st#Tim3!"
-    },
-    {
       username: "GameGuruX",
       email: "GameGuruX@email.com",
       password: "G@meM@st3r12"
@@ -66,6 +61,7 @@ module.exports = {//category
     {
       title: "Post One",
       content: "This is the first post",
+      author: ""
     }
   ],
 

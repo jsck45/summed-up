@@ -16,10 +16,12 @@ db.once('open', async () => {
 
   console.log('users seeded');
 
-
+  const userIds = [];
+  users.map((user) => userIds.push(user._id));
+  console.log(userIds);
 
   post.map(async (apost) => {
-    apost.author = await User.findOne({ $position: 0 }, { _id });
+    apost.author = userIds[0];
     console.log(apost);
   })
 

@@ -37,8 +37,8 @@ const resolvers = {
 
       return { token, user };
     },
-    loginUserName: async (parent, { userName, password }) => {
-      const user = await User.findOne({ userName });
+    loginUserName: async (parent, { username, password }) => {
+      const user = await User.findOne({ username });
 
       if (!user) {
         throw AuthenticationError;

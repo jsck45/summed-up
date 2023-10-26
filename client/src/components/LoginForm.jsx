@@ -49,7 +49,7 @@ const LoginForm = () => {
       } else {
         data = await usernameLogin({
           variables: {
-            userName: userFormData.login,
+            username: userFormData.login,
             password: userFormData.password,
           },
         });

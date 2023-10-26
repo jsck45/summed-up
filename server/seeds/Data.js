@@ -1,23 +1,79 @@
 module.exports = {//category
-  category: {},
+  category: [
+    { name: "Tech" },
+    { name: "Science" },
+    { name: "Health" },
+    { name: "Travel" },
+    { name: "Food" },
+    { name: "Sports" },
+    { name: "Entertainment" },
+    { name: "Fashion" },
+    { name: "Music" },
+    { name: "Finance" },
+  ],
 
   //user
-  user: {
-    // StarGazer23 - Pa$$w0rd123
-    // TechNinja007 - Secur1ty!Time
-    // ForumExplorer - P@ssw0rdForUm
-    // PixelPirate42 - 8Bit#Adventur3
-    // MusicMystic88 - M1xMel0dy$
-    // AdventureSeeker99 - Qu3st#Tim3!
-    // GameGuruX - G@meM@st3r12
-    // ArtisticDreamer76 - Paint$0ulCr3@tion
-
-  },
+  user: [
+    {
+      username: "StarGazer23",
+      email: "StarGazer23@email.com",
+      password: "Pa$$w0rd123"
+    },
+    {
+      username: "TechNinja007",
+      email: "TechNinja007@email.com",
+      password: "Secur1ty!Time"
+    },
+    {
+      username: "ForumExplorer",
+      email: "ForumExplorer@email.com",
+      password: "P@ssw0rdForUm"
+    },
+    {
+      username: "PixelPirate42",
+      email: "PixelPirate42@email.com",
+      password: "8Bit#Adventur3"
+    },
+    {
+      username: "MusicMystic88",
+      email: "MusicMystic88@email.com",
+      password: "M1xMel0dy$"
+    },
+    {
+      username: "AdventureSeeker99",
+      email: "AdventureSeeker99@email.com",
+      password: "Qu3st#Tim3!"
+    },
+    {
+      username: "AdventureSeeker99",
+      email: "AdventureSeeker99@email.com",
+      password: "Qu3st#Tim3!"
+    },
+    {
+      username: "GameGuruX",
+      email: "GameGuruX@email.com",
+      password: "G@meM@st3r12"
+    },
+    {
+      username: "ArtisticDreamer76",
+      email: "ArtisticDreamer76@email.com",
+      password: "Paint$0ulCr3@tion"
+    },
+  ],
 
   //post
-  post: {},
+  post: [
+    {
+      title: "Post One",
+      content: "This is the first post",
+    }
+  ],
 
   //comment
-  comment: {},
+  comment: [
+    {
+      content: "a comment",
+    }
+  ],
 };
 

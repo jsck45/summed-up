@@ -18,10 +18,21 @@ db.once('open', async () => {
 
 
 
-  post.map(async (apost) => {
-    apost.author = await User.findOne({ $position: 0 }, { _id });
-    console.log(apost);
+  // post.map(async (apost) => {
+  //   apost.author = await User.findOne({ $position: 0 }, { _id });
+  //   console.log(apost);
+  // })
+
+  post.map(async (apost, index) => {
+    // Get a user based on the index
+    const author = users[index % users.length]; // Loop through users
+  
+    if (author) {
+      apost.author = author;
+      console.log(apost);
+    }
   })
+  
 
   await Post.insertMany(post);
 

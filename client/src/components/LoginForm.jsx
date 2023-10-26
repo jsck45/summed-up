@@ -8,7 +8,7 @@ import { LOGIN_USER_EMAIL, LOGIN_USER_USERNAME } from '../utils/mutations';
 
 const LoginForm = () => {
   const [userFormData, setUserFormData] = useState({ login: "", password: "" });
-  const [validated] = useState(false);
+  const [validated, setValidated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [emailLogin, { error: emailError }] = useMutation(LOGIN_USER_EMAIL); 
   const [usernameLogin, { error: usernameError }] = useMutation(LOGIN_USER_USERNAME); 
@@ -29,6 +29,7 @@ const LoginForm = () => {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
+    setValidated(true);
 
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
@@ -48,7 +49,7 @@ const LoginForm = () => {
       } else {
         data = await usernameLogin({
           variables: {
-            username: userFormData.login,
+            userName: userFormData.login,
             password: userFormData.password,
           },
         });
@@ -97,8 +98,8 @@ const LoginForm = () => {
           <Form.Control.Feedback type='invalid'>Password is required!</Form.Control.Feedback>
         </Form.Group>
         <Button
-          disabled={!(userFormData.email && userFormData.password)}
-          type='submit'
+  disabled={!(userFormData.login && userFormData.password)}
+  type='submit'
           variant='success'>
           Submit
         </Button>

@@ -7,12 +7,12 @@ import Auth from '../utils/auth';
 
 const SignupForm = () => {
 
-  const [createUser, {error}] = useMutation(CREATE_USER);
+  const [createUser, { error }] = useMutation(CREATE_USER);
 
   // set initial form state
   const [userFormData, setUserFormData] = useState({ username: "", email: "", password: "" });
   // set state for form validation
-  const [validated] = useState(false);
+  const [validated, setValidated] = useState(false);
   // set state for alert
   const [showAlert, setShowAlert] = useState(false);
 
@@ -32,19 +32,25 @@ const SignupForm = () => {
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
-    // check if form has everything (as per react-bootstrap docs)
+    setValidated(true);
+
+    // Check if form has everything (as per react-bootstrap docs)
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
+      return;
     }
 
     try {
       const { data } = await createUser({
-        variables: { ...userFormData },
+        variables: {
+          userName: userFormData.username, 
+          email: userFormData.email,
+          password: userFormData.password,
+        },
       });
       Auth.login(data.createUser.token);
-
     } catch (err) {
       console.error(err);
     }

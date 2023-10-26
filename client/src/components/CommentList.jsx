@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import { DELETE_COMMENT, EDIT_COMMENT } from "../utils/mutations";
 import { GET_COMMENTS } from "../utils/queries";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Modal, Button } from "react-bootstrap";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
@@ -15,7 +15,7 @@ const CommentCard = styled.div`
 
   .comment-details {
     display: flex;
-    justify-content: space-between;
+    justify-content: space between;
   }
 
   .card-body {
@@ -26,44 +26,26 @@ const CommentCard = styled.div`
 
 function CommentList({ postId }) {
 
-  // const placeholderComments = [
-  //   {
-  //     _id: "comment1",
-  //     user: {
-  //       username: "user 1",
-  //     },
-  //     text: "This is a placeholder comment 1.",
-  //     createdAt: new Date().toISOString(),
-  //   },
-  //   {
-  //     _id: "comment2",
-  //     user: {
-  //       username: "user 2",
-  //     },
-  //     text: "This is a placeholder comment 2.",
-  //     createdAt: new Date().toISOString(),
-  //   },
-  // ];
+  const { loading, error, data } = useQuery(GET_COMMENTS, {
+    variables: { postId },
+  });
 
-    const { loading, error, data } = useQuery(GET_COMMENTS, {
-      variables: { postId },
-    });
+  if (loading) {
+    return <p>Loading comments...</p>;
+  }
 
-    if (loading) {
-      return <p>Loading comments...</p>;
-    }
+  if (error) {
+    console.error('Error fetching comments:', error);
+    return <p>Error loading comments.</p>;
+  }
 
-    if (error) {
-      console.error('Error fetching comments:', error);
-      return <p>Error loading comments.</p>;
-    }
-
-    const comments = data.comments;
+  const comments = data.comments;
 
   const [editCommentText, setEditCommentText] = useState("");
   const [editingCommentId, setEditingCommentId] = useState(null);
-  const [commentText, setCommentText] = useState("");
-
+  const [showModal, setShowModal] = useState(false);
+  const [selectedCommentId, setSelectedCommentId] = useState(null);
+  
   const [editComment] = useMutation(EDIT_COMMENT);
 
   const handleEditComment = (commentId) => {
@@ -104,16 +86,17 @@ function CommentList({ postId }) {
   });
 
   const handleDeleteComment = (commentId) => {
-    const confirmed = window.confirm(
-      "Are you sure you want to delete this comment?"
-    );
-    if (confirmed) {
-      deleteComment({
-        variables: {
-          commentId: commentId,
-        },
-      });
-    }
+    setShowModal(true);
+    setSelectedCommentId(commentId);
+  };
+
+  const handleDeleteConfirmed = () => {
+    deleteComment({
+      variables: {
+        commentId: selectedCommentId,
+      },
+    });
+    setShowModal(false);
   };
 
   const commentButtonStyle = {
@@ -127,7 +110,7 @@ function CommentList({ postId }) {
   return (
     <div>
       <h4 className="my-3">
-        <strong>comments</strong>
+        <strong>Comments</strong>
       </h4>
   
       <Container>
@@ -179,6 +162,23 @@ function CommentList({ postId }) {
           </CommentCard>
         ))}
       </Container>
+
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Delete</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Are you sure you want to delete this comment?
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowModal(false)}>
+            Cancel
+          </Button>
+          <Button variant="danger" onClick={handleDeleteConfirmed}>
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }

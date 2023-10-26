@@ -4,6 +4,7 @@ const typeDefs = `#graphql
     username: String
     email: String
     password: String
+    posts: [Post]
   }
 
   type Auth {
@@ -14,7 +15,6 @@ const typeDefs = `#graphql
   type Category {
     _id: ID
     name: String
-    subcategories: [SubCategory]
   }
 
   type SubCategory {

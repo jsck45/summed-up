@@ -3,12 +3,12 @@ const { signToken, AuthenticationError } = require('../utils/auth');
 
 const resolvers = {
   Query: {
-    me: async (parent, _, { _id }) => User.findById(_id),
-    users: async () => User.find(),
-    category: async (parent, id) => Category.findById(id),
-    categories: async () => Category.find(),
-    getPosts: async () => Post.find(),
-    getSinglePost: async (parent, { _id }) => { Post.findById(_id) },
+    me: async (parent, _, { _id }) => { return User.findById(_id) },
+    users: async () => { return User.find() },
+    category: async (parent, id) => { return Category.findById(id) },
+    categories: async () => { return Category.find() },
+    getPosts: async () => { return Post.find() },
+    getSinglePost: async (parent, { _id }) => { return Post.findById(_id) },
 
   },
   Mutation: {
@@ -21,7 +21,7 @@ const resolvers = {
     addPost: async (parent, args) => {
       await Post.create(args);
 
-      return
+      return Post;
     },
     loginEmail: async (parent, { email, password }) => {
       const user = await User.findOne({ email });
@@ -37,8 +37,8 @@ const resolvers = {
 
       return { token, user };
     },
-    loginUserName: async (parent, { userName, password }) => {
-      const user = await User.findOne({ userName });
+    loginUserName: async (parent, { username, password }) => {
+      const user = await User.findOne({ username });
 
       if (!user) {
         throw AuthenticationError;

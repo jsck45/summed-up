@@ -24,7 +24,7 @@ db.once('open', async () => {
     apost.author = userIds[0];
     console.log(apost);
   })
-  
+
   await Post.insertMany(post);
 
   console.log('posts seeded');

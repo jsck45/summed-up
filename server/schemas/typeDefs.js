@@ -1,20 +1,20 @@
 const typeDefs = `#graphql
   type User {
     _id: ID
-    userName: String
+    username: String
     email: String
     password: String
+    posts: [Post]
   }
 
   type Auth {
-    token: ID
+    token: ID!
     user: User
   }
 
   type Category {
     _id: ID
     name: String
-    subcategories: [SubCategory]
   }
 
   type SubCategory {
@@ -49,7 +49,7 @@ const typeDefs = `#graphql
 
   type Mutation {
     addUser(
-      userName: String!
+      username: String!
       email: String!
       password: String!
     ): Auth
@@ -63,7 +63,7 @@ const typeDefs = `#graphql
       password: String!
     ): Auth
     loginUserName(
-      userName: String!
+      username: String!
       password: String!
     ): Auth
   }

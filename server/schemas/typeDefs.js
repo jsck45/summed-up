@@ -41,10 +41,10 @@ const typeDefs = `#graphql
   type Query {
     me: User
     users: [User]
-    category: Category
+    category(_id: ID!): Category
     categories: [Category]
     getSinglePost(_id: ID!): Post
-    posts: [Post]
+    getPosts: [Post]
   }
 
   type Mutation {

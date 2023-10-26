@@ -73,7 +73,7 @@ const LoginForm = () => {
           Something went wrong with your login credentials!
         </Alert>
         <Form.Group className='mb-3'>
-          <Form.Label htmlFor='email'>Email</Form.Label>
+          <Form.Label htmlFor='email'>Email or Username</Form.Label>
           <Form.Control
             type='text'
             placeholder='Your email or username'

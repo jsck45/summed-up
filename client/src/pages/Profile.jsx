@@ -70,7 +70,7 @@ const cardStyle = {
   const [postLink, setPostLink] = useState(""); // Define postLink using useState
 
   const handleShareButtonClick = (postId) => {
-    const postLink = `https://yourwebsite.com/post/${postId}`;
+    const postLink = `https://lit-scrubland-56813-23b87facb8d8.herokuapp.com/post/${postId}`;
 
     const inputElement = document.createElement('input');
     inputElement.value = postLink;

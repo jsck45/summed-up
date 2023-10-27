@@ -44,7 +44,7 @@ const Home = () => {
       <div className="py-5">
       <Container >
             <MainContainer style={{ borderLeft: '1px solid #ccc', paddingLeft: '3rem' }} >
-            <Button variant="success" onClick={handleShowModal} className="my-3">
+            <Button variant="success" onClick={handleShowModal} className="my-3 button">
               Create Post
             </Button>
             {showModal ? (
@@ -62,6 +62,11 @@ const Home = () => {
                 <Modal.Body>
                   Please log in or sign up to post.
                 </Modal.Body>
+                <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowMessage(false)}>
+            Close
+          </Button>
+        </Modal.Footer>
               </Modal>
             )}
             <PostList />

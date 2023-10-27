@@ -97,14 +97,9 @@ function CategoryPage({}) {
         style={{ borderLeft: "1px solid #ccc", paddingLeft: "3rem" }}
       >
         <h1 style={{ paddingBottom: "1rem", textAlign: "end" }}>
-          {data && data.getPostsByCategory ? (
-            <h1 style={{ paddingBottom: "1rem", textAlign: "end" }}>
-        {data && data.getPostsByCategory?.category?.name}
-            </h1>
-          ) : (
-            <p>Data not available</p>
-          )}{" "}
-        </h1>
+  {categoryName}
+</h1>
+
 
         {posts.map((post) => (
           <div className="card" key={post._id} style={cardStyle}>

@@ -1,35 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import {
-//   faLaptop,
-//   faFlask,
-//   faHeart,
-//   faPlane,
-//   faUtensils,
-//   faFutbol,
-//   faFilm,
-//   faTshirt,
-//   faMusic,
-//   faMoneyBill,
-// } from "@fortawesome/free-solid-svg-icons";
 import { useQuery } from "@apollo/client"; 
 import { GET_CATEGORIES } from '../utils/queries';
 
 function Categories() {
-  // const categories = [
-  //   { name: "Tech", icon: faLaptop },
-  //   { name: "Science", icon: faFlask },
-  //   { name: "Health", icon: faHeart },
-  //   { name: "Travel", icon: faPlane },
-  //   { name: "Food", icon: faUtensils },
-  //   { name: "Sports", icon: faFutbol },
-  //   { name: "Entertainment", icon: faFilm },
-  //   { name: "Fashion", icon: faTshirt },
-  //   { name: "Music", icon: faMusic },
-  //   { name: "Finance", icon: faMoneyBill },
-  // ];
-
+  
   const { loading, error, data } = useQuery(GET_CATEGORIES);
 
   if (loading) {

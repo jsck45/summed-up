@@ -29,6 +29,7 @@ const typeDefs = `#graphql
     author: User
     dateCreated: String
     comments: [Comment]
+    summary: String
   }
 
   type Comment {

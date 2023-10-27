@@ -59,7 +59,12 @@ const typeDefs = `#graphql
       title: String!
       content: String
       author: ID
+      categories: [ID] 
     ): Post
+    addComment(
+      postId: ID!
+      content: String!
+    ): Comment
     loginEmail(
       email: String!
       password: String!

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/client';
 import { GET_ME } from '../utils/queries';
 import { Link } from 'react-router-dom';
@@ -15,20 +15,24 @@ const ProfileContainer = styled.div`
 `;
 
 function UserProfile({ userId }) {
-
+  const { loading, error, data } = useQuery(GET_ME, {variables: { userId }});
   const [showModal, setShowModal] = useState(false);
   const handleShowModal = () => {
     setShowModal(true);
   };
+  const [user, setUser] = useState(null); 
 
-//   const { loading, error, data } = useQuery(GET_ME, {
-//     variables: { userId },
-//   });
+  useEffect(() => {
+    if (loading) {
+      setUser(null); 
+    } else if (error) {
+      setUser(null); 
+    } else {
+      setUser(data.getMe); 
+    }
+  }, [loading, error, data]);
+  
 
-//   if (loading) return <p>Loading...</p>;
-//   if (error) return <p>Error: {error.message}</p>;
-
-//   const user = data.user;
 
 const cardStyle = {
     background: '#fff',
@@ -67,7 +71,7 @@ const cardStyle = {
     );
   }
 
-  const [postLink, setPostLink] = useState(""); // Define postLink using useState
+  const [postLink, setPostLink] = useState(""); 
 
   const handleShareButtonClick = (postId) => {
     const postLink = `https://lit-scrubland-56813-23b87facb8d8.herokuapp.com/post/${postId}`;
@@ -87,45 +91,14 @@ setPostLink(postLink);
 
   };
 
-
-const [user, setUser] = useState({
-    // comment this out when connected to back end
-    username: 'JohnDoe',
-    email: 'john.doe@example.com',
-    posts: [
-      {
-        _id: '1',
-        title: 'Sample Post 1',
-        content: 'This is a sample post content.',
-        date: new Date().toISOString(),
-        comments: [
-          {
-            _id: "comment1",
-            content: "This is a sample comment.",
-            createdAt: new Date().toISOString(),
-            user: {
-              username: "Alice",
-            },
-          },
-        ]
-    },
-      {
-        _id: '2',
-        title: 'Sample Post 2',
-        content: 'Another sample post content.',
-        date: new Date().toISOString(),
-    },
-    ],
-  });
-
-
   return (
     <div className="py-5">
       <ProfileContainer style={{ borderLeft: '1px solid #ccc', paddingLeft: '3rem' }}>
-            <h1 style={{paddingBottom: '1rem', textAlign:'end'}}>hi, {user.username}!</h1>
+            <h1 style={{paddingBottom: '1rem', textAlign:'end'}}>          hi, {user ? user.username : 'you'}!
+</h1>
                       
             <h2 style={{fontWeight:'bolder'}}>your posts</h2>
-            {user.posts.map((post) => (
+            {user && user.posts && user.posts.map((post) => (
               <div className="card" key={post._id} style={cardStyle}>
                 <div className="card-body" style={cardBodyStyle}>
                 <p className="card-text">{new Date(post.date).toLocaleString()}</p>

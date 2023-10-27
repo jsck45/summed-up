@@ -37,7 +37,7 @@ const resolvers = {
     },
     addPost: async (parent, args) => {
       await Post.create(args);
-
+      
       return Post;
     },
     loginEmail: async (parent, { email, password }) => {

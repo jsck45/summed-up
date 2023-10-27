@@ -20,17 +20,30 @@ const resolvers = {
       return postsWithAuthorUsername;
     },
     getPostsByCategory: async (parent, { category }) => {
-      const posts = await Post.find({ 'categories.name': category }).populate('author');
+      const posts = await Post.find({ 'categories.name': category })
+        .populate('author')
+        .populate({
+          path: 'categories',
+          select: 'name',
+        });
+    
       const postsWithAuthorUsername = posts.map((post) => ({
         ...post.toObject(),
         author: {
           ...post.author.toObject(),
           username: post.author.username,
         },
+        categories: post.categories.map((category) => ({
+          _id: category._id,
+          name: category.name,
+        })),
       }));
+      console.log(postsWithAuthorUsername); 
 
       return postsWithAuthorUsername;
     },
+    
+    
   getSinglePost: async (parent, { _id }) => { return Post.findById(_id) },
 
   },

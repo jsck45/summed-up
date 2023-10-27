@@ -27,6 +27,7 @@ class Auth {
 
   login(idToken) {
     localStorage.setItem("id_token", idToken);
+    console.log('Token stored in localStorage:', idToken); // debug
     window.location.assign("/");
   }
 

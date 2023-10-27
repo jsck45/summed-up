@@ -19,6 +19,18 @@ const resolvers = {
     
       return postsWithAuthorUsername;
     },
+    getPostsByCategory: async (parent, { category }) => {
+      const posts = await Post.find({ 'categories.name': category }).populate('author');
+      const postsWithAuthorUsername = posts.map((post) => ({
+        ...post.toObject(),
+        author: {
+          ...post.author.toObject(),
+          username: post.author.username,
+        },
+      }));
+
+      return postsWithAuthorUsername;
+    },
   getSinglePost: async (parent, { _id }) => { return Post.findById(_id) },
 
   },

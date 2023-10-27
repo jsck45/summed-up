@@ -29,6 +29,7 @@ const typeDefs = `#graphql
     author: User
     dateCreated: String
     comments: [Comment]
+    categories: [Category]
   }
 
   type Comment {
@@ -45,6 +46,7 @@ const typeDefs = `#graphql
     categories: [Category]
     getSinglePost(_id: ID!): Post
     getPosts: [Post]
+    getPostsByCategory(category: String!): [Post] 
   }
 
   type Mutation {

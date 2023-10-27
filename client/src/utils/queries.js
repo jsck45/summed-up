@@ -10,11 +10,11 @@ export const GET_ME = gql`
          _id
         title
         content
-        createdAt
+        dateCreated
         comments {
           _id
           content
-          createdAt
+          dateCreated
         }
       }
       }
@@ -23,30 +23,32 @@ export const GET_ME = gql`
 
 export const GET_POSTS = gql`
   query getPosts {
-    _id
-    title
-    content
-    author {
+    getPosts {
       _id
-      userName
-      email
-      password
-    }
-    dateCreated
-    comments {
-      _id
+      title
       content
       author {
         _id
-        userName
+        username
         email
         password
       }
       dateCreated
+      comments {
+        _id
+        content
+        author {
+          _id
+          username
+          email
+          password
+        }
+        dateCreated
+      }
     }
   }
-
 `;
+
 
 export const GET_SINGLE_POST = gql`
 query getSinglePost($postId: ID!) {
@@ -54,15 +56,15 @@ query getSinglePost($postId: ID!) {
     _id
     title
     content
-    user {
+    author {
       username
     }
-    createdAt
+    dateCreated
     comments {
       _id
       content
-      createdAt
-      user {
+      dateCreated
+      author {
         username
       }
     }
@@ -75,19 +77,19 @@ query getSinglePost($postId: ID!) {
 
 export const GET_POSTS_BY_CATEGORY = gql`
   query getPostsByCategory($category: String!) {
-    postsByCategory(category: $category) {
+    getPostsByCategory(category: $category) {
       _id
       title
       content
-      createdAt
-      user {
+      dateCreated
+      author {
       username
     }
     comments {
       _id
       content
-      createdAt
-      user {
+      dateCreated
+      author {
         username
       }
     }
@@ -104,11 +106,11 @@ export const GET_COMMENTS = gql`
   query GetComments($postId: ID!) {
     comments(postId: $postId) {
       _id
-      text
-      user {
+      content
+      author {
         username
       }
-      createdAt
+      dateCreated
     }
   }
 `;

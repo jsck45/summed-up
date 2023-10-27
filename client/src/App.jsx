@@ -10,7 +10,7 @@ import { setContext } from '@apollo/client/link/context';
 import Navbar from './components/Navbar';
 import Categories from './components/Categories';
 import { Container, Row, Col } from 'react-bootstrap'; 
-import PostForm from './components/PostForm';
+// import PostForm from './components/PostForm';
 
 const httpLink = createHttpLink({
   uri: '/graphql',
@@ -18,10 +18,13 @@ const httpLink = createHttpLink({
 
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem('id_token');
+
+  console.log('Token in localStorage:', token); // debugging
+
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : '',
+      Authorization: token ? `Bearer ${token}` : '',
     },
   };
 });

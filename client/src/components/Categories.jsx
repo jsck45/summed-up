@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useQuery } from "@apollo/client"; 
 import { GET_CATEGORIES } from '../utils/queries';
 
@@ -28,10 +27,6 @@ function Categories() {
     color: "grey",
   };
 
-  const iconStyle = {
-    marginRight: "8px",
-  }
-
   return (
     <div className="sidebar py-3">
       <h4>categories</h4>
@@ -39,7 +34,7 @@ function Categories() {
       {categories.map((category, index) => (
         <div key={index} style={categoryStyle}>
           <Link to={`/category/${category.name.toLowerCase()}`} style={linkStyle}>
-          <FontAwesomeIcon icon={category.icon} style={iconStyle}/> {category.name}
+          {category.name}
           </Link>
         </div>
       ))}

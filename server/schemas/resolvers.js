@@ -45,16 +45,28 @@ const resolvers = {
     
     
     getSinglePost: async (parent, { _id }) => {
-      const post = await Post.findById(_id)
-        .populate({
-          path: 'comments',
-          populate: {
-            path: 'author',
-          },
-        });
+      try {
     
-      return post;
+        const post = await Post.findById(_id)
+          .populate({
+            path: 'comments',
+            populate: {
+              path: 'author',
+              select: 'username',
+            },
+          })
+          .populate('author', 'username')
+          .populate('categories', 'name'); 
+    
+    
+        return post;
+      } catch (error) {
+        console.error("Error in getSinglePost resolver: ", error);
+        throw error;
+      }
     },
+    
+    
 
     commentsByPost: async (_, { postId }) => {
       try {

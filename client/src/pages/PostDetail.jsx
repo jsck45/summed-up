@@ -258,11 +258,11 @@ function PostDetail() {
       >
         <div className="card-body" style={cardBodyStyle}>
           <UserDateWrapper>
-            <p className="card-text">Posted by {post?.user}</p>
+          <p className="card-text">Posted by {post?.author?.username}</p>
             <p className="card-text">
               <small>
-                {post && post.date
-                  ? new Date(post.date).toLocaleString()
+                {post && post.dateCreated
+                  ? new Date(post.dateCreated).toLocaleString()
                   : ""}
               </small>
             </p>

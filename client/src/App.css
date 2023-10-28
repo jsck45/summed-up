@@ -24,6 +24,10 @@ body {
     .main {
       padding: 3rem;
     }
+    .button {
+      display: block;
+      margin: 0 auto;
+    }
   }    
   
 

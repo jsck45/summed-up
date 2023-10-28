@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComment, faShare } from '@fortawesome/free-solid-svg-icons';
 import { Modal, Button } from 'react-bootstrap';
@@ -14,16 +14,23 @@ const CardContainer = styled.div`
   }
 `;
 
-function PostList({postLink}) {
+function PostList() {
 
 const { loading, error, data } = useQuery(GET_POSTS);
+const [showModal, setShowModal] = useState(false);
+const [postLink, setPostLink] = useState('');
+const [posts, setPosts] = useState([]); 
 
-if (loading) return <p>Loading...</p>;
-if (error) return <p>Error: {error.message}</p>;
+useEffect(() => {
+  if (loading) {
+    setPosts(null);
+  } else if (error) {
+    setPosts(null);
+  } else {
+    setPosts(data.getPosts)
+  }
+  }, [loading, error, data]);
 
-const posts = data.posts;
-
-  const [showModal, setShowModal] = useState(false);
   const handleShowModal = () => {
     setShowModal(true);
   };
@@ -60,10 +67,8 @@ const posts = data.posts;
   };
 
   const handleCommentButtonClick = (postId) => {
-    return (
-      <Link to={`/posts/${postId}`}>View Post</Link>
-    );
-  }
+    return `/posts/${postId}`; 
+}
 
   const handleShareButtonClick = (postId) => {
     const postLink = `https://lit-scrubland-56813-23b87facb8d8.herokuapp.com/post/${postId}`;
@@ -83,35 +88,48 @@ setPostLink(postLink);
 
   };
 
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>Error: {error.message}</p>;
+  }
+
   return (
     <div>
-            <CardContainer>
-<div className="card-container">
-        {posts.map((post) => (
-          <div key={post._id} className="card" style={cardStyle}>
-            <div className="card-body" style={cardBodyStyle}>
-              <p className="card-text">{new Date(post.date).toLocaleString()}</p>
-              <Link to={`/posts/${post._id}`} className="card-title" style={cardTitleStyle}>
-  {post.title}
-</Link>
-              <p className="card-text" style={cardTextStyle}>
-                {post.content}
-              </p>
-              <button onClick={() => handleCommentButtonClick(post._id)} style={commentButtonStyle}>
-                <FontAwesomeIcon icon={faComment} />  {post.comments ? post.comments.length : 0}
-              </button>
-              <button onClick={() => handleShareButtonClick(post._id)} style={commentButtonStyle}>
-                <FontAwesomeIcon icon={faShare} /> Share
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
+      <CardContainer>
+        <div className="card-container">
+          {posts && posts.length > 0 ? (
+            posts.map((post) => (
+              <div key={post._id} className="card" style={cardStyle}>
+                <div className="card-body" style={cardBodyStyle}>
+                  <p className="card-text">
+                    {post.date ? new Date(parseInt(post.date)).toLocaleString() : 'No date available'}
+                  </p>
+                  <Link to={`/posts/${post._id}`} className="card-title" style={cardTitleStyle}>
+                    {post.title}
+                  </Link>
+                  <p className="card-text" style={cardTextStyle}>
+                    {post.content}
+                  </p>
+                  <button onClick={() => handleCommentButtonClick(post._id)} style={commentButtonStyle}>
+                    <FontAwesomeIcon icon={faComment} /> {post.comments ? post.comments.length : 0}
+                  </button>
+                  <button onClick={() => handleShareButtonClick(post._id)} style={commentButtonStyle}>
+                    <FontAwesomeIcon icon={faShare} /> Share
+                  </button>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p>No posts available</p>
+          )}
+        </div>
       </CardContainer>
-
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>share this post</Modal.Title>
+          <Modal.Title>Share this post</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           Link copied to clipboard: {postLink}
@@ -124,6 +142,5 @@ setPostLink(postLink);
       </Modal>
     </div>
   );
-}
-
+          } 
 export default PostList;

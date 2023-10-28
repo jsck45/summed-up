@@ -13,13 +13,14 @@ const postSchema = new Schema({
   // reference
   dateCreated: { type: Date, default: Date.now(), },
   comments: [commentSchema], // subdocument
-  category:
+  categories: [
   {
     type: Schema.Types.ObjectId,
     ref: 'Category',
+  }
+]
   },
   summary: { type: String }
-
 })
 
 const Post = model('Post', postSchema);

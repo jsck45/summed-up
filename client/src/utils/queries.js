@@ -57,6 +57,7 @@ export const GET_SINGLE_POST = gql`
       title
       content
       author {
+        _id
         username
       }
       dateCreated
@@ -65,6 +66,7 @@ export const GET_SINGLE_POST = gql`
         content
         dateCreated
         author {
+          _id
           username
         }
       }
@@ -106,7 +108,7 @@ export const GET_POSTS_BY_CATEGORY = gql`
 
 export const GET_COMMENTS = gql`
   query GetComments($postId: ID!) {
-    comments(postId: $postId) {
+    commentsByPost(postId: $postId) {
       _id
       content
       author {

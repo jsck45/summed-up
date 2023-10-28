@@ -44,8 +44,28 @@ const resolvers = {
     },
     
     
-  getSinglePost: async (parent, { _id }) => { return Post.findById(_id) },
+    getSinglePost: async (parent, { _id }) => {
+      const post = await Post.findById(_id)
+        .populate({
+          path: 'comments',
+          populate: {
+            path: 'author',
+          },
+        });
+    
+      return post;
+    },
 
+    commentsByPost: async (_, { postId }) => {
+      try {
+        const comments = await Comment.find({ postId }).populate('author');
+        return comments;
+      } catch (error) {
+        console.error('Error fetching comments:', error);
+        throw new Error('Failed to fetch comments.');
+      }
+    },
+    
   },
   Mutation: {
     addUser: async (parent, args) => {

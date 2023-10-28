@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { Container, Button, Modal } from "react-bootstrap";
-import { EDIT_POST, DELETE_POST } from "../utils/mutations";
 import { useMutation, useQuery } from "@apollo/client";
 import { GET_SINGLE_POST } from "../utils/queries";
-import CommentList from "../components/CommentList";
-import CommentForm from "../components/CommentForm";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -16,39 +12,90 @@ import {
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 
+import {
+  EDIT_POST,
+  DELETE_POST,
+  EDIT_COMMENT,
+  DELETE_COMMENT,
+} from "../utils/mutations";
+
+import CommentForm from "../components/CommentForm";
+
 const UserDateWrapper = styled.div`
   display: flex;
   justify-content: space-between;
 `;
 
+const CommentCard = styled.div`
+  background: #fff;
+  padding: 0.5rem 0;
+  margin: 1rem 3rem 0;
+  border: none;
+
+  .comment-details {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .card-body {
+    border-bottom: 1px solid #ddd;
+    padding: 1rem 0 0 1rem;
+  }
+`;
+
 function PostDetail() {
   const { postId } = useParams();
   const [showModal, setShowModal] = useState(false);
-  const handleShowModal = () => {
-    setShowModal(true);
+  const [showDeleteCommentModal, setShowDeleteCommentModal] = useState(false);
+  const [selectedCommentId, setSelectedCommentId] = useState(null);
+  const [showShareModal, setShowShareModal] = useState(false);
+
+  const handleShowShareModal = () => {
+    setShowShareModal(true);
   };
+
+  
+  const handleShowModal = (deleteCommentModal = false) => {
+    if (deleteCommentModal) {
+      setShowDeleteCommentModal(true);
+    } else {
+      setShowModal(true);
+    }
+  };
+
   const { loading, error, data } = useQuery(GET_SINGLE_POST, {
-    variables: { _id: postId }, 
+    variables: { _id: postId },
   });
-  const [posts, setPosts] = useState([]);
+
   const post = data?.getSinglePost;
-  useEffect(() => {
-    if (loading) {
-      console.log("Loading...");
-    }
-    if (error) {
-      console.error("Error:", error);
-    }
-    if (data) {
-      console.log("Data received:", data);
-      setPosts(data?.getSinglePost || []);
-    }
-  }, [loading, error, data]);
+  const comments = post?.comments || [];
+
+  const [editingCommentId, setEditingCommentId] = useState(null);
+  const [editCommentText, setEditCommentText] = useState("");
+  const [editComment] = useMutation(EDIT_COMMENT);
+
+  const [deletePost] = useMutation(DELETE_POST, {
+    onCompleted: (data) => {
+      console.log("Post deleted");
+    },
+    onError: (error) => {
+      console.error("Error deleting post:", error);
+    },
+  });
+
+  const [deleteComment] = useMutation(DELETE_COMMENT, {
+    onCompleted: (data) => {
+      console.log("Comment deleted");
+    },
+    onError: (error) => {
+      console.error("Error deleting comment:", error);
+    },
+  });
 
   const [editPostText, setEditPostText] = useState("");
-
   const [editPost] = useMutation(EDIT_POST);
   const [isEditing, setIsEditing] = useState(false);
+
   const handleToggleEdit = () => {
     if (!isEditing) {
       setEditPostText(post?.content);
@@ -75,29 +122,66 @@ function PostDetail() {
 
   const handleCancelEdit = () => {
     setIsEditing(false);
+    setEditingCommentId(null);
+    setEditCommentText("");
   };
 
-  const [deletePost] = useMutation(DELETE_POST, {
-    onCompleted: (data) => {
-      console.log("Post deleted");
-    },
-    onError: (error) => {
-      console.error("Error deleting post:", error);
-    },
-  });
+  const handleEditComment = (commentId) => {
+    if (editingCommentId === commentId) {
+      if (editCommentText) {
+        editComment({
+          variables: {
+            commentId,
+            text: editCommentText,
+          },
+          onCompleted: (data) => {
+            console.log("Comment edited:", data.editComment);
+          },
+          onError: (error) => {
+            console.error("Error editing comment:", error);
+          },
+        });
+      }
+      setEditingCommentId(null);
+      setEditCommentText(""); 
+
+    } else {
+      const commentToEdit = comments.find((comment) => comment._id === commentId);
+
+      if (commentToEdit) {
+        setEditCommentText(commentToEdit.text);
+        setEditingCommentId(commentId);
+      }
+    }
+  };
 
   const handleDeletePost = () => {
-    setShowModal(true);
+    setSelectedCommentId(null); 
+    handleShowModal();
+  };
+
+  const handleDeleteComment = (commentId) => {
+    setSelectedCommentId(commentId);
+    handleShowModal(true);
   };
 
   const handleDeleteConfirmed = () => {
-    deletePost({
-      variables: {
-        postId: post?._id,
-      },
-    });
+    if (showModal) {
+      deletePost({
+        variables: {
+          postId: post?._id,
+        },
+      });
+    } else if (showDeleteCommentModal) {
+      deleteComment({
+        variables: {
+          commentId: selectedCommentId,
+        },
+      });
+    }
 
     setShowModal(false);
+    setShowDeleteCommentModal(false);
   };
 
   const handleCommentButtonClick = () => {
@@ -119,16 +203,16 @@ function PostDetail() {
 
     document.body.removeChild(inputElement);
 
-    handleShowModal();
+    handleShowShareModal();
     setPostLink(postLink);
   };
-  
+
   const PostContainer = styled.div`
-  @media (max-width: 767px) {
-    border-left: none !important;
-    padding: 0 !important;
-  }
-`;
+    @media (max-width: 767px) {
+      border-left: none !important;
+      padding: 0 !important;
+    }
+  `;
 
   const cardStyle = {
     background: "#fff",
@@ -177,7 +261,9 @@ function PostDetail() {
             <p className="card-text">Posted by {post?.user}</p>
             <p className="card-text">
               <small>
-                {post && post.date ? new Date(post.date).toLocaleString() : ""}
+                {post && post.date
+                  ? new Date(post.date).toLocaleString()
+                  : ""}
               </small>
             </p>
           </UserDateWrapper>
@@ -206,14 +292,12 @@ function PostDetail() {
               {post && post.content ? post.content : "Content not available"}
             </p>
 
-            {/* Card Buttons (Edit, Delete, etc.) */}
             <div className="card-buttons" style={{ display: "flex" }}>
               <button
                 onClick={() => handleCommentButtonClick(post?._id)}
                 style={commentButtonStyle}
               >
-                <FontAwesomeIcon icon={faComment} />{" "}
-                {post && post.comments ? post.comments.length : 0}
+                <FontAwesomeIcon icon={faComment} /> {comments.length}
               </button>
               <button
                 onClick={() => handleShareButtonClick(post?._id)}
@@ -224,10 +308,7 @@ function PostDetail() {
               <button onClick={handleToggleEdit} style={commentButtonStyle}>
                 <FontAwesomeIcon icon={faEdit} /> Edit
               </button>
-              <button
-                onClick={handleDeletePost}
-                style={commentButtonStyle}
-              >
+              <button onClick={handleDeletePost} style={commentButtonStyle}>
                 <FontAwesomeIcon icon={faTrash} /> Delete
               </button>
             </div>
@@ -235,25 +316,90 @@ function PostDetail() {
         )}
 
         <CommentForm postId={postId} />
-        <CommentList postId={post?._id} />
 
-        <Modal show={showModal} onHide={() => setShowModal(false)}>
-          <Modal.Header closeButton>
-            <Modal.Title>Share this post</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>Link copied to clipboard: {postLink}</Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={() => setShowModal(false)}>
-              Close
-            </Button>
-          </Modal.Footer>
-        </Modal>
+        <div>
+          <h4 className="my-3">
+            <strong>Comments</strong>
+          </h4>
+          <Container>
+            {comments.map((comment) => (
+              <CommentCard key={comment._id}>
+                <div className="comment-details">
+                  <strong>
+                    {comment.author ? comment.author.username : "Unknown User"}
+                  </strong>
+                  <small>
+                    {new Date(comment.dateCreated).toLocaleString()}
+                  </small>
+                </div>
 
-        <Modal show={showModal} onHide={() => setShowModal(false)}>
+                <div className="card-body">
+                  {editingCommentId === comment._id ? (
+                    <div>
+                      <textarea
+                        value={editCommentText}
+                        onChange={(e) => setEditCommentText(e.target.value)}
+                        style={{ width: "100%" }}
+                      />
+                      <br />
+                      <button
+                        onClick={() => handleEditComment(comment._id)}
+                        style={commentButtonStyle}
+                      >
+                        Save
+                      </button>
+                      <button
+                        onClick={() => setEditingCommentId(null)}
+                        style={commentButtonStyle}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  ) : (
+                    <>
+                      {comment.content}
+                      <br />
+                      {editingCommentId !== comment._id && (
+                        <div>
+                          <button
+                            onClick={() => handleEditComment(comment._id)}
+                            style={commentButtonStyle}
+                          >
+                            <FontAwesomeIcon icon={faEdit} /> Edit
+                          </button>
+                          <button
+                            onClick={() => handleDeleteComment(comment._id)}
+                            style={commentButtonStyle}
+                          >
+                            <FontAwesomeIcon icon={faTrash} /> Delete
+                          </button>
+                        </div>
+                      )}
+                    </>
+                  )}
+                </div>
+              </CommentCard>
+            ))}
+          </Container>
+        </div>
+
+        <Modal
+          show={showModal || showDeleteCommentModal}
+          onHide={() => {
+            setShowModal(false);
+            setShowDeleteCommentModal(false);
+          }}
+        >
           <Modal.Header closeButton>
-            <Modal.Title>Confirm Delete</Modal.Title>
+            <Modal.Title>
+              {selectedCommentId ? "Delete Comment" : "Delete Post"}
+            </Modal.Title>
           </Modal.Header>
-          <Modal.Body>Are you sure you want to delete this post?</Modal.Body>
+          <Modal.Body>
+            {selectedCommentId
+              ? "Are you sure you want to delete this comment?"
+              : "Are you sure you want to delete this post?"}
+          </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={() => setShowModal(false)}>
               Cancel
@@ -263,6 +409,21 @@ function PostDetail() {
             </Button>
           </Modal.Footer>
         </Modal>
+        <Modal show={showShareModal} onHide={() => setShowShareModal(false)}>
+  <Modal.Header closeButton>
+    <Modal.Title>Share Post</Modal.Title>
+  </Modal.Header>
+  <Modal.Body>
+    <p>Share this post using the link below:</p>
+    <input type="text" value={postLink} readOnly style={{ width: '100%' }} />
+  </Modal.Body>
+  <Modal.Footer>
+    <Button variant="secondary" onClick={() => setShowShareModal(false)}>
+      Close
+    </Button>
+  </Modal.Footer>
+</Modal>
+
       </PostContainer>
     </div>
   );

@@ -117,8 +117,10 @@ function CommentList({ postId }) {
         {comments.map((comment) => (
           <CommentCard key={comment._id}>
             <div className="comment-details">
-              <strong>{comment.user.username}</strong>
-              <small>{new Date(comment.createdAt).toLocaleString()}</small>
+            <strong>
+        {comment.author ? comment.author.username : "Unknown User"}
+      </strong>
+                    <small>{new Date(comment.dateCreated).toLocaleString()}</small>
             </div>
 
             <div className="card-body">

@@ -29,9 +29,11 @@ const resolvers = {
     },
     
     getPostsByCategory: async (parent, { category }) => {
+
       const posts = await Post.find({
         'categories.name': { $regex: new RegExp(`^${category}$`, 'i') }
       })
+
         .populate('author')
         .populate({
           path: 'categories',
@@ -54,7 +56,6 @@ const resolvers = {
       return postsWithAuthorUsername;
     },
     
-    
     getSinglePost: async (parent, { _id }) => {
       try {
     
@@ -75,8 +76,6 @@ const resolvers = {
         throw error;
       }
     },
-    
-    
 
     commentsByPost: async (_, { postId }) => {
       try {

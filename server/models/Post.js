@@ -18,9 +18,10 @@ const postSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Category',
   }
-],
-  summary: { type: String }
 
+],
+
+  summary: { type: String }
 })
 
 const Post = model('Post', postSchema);

@@ -69,14 +69,20 @@ const resolvers = {
   },
   Mutation: {
     addUser: async (parent, args) => {
+      console.log('Received arguments:', args); //debugging
+
       const user = await User.create(args);
+      console.log('Created user:', user); // debugging
+
+
       const token = signToken(user);
+      console.log('Generated token:', token); //debugging
 
       return { token, user };
     },
     addPost: async (parent, args) => {
       await Post.create(args);
-
+      
       return Post;
     },
     loginEmail: async (parent, { email, password }) => {

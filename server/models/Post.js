@@ -18,7 +18,8 @@ const postSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Category',
   }
-]
+],
+  summary: { type: String }
 
 })
 

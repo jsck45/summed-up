@@ -51,29 +51,31 @@ export const GET_POSTS = gql`
 
 
 export const GET_SINGLE_POST = gql`
-query getSinglePost($postId: ID!) {
-  post(postId: $postId) {
-    _id
-    title
-    content
-    author {
-      username
-    }
-    dateCreated
-    comments {
+  query getSinglePost($_id: ID!) {
+    getSinglePost(_id: $_id) {
       _id
+      title
       content
-      dateCreated
       author {
         username
       }
-    }
-    categories {
+      dateCreated
+      comments {
+        _id
+        content
+        dateCreated
+        author {
+          username
+        }
+      }
+      categories {
         _id
         name
       }
+    }
   }
-}`
+`;
+
 
 export const GET_POSTS_BY_CATEGORY = gql`
   query getPostsByCategory($category: String!) {

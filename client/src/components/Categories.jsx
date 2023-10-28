@@ -32,12 +32,15 @@ function Categories() {
       <h4>categories</h4>
       <br />
       {categories.map((category, index) => (
-        <div key={index} style={categoryStyle}>
-          <Link to={`/category/${category.name.toLowerCase()}`} style={linkStyle}>
-          {category.name}
-          </Link>
-        </div>
-      ))}
+  <div key={index} style={categoryStyle}>
+    {category.name && (
+      <Link to={`/category/${category.name.toLowerCase()}`} style={linkStyle}>
+        {category.name}
+      </Link>
+    )}
+  </div>
+))}
+
     </div>
   );
 }

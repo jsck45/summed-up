@@ -27,6 +27,7 @@ const resolvers = {
           select: 'name',
         });
     
+
       const postsWithAuthorUsername = posts.map((post) => ({
         ...post.toObject(),
         author: {
@@ -43,7 +44,7 @@ const resolvers = {
       return postsWithAuthorUsername;
     },
     
-    
+  
   getSinglePost: async (parent, { _id }) => { return Post.findById(_id) },
 
   },

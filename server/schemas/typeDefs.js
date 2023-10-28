@@ -48,6 +48,7 @@ const typeDefs = `#graphql
     getSinglePost(_id: ID!): Post
     getPosts: [Post]
     getPostsByCategory(category: String!): [Post] 
+    commentsByPost(postId: ID!): [Comment]
   }
 
   type Mutation {

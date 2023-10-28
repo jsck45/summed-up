@@ -43,6 +43,7 @@ const CommentCard = styled.div`
   }
 `;
 
+
 function PostDetail() {
   const { postId } = useParams();
   const [showModal, setShowModal] = useState(false);
@@ -258,6 +259,7 @@ function PostDetail() {
       >
         <div className="card-body" style={cardBodyStyle}>
           <UserDateWrapper>
+
             <p className="card-text">Posted by {post?.user}</p>
             <p className="card-text">
               <small>
@@ -265,11 +267,13 @@ function PostDetail() {
                   ? new Date(post.date).toLocaleString()
                   : ""}
               </small>
+
             </p>
           </UserDateWrapper>
           <h2 className="card-title" style={cardTitleStyle}>
             {post && post.title ? post.title : "Title not available"}
           </h2>
+
         </div>
         {isEditing ? (
           <div>
@@ -329,7 +333,9 @@ function PostDetail() {
                     {comment.author ? comment.author.username : "Unknown User"}
                   </strong>
                   <small>
+
                     {new Date(comment.dateCreated).toLocaleString()}
+
                   </small>
                 </div>
 

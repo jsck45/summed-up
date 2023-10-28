@@ -151,6 +151,8 @@ function PostDetail() {
   };
 
   const handleEditComment = (commentId) => {
+    console.log("Edit button clicked") //debugging
+
     if (editingCommentId === commentId) {
       if (editCommentText) {
         editComment({
@@ -173,6 +175,8 @@ function PostDetail() {
       const commentToEdit = comments.find((comment) => comment._id === commentId);
 
       if (commentToEdit) {
+        console.log(commentToEdit.text) //debugging
+
         setEditCommentText(commentToEdit.text);
         setEditingCommentId(commentId);
       }

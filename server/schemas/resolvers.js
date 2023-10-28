@@ -26,7 +26,7 @@ const resolvers = {
           path: 'categories',
           select: 'name',
         });
-    
+
       const postsWithAuthorUsername = posts.map((post) => ({
         ...post.toObject(),
         author: {
@@ -42,7 +42,7 @@ const resolvers = {
 
       return postsWithAuthorUsername;
     },
-    
+   
     
     getSinglePost: async (parent, { _id }) => {
       const post = await Post.findById(_id)
@@ -55,6 +55,7 @@ const resolvers = {
     
       return post;
     },
+
 
     commentsByPost: async (_, { postId }) => {
       try {

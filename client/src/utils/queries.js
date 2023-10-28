@@ -45,6 +45,10 @@ export const GET_POSTS = gql`
         }
         dateCreated
       }
+      categories {
+        _id
+        name
+      }
     }
   }
 `;

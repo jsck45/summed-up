@@ -47,6 +47,7 @@ const CategoryButton = styled.div`
 .custom-button {
   display: inline-block;
   padding: 0.5rem 0.8rem; 
+  margin-top: 0.5rem;
   background-color: #007bff; 
   color: #fff; 
   border-radius: 20px; 

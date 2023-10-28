@@ -68,14 +68,14 @@ function CategoryPage({}) {
     cursor: "pointer",
   };
 
-  const handleCommentButtonClick = (postId) => {
-    return <Link to={`/posts/${postId}`}>View Post</Link>;
+  const handleCommentButtonClick = () => {
+    return <Link to={`/posts/${post?._id}`}>View Post</Link>;
   };
 
   const [postLink, setPostLink] = useState("");
 
-  const handleShareButtonClick = (postId) => {
-    const postLink = `https://lit-scrubland-56813-23b87facb8d8.herokuapp.com/post/${postId}`;
+  const handleShareButtonClick = () => {
+    const postLink = `https://lit-scrubland-56813-23b87facb8d8.herokuapp.com/post/${post?._id}`;
 
     const inputElement = document.createElement("input");
     inputElement.value = postLink;
@@ -87,7 +87,7 @@ function CategoryPage({}) {
 
     document.body.removeChild(inputElement);
 
-    handleShowModal();
+    handleShowShareModal();
     setPostLink(postLink);
   };
 
@@ -137,8 +137,10 @@ function CategoryPage({}) {
           <Modal.Header closeButton>
             <Modal.Title>share this post</Modal.Title>
           </Modal.Header>
-          <Modal.Body>Link copied to clipboard: {postLink}</Modal.Body>
-          <Modal.Footer>
+          <Modal.Body>
+    <p>Share this post using the link below:</p>
+    <input type="text" value={postLink} readOnly style={{ width: '100%' }} />
+  </Modal.Body>          <Modal.Footer>
             <Button variant="secondary" onClick={() => setShowModal(false)}>
               Close
             </Button>

@@ -8,19 +8,30 @@ const resolvers = {
     category: async (parent, id) => { return Category.findById(id) },
     categories: async () => { return Category.find() },
     getPosts: async () => {
-      const posts = await Post.find().populate('author'); 
-          const postsWithAuthorUsername = posts.map((post) => ({
-        ...post.toObject(), 
-        author: {
-          ...post.author.toObject(), 
-          username: post.author.username, 
-        },
-      }));
+      try {
+        const posts = await Post.find()
+          .populate('author') 
+          .populate('categories', 'name'); 
     
-      return postsWithAuthorUsername;
+        const postsWithAuthorUsername = posts.map((post) => ({
+          ...post.toObject(),
+          author: {
+            ...post.author.toObject(),
+            username: post.author.username,
+          },
+        }));
+    
+        return postsWithAuthorUsername;
+      } catch (error) {
+        console.error("Error in getPosts resolver: ", error);
+        throw error;
+      }
     },
+    
     getPostsByCategory: async (parent, { category }) => {
-      const posts = await Post.find({ 'categories.name': category })
+      const posts = await Post.find({
+        'categories.name': { $regex: new RegExp(`^${category}$`, 'i') }
+      })
         .populate('author')
         .populate({
           path: 'categories',
@@ -57,8 +68,7 @@ const resolvers = {
           })
           .populate('author', 'username')
           .populate('categories', 'name'); 
-    
-    
+        
         return post;
       } catch (error) {
         console.error("Error in getSinglePost resolver: ", error);

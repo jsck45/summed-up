@@ -14,6 +14,30 @@ const CardContainer = styled.div`
   }
 `;
 
+const CategoryButton = styled.div`
+.custom-button {
+  display: inline-block;
+  padding: 0.5rem 0.8rem; 
+  margin-top: 0.5rem;
+  background-color: #007bff; 
+  color: #fff; 
+  border-radius: 20px; 
+  cursor: pointer;
+  text-align: center;
+  user-select: none; 
+  text-decoration: none; 
+}
+
+.custom-button:hover {
+  background-color: #0056b3; 
+}
+
+.custom-button:active {
+  background-color: #003f80;
+}
+
+`
+
 function PostList() {
 
 const { loading, error, data } = useQuery(GET_POSTS);
@@ -105,11 +129,24 @@ setPostLink(postLink);
               <div key={post._id} className="card" style={cardStyle}>
                 <div className="card-body" style={cardBodyStyle}>
                   <p className="card-text">
-                    {post.date ? new Date(parseInt(post.date)).toLocaleString() : 'No date available'}
+                    {post.dateCreated ? new Date(parseInt(post.dateCreated)).toLocaleString() : 'No date available'}
                   </p>
                   <Link to={`/posts/${post._id}`} className="card-title" style={cardTitleStyle}>
                     {post.title}
                   </Link>
+                  <div>
+          <small>
+            {post.categories && post.categories.length > 0 && (
+              post.categories.map((category) => (
+                <CategoryButton key={category._id}>
+                  <Link to={`/category/${category.name}`} className="custom-button">
+                    {category.name}
+                  </Link>
+                </CategoryButton>
+              ))
+            )}
+          </small>
+        </div>
                   <p className="card-text" style={cardTextStyle}>
                     {post.content}
                   </p>
@@ -132,8 +169,9 @@ setPostLink(postLink);
           <Modal.Title>Share this post</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          Link copied to clipboard: {postLink}
-        </Modal.Body>
+    <p>Share this post using the link below:</p>
+    <input type="text" value={postLink} readOnly style={{ width: '100%' }} />
+  </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShowModal(false)}>
             Close

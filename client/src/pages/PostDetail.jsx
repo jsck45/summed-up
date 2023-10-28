@@ -260,11 +260,12 @@ function PostDetail() {
           <UserDateWrapper>
           <p className="card-text">Posted by {post?.author?.username}</p>
             <p className="card-text">
-              <small>
-                {post && post.dateCreated
-                  ? new Date(post.dateCreated).toLocaleString()
-                  : ""}
-              </small>
+            <small>
+  {post && post.dateCreated
+    ? new Date(parseInt(post.dateCreated)).toLocaleString()
+    : ""}
+</small>
+
             </p>
           </UserDateWrapper>
           <h2 className="card-title" style={cardTitleStyle}>
@@ -329,7 +330,7 @@ function PostDetail() {
                     {comment.author ? comment.author.username : "Unknown User"}
                   </strong>
                   <small>
-                    {new Date(comment.dateCreated).toLocaleString()}
+                    {new Date(parseInt(comment.dateCreated)).toLocaleString()}
                   </small>
                 </div>
 

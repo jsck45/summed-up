@@ -19,7 +19,8 @@ const postSchema = new Schema({
     ref: 'Category',
   }
 ]
-
+  },
+  summary: { type: String }
 })
 
 const Post = model('Post', postSchema);

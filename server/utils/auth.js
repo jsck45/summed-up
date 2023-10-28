@@ -23,9 +23,10 @@ module.exports = {
     if (!token) {
       return req;
     }
+    console.log("Received token in authMiddleware:", token); //debugging
 
     try {
-      const { data } = jwt.verify(token, secret, { maxAge: expiration });
+      const { data } = jwt.verify(token, secret, { expiresIn: expiration });
       req.user = data;
     } catch (err) {
       console.error(err);
@@ -36,7 +37,14 @@ module.exports = {
   },
   signToken: function ({ username, email, _id }) {
     const payload = { username, email, _id };
+    
+    const currentTime = new Date().toISOString();
+    console.log('Current server time:', currentTime);
 
-    return jwt.sign({ data: payload }, secret, { expiresIn: expiration });
-  },
+    const token = jwt.sign({ data: payload }, secret, { expiresIn: expiration });
+    const tokenExpiration = new Date((jwt.decode(token).exp) * 1000).toISOString();
+    console.log('Token created with expiration:', tokenExpiration);
+
+    return token;
+  }
 };

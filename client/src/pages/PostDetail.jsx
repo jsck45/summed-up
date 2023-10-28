@@ -43,6 +43,29 @@ const CommentCard = styled.div`
   }
 `;
 
+const CategoryButton = styled.div`
+.custom-button {
+  display: inline-block;
+  padding: 0.5rem 0.8rem; 
+  background-color: #007bff; 
+  color: #fff; 
+  border-radius: 20px; 
+  cursor: pointer;
+  text-align: center;
+  user-select: none; 
+  text-decoration: none; 
+}
+
+.custom-button:hover {
+  background-color: #0056b3; 
+}
+
+.custom-button:active {
+  background-color: #003f80;
+}
+
+`
+
 function PostDetail() {
   const { postId } = useParams();
   const [showModal, setShowModal] = useState(false);
@@ -271,6 +294,19 @@ function PostDetail() {
           <h2 className="card-title" style={cardTitleStyle}>
             {post && post.title ? post.title : "Title not available"}
           </h2>
+          <div><small>
+            { post && post.categories && post.categories.length > 0 && (
+              post.categories.map((category) => (
+                <CategoryButton key={category._id}>
+                <Link to={`/category/${category.name}`} className="custom-button">
+                  {category.name}
+                </Link>
+              </CategoryButton>
+              ))
+            )}
+            </small>
+  </div>
+
         </div>
         {isEditing ? (
           <div>

@@ -1,25 +1,24 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Navbar, Nav, Container, Modal, Tab } from 'react-bootstrap';
-import SignUpForm from './SignupForm';
-import LoginForm from './LoginForm';
-import Auth from '../utils/auth';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { Navbar, Nav, Container, Modal, Tab } from "react-bootstrap";
+import SignUpForm from "./SignupForm";
+import LoginForm from "./LoginForm";
+import Auth from "../utils/auth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilter } from "@fortawesome/free-solid-svg-icons";
 
-
 const AppNavbar = () => {
   const [showModal, setShowModal] = useState(false);
-  const [activeModal, setActiveModal] = useState('login');
+  const [activeModal, setActiveModal] = useState("login");
   const [menuExpanded, setMenuExpanded] = useState(false);
 
   const handleShowLoginModal = () => {
-    setActiveModal('login');
+    setActiveModal("login");
     setShowModal(true);
   };
 
   const handleShowSignupModal = () => {
-    setActiveModal('signup');
+    setActiveModal("signup");
     setShowModal(true);
   };
 
@@ -30,19 +29,26 @@ const AppNavbar = () => {
   const closeMenu = () => {
     setMenuExpanded(false);
   };
-  
 
   return (
     <>
-      <Navbar bg="dark" variant="dark" expand="lg" onToggle={handleMenuToggle} expanded={menuExpanded}>
+      <Navbar
+        bg="dark"
+        variant="dark"
+        expand="lg"
+        onToggle={handleMenuToggle}
+        expanded={menuExpanded}
+      >
         <Container fluid>
-        <Navbar.Brand as={Link} to="/">
-  <FontAwesomeIcon icon={faFilter} style={{ margin: '0 1rem' }} />
-  <span>summed up</span>
-</Navbar.Brand>
+          <Navbar.Brand as={Link} to="/home" >
+            <FontAwesomeIcon
+              icon={faFilter}
+              style={{ margin: "0 1rem" }}
+            />
+            <span>summed up</span>
+          </Navbar.Brand>
 
-
-<Navbar.Toggle aria-controls="navbar" onClick={closeMenu} />
+          <Navbar.Toggle aria-controls="navbar" onClick={closeMenu} />
           <Navbar.Collapse id="navbar" className="d-flex flex-row-reverse">
             <Nav className="ml-auto d-flex">
               {Auth.loggedIn() ? (

@@ -1,5 +1,5 @@
 import './App.css';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import {
   ApolloClient,
   InMemoryCache,
@@ -9,8 +9,8 @@ import {
 import { setContext } from '@apollo/client/link/context';
 import Nav from './components/Nav';
 import Categories from './components/Categories';
+import LandingPage from './pages/LandingPage.jsx';
 import { Container, Row, Col } from 'react-bootstrap'; 
-// import PostForm from './components/PostForm';
 
 const httpLink = createHttpLink({
   uri: '/graphql',
@@ -35,19 +35,30 @@ const client = new ApolloClient({
 });
 
 function App() {
+  const location = useLocation();
+
+  const isLandingPage = location.pathname === '/';
+
   return (
     <ApolloProvider client={client}>
-      <Nav />
-      <Container>
-        <Row>
-          <Col lg={3} md={3} className='categories d-none d-md-block'>
-            <Categories /> 
-          </Col>
-          <Col lg={9} md={9} sm={12} className='main'>
-            <Outlet />
-          </Col>
-        </Row>
-      </Container>
+      {isLandingPage && (
+        <LandingPage />
+      )}
+      {!isLandingPage && (
+        <div>
+          <Nav/>
+          <Container>
+            <Row>
+              <Col lg={2} md={3} className='categories d-none d-md-block'>
+                <Categories />
+              </Col>
+              <Col lg={10} md={9} sm={12} className='main'>
+                <Outlet />
+              </Col>
+            </Row>
+          </Container>
+        </div>
+      )}
     </ApolloProvider>
   );
 }

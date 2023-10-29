@@ -72,26 +72,58 @@ function UserProfile() {
     return <p>Error: {error.message}</p>;
   }
 
+  const cardStyle = {
+    background: "#e9e9e9",
+    padding: "2rem",
+    margin: "1rem 0",
+    border: "none",
+  };
+
+  const cardTitleStyle = {
+    fontSize: "1.5rem",
+    fontWeight: "bold",
+    textDecoration: "none",
+  };
+
+  const cardTextStyle = {
+    fontSize: "1rem",
+    marginTop: "1rem",
+  };
+
+  const cardBodyStyle = {
+    borderBottom: "1px solid #ddd",
+    padding: "1rem 0",
+  };
+
+  const commentButtonStyle = {
+    background: "none",
+    color: "grey",
+    border: "none",
+    padding: "1rem 2rem 1rem 0",
+    cursor: "pointer",
+  };
+
+
   return (
     <div className="py-5">
       <ProfileContainer style={{ borderLeft: '1px solid #ccc', paddingLeft: '3rem' }}>
-        <h1 style={{ paddingBottom: '1rem', textAlign: 'end' }}>hi, {loggedInUser ? loggedInUser.username : 'you'}!</h1>
+        <h1 style={{ paddingBottom: '1rem', textAlign: 'end' }}>hi, {loggedInUser ? loggedInUser.data.username : 'you'}!</h1>
         <h2 style={{ fontWeight: 'bolder' }}>your posts</h2>
         {userPosts.map((post) => (
-          <div className="card" key={post._id}>
-            <div className="card-body">
+          <div className="card" key={post._id} style={cardStyle}>
+            <div className="card-body" style= {cardBodyStyle}>
               <p className="card-text">
-                {new Date(post.date).toLocaleString()}
+                {new Date(parseInt(post.dateCreated)).toLocaleString()}
               </p>
-              <Link to={`/posts/${post._id}`} className="card-title">
+              <Link to={`/posts/${post._id}`} className="card-title" style={cardTitleStyle}>
                 {post.title}
               </Link>
-              <p className="card-text">{post.content}</p>
-              <button onClick={() => handleCommentButtonClick(post._id)}>
+              <p className="card-text" style={cardTextStyle}>{post.content}</p>
+              <button onClick={() => handleCommentButtonClick(post._id)} style={commentButtonStyle}>
                 <FontAwesomeIcon icon={faComment} />{' '}
                 {post.comments ? post.comments.length : 0}
               </button>
-              <button onClick={() => handleShareButtonClick(post._id)}>
+              <button onClick={() => handleShareButtonClick(post._id)} style={commentButtonStyle}>
                 <FontAwesomeIcon icon={faShare} /> Share
               </button>
             </div>

@@ -66,6 +66,7 @@ const CategoryButton = styled.div`
   }
 `;
 
+
 function PostDetail() {
   const { postId } = useParams();
   const [showModal, setShowModal] = useState(false);
@@ -282,31 +283,20 @@ function PostDetail() {
       >
         <div className="card-body" style={cardBodyStyle}>
           <UserDateWrapper>
-          <p className="card-text">Posted by {post?.author?.username}</p>
+
+            <p className="card-text">Posted by {post?.user}</p>
             <p className="card-text">
-            <small>
-  {post && post.dateCreated
-    ? new Date(parseInt(post.dateCreated)).toLocaleString()
-    : ""}
-</small>
+              <small>
+                {post && post.date
+                  ? new Date(post.date).toLocaleString()
+                  : ""}
+              </small>
 
             </p>
           </UserDateWrapper>
           <h2 className="card-title" style={cardTitleStyle}>
             {post && post.title ? post.title : "Title not available"}
           </h2>
-          <div><small>
-            { post && post.categories && post.categories.length > 0 && (
-              post.categories.map((category) => (
-                <CategoryButton key={category._id}>
-                <Link to={`/category/${category.name}`} className="custom-button">
-                  {category.name}
-                </Link>
-              </CategoryButton>
-              ))
-            )}
-            </small>
-  </div>
 
         </div>
         {isEditing ? (
@@ -367,7 +357,9 @@ function PostDetail() {
                     {comment.author ? comment.author.username : "Unknown User"}
                   </strong>
                   <small>
-                    {new Date(parseInt(comment.dateCreated)).toLocaleString()}
+
+                    {new Date(comment.dateCreated).toLocaleString()}
+
                   </small>
                 </div>
 

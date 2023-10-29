@@ -11,9 +11,9 @@ const resolvers = {
     getPosts: async () => {
       try {
         const posts = await Post.find()
-          .populate('author') 
-          .populate('categories', 'name'); 
-    
+          .populate('author')
+          .populate('categories', 'name');
+
         const postsWithAuthorUsername = posts.map((post) => ({
           ...post.toObject(),
           author: {
@@ -21,14 +21,14 @@ const resolvers = {
             username: post.author.username,
           },
         }));
-    
+
         return postsWithAuthorUsername;
       } catch (error) {
         console.error("Error in getPosts resolver: ", error);
         throw error;
       }
     },
-    
+
     getPostsByCategory: async (parent, { category }) => {
 
       const posts = await Post.find({
@@ -40,7 +40,7 @@ const resolvers = {
           path: 'categories',
           select: 'name',
         });
-    
+
       const postsWithAuthorUsername = posts.map((post) => ({
         ...post.toObject(),
         author: {
@@ -52,14 +52,14 @@ const resolvers = {
           name: category.name,
         })),
       }));
-      console.log(postsWithAuthorUsername); 
+      console.log(postsWithAuthorUsername);
 
       return postsWithAuthorUsername;
     },
-    
+
     getSinglePost: async (parent, { _id }) => {
       try {
-    
+
         const post = await Post.findById(_id)
           .populate({
             path: 'comments',
@@ -69,8 +69,8 @@ const resolvers = {
             },
           })
           .populate('author', 'username')
-          .populate('categories', 'name'); 
-        
+          .populate('categories', 'name');
+
         return post;
       } catch (error) {
         console.error("Error in getSinglePost resolver: ", error);
@@ -87,7 +87,7 @@ const resolvers = {
         throw new Error('Failed to fetch comments.');
       }
     },
-    
+
   },
   Mutation: {
     addUser: async (parent, args, context) => {
@@ -102,6 +102,7 @@ const resolvers = {
 
       return { token, user };
     },
+
     addPost: async (parent, { title, content }, context) => {
       const { user } = context;
       if (!user) {
@@ -153,6 +154,36 @@ const resolvers = {
 
       return { token, user };
     },
+    addPost: async (parent, args) => {
+      await Post.create(args);
+
+      return Post;
+    },
+    editPost: async (parent, { postId, title, content }) => {
+      await Post.findOneAndUpdate({ _id: postId }, { title, content });
+
+      return Post;
+    },
+    deletePost: async (parent, args) => {
+      await Post.findOneAndDelete({ _id: args._id });
+
+      return Post;
+    },
+    addComment: async (parent, args) => {
+      await Post.create();
+
+      return Post;
+    },
+    editComment: async (parent, args) => {
+      await Post.findOneAndUpdate();
+
+      return Post;
+    },
+    deleteComment: async (parent, args) => {
+      await Post.findOneAndDelete();
+
+      return Post;
+    }
   },
 };
 

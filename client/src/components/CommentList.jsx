@@ -49,6 +49,7 @@ function CommentList({ postId }) {
   const [editComment] = useMutation(EDIT_COMMENT);
 
   const handleEditComment = (commentId) => {
+    console.log("Edit button clicked") //debugging
     if (editingCommentId === commentId) {
       if (editCommentText) {
         editComment({
@@ -69,6 +70,7 @@ function CommentList({ postId }) {
       const commentToEdit = comments.find((comment) => comment._id === commentId);
 
       if (commentToEdit) {
+        console.log(commentToEdit.text) //debugging
         setEditCommentText(commentToEdit.text); 
         setEditingCommentId(commentId);
       }
@@ -124,42 +126,41 @@ function CommentList({ postId }) {
             </div>
 
             <div className="card-body">
-              {editingCommentId === comment._id ? (
-                <div>
-                  <textarea
-                    value={editCommentText}
-                    onChange={(e) => setEditCommentText(e.target.value)}
-                    style={{ width: "100%" }}
-                  />
-                  <br />
-                  <button
-                    onClick={() => handleEditComment(comment._id)}
-                    style={commentButtonStyle}
-                  >
-                    Save
-                  </button>
-                </div>
-              ) : (
-                comment.text
-              )}
+         // Inside the map function that renders comments
+{editingCommentId === comment._id ? (
+  <div>
+    <textarea
+      value={editCommentText}
+      onChange={(e) => setEditCommentText(e.target.value)}
+      style={{ width: "100%" }}
+    />
+    <br />
+    <button
+      onClick={() => handleEditComment(comment._id)}
+      style={commentButtonStyle}
+    >
+      Save
+    </button>
+  </div>
+) : (
+  <div>
+    {comment.text}
+    <br />
+    <button
+      onClick={() => handleEditComment(comment._id)}
+      style={commentButtonStyle}
+    >
+      <FontAwesomeIcon icon={faEdit} /> Edit
+    </button>
+    <button
+      onClick={() => handleDeleteComment(comment._id)}
+      style={commentButtonStyle}
+    >
+      <FontAwesomeIcon icon={faTrash} /> Delete
+    </button>
+  </div>
+)}
 
-              <br />
-              {editingCommentId !== comment._id && (
-                <div>
-                  <button
-                    onClick={() => handleEditComment(comment._id)}
-                    style={commentButtonStyle}
-                  >
-                    <FontAwesomeIcon icon={faEdit} /> Edit
-                  </button>
-                  <button
-                    onClick={() => handleDeleteComment(comment._id)}
-                    style={commentButtonStyle}
-                  >
-                    <FontAwesomeIcon icon={faTrash} /> Delete
-                  </button>
-                </div>
-              )}
             </div>
           </CommentCard>
         ))}

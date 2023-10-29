@@ -9,7 +9,7 @@ const SignupForm = () => {
 
   console.log("Starting SignupForm component..."); //debugging
 
-  const [createUser, { error }] = useMutation(CREATE_USER);
+  const [addUser, { error }] = useMutation(CREATE_USER);
 
   // set initial form state
   const [userFormData, setUserFormData] = useState({
@@ -35,49 +35,76 @@ const SignupForm = () => {
     setUserFormData({ ...userFormData, [name]: value });
   };
 
-  const handleFormSubmit = async (event) => {
-    console.log("Handling form submission..."); // debugging
+  // const handleFormSubmit = async (event) => {
+  //   console.log("Handling form submission..."); // debugging
 
+  //   event.preventDefault();
+
+  //   setValidated(true);
+
+  //   // Check if form has everything (as per react-bootstrap docs)
+  //   const form = event.currentTarget;
+  //   if (form.checkValidity() === false) {
+  //     event.preventDefault();
+  //     event.stopPropagation();
+  //     // return;
+  //   }
+
+  //   try {
+  //     console.log("Attempting to create user..."); // debugging
+
+  //     const { data } = await createUser({
+  //       variables: {
+  //         username: userFormData.username,
+  //         email: userFormData.email,
+  //         password: userFormData.password,
+  //       },
+  //     });
+  //     console.log("Data received from createUser:", data) //debugging
+  //     if (data.createUser) {
+  //       Auth.login(data.createUser.token);
+  //       console.log('Token stored in Auth module:', Auth.getToken()); //debugging
+  //     } else {
+  //       console.error("createUser response does not contain token field.");
+  //     }
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  
+  //   setUserFormData({
+  //     username: "",
+  //     email: "",
+  //     password: "",
+  //   });
+  //   console.log("Finishing SignupForm component..."); //debugging
+
+  // };
+
+  const handleFormSubmit = async (event) => {
     event.preventDefault();
 
-    setValidated(true);
-
-    // Check if form has everything (as per react-bootstrap docs)
+    // check if form has everything (as per react-bootstrap docs)
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
-      return;
     }
 
     try {
-      console.log("Attempting to create user..."); // debugging
-
-      const { data } = await createUser({
-        variables: {
-          username: userFormData.username,
-          email: userFormData.email,
-          password: userFormData.password,
-        },
+      const { data } = await addUser({
+        variables: { ...userFormData },
       });
-      console.log("Data received from createUser:", data) //debugging
-      if (data.createUser) {
-        Auth.login(data.createUser.token);
-        console.log('Token stored in Auth module:', Auth.getToken()); //debugging
-      } else {
-        console.error("createUser response does not contain token field.");
-      }
+      Auth.login(data.addUser.token);
+
     } catch (err) {
       console.error(err);
     }
-  
+
     setUserFormData({
       username: "",
       email: "",
       password: "",
     });
-    console.log("Finishing SignupForm component..."); //debugging
-
   };
 
   return (

@@ -28,9 +28,9 @@ export const LOGIN_USER_EMAIL = gql`
 `;
 
 export const LOGIN_USER_USERNAME = gql`
-    mutation loginUsername($username: String!, $password: String!)
+    mutation loginUserName($username: String!, $password: String!)
     {
-        loginUsername(username: $username, password: $password) {
+        loginUserName(username: $username, password: $password) {
             token
             user {
                 _id
@@ -42,15 +42,15 @@ export const LOGIN_USER_USERNAME = gql`
 `;
 
 export const CREATE_POST = gql`
-  mutation createPost($title: String!, $content: String!) {
-    createPost(title: $title, content: $content) {
+  mutation addPost($title: String!, $content: String!) {
+    addPost(title: $title, content: $content) {
       _id
       title
       content
-      user {
+      author {
         username
       }
-      createdAt
+      dateCreated
     }
   }
 `;
@@ -79,10 +79,10 @@ export const ADD_COMMENT = gql`
     addComment(postId: $postId, text: $text) {
       _id
       text
-      user {
+      author {
         username
       }
-      createdAt
+      dateCreated
     }
   }
 `;

@@ -1,5 +1,6 @@
 const { User, Category, Post, Comment } = require('../models');
-const { signToken, AuthenticationError } = require('../utils/auth');
+const { signToken } = require('../utils/auth');
+const { AuthenticationError } = require('apollo-server-express');
 
 const resolvers = {
   Query: {
@@ -89,7 +90,7 @@ const resolvers = {
 
   },
   Mutation: {
-    addUser: async (parent, args) => {
+    addUser: async (parent, args, context) => {
       console.log('Received arguments:', args); //debugging
 
       const user = await User.create(args);
@@ -102,29 +103,52 @@ const resolvers = {
       return { token, user };
     },
 
-    loginEmail: async (parent, { email, password }) => {
+    addPost: async (parent, { title, content }, context) => {
+      const { user } = context;
+      if (!user) {
+        throw new AuthenticationError("You must be logged in to create a post.");
+      }
+    
+      // Fetch the user's username
+      const author = await User.findById(user._id).select('username');
+    
+      if (!author) {
+        throw new Error("User not found.");
+      }
+    
+      const newPost = await Post.create({
+        title,
+        content,
+        author: user._id,
+      });
+    
+      return { ...newPost.toObject(), author }; // Include the author's username in the response
+    },
+    
+
+    loginEmail: async (parent, { email, password }, context) => {
       const user = await User.findOne({ email });
 
       if (!user) {
-        throw AuthenticationError;
+        throw new AuthenticationError("No user found with that email address.");
       }
       const correctPw = await user.isCorrectPassword(password);
       if (!correctPw) {
-        throw AuthenticationError;
+        throw new AuthenticationError("Incorrect password.");
       }
       const token = signToken(user);
 
       return { token, user };
     },
-    loginUserName: async (parent, { username, password }) => {
+    loginUserName: async (parent, { username, password }, context) => {
       const user = await User.findOne({ username });
 
       if (!user) {
-        throw AuthenticationError;
+        throw new AuthenticationError("No user found with that username.");
       }
       const correctPw = await user.isCorrectPassword(password);
       if (!correctPw) {
-        throw AuthenticationError;
+        throw new AuthenticationError("Incorrect password.");
       }
       const token = signToken(user);
 

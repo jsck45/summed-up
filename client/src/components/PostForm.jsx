@@ -3,8 +3,9 @@ import { Modal, Button, Form } from "react-bootstrap";
 import { useMutation, useQuery } from "@apollo/client";
 import { CREATE_POST, ADD_CATEGORY } from "../utils/mutations";
 import { GET_CATEGORIES } from "../utils/queries";
+import Auth from "../utils/auth";
 
-const PostForm = ({ show, handleClose }) => {
+const PostForm = ({ show, handleClose, handleCreatePost }) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -14,7 +15,7 @@ const PostForm = ({ show, handleClose }) => {
   
   const existingCategories = data ? data.categories : [];
 
-  const [createPost] = useMutation(CREATE_POST);
+  const [addPost] = useMutation(CREATE_POST);
   const [addCategory] = useMutation(ADD_CATEGORY, {
     update: (cache, { data }) => {
       const existingCategories = cache.readQuery({
@@ -29,22 +30,28 @@ const PostForm = ({ show, handleClose }) => {
     },
   });
 
-  const handleSubmit = () => {
-    createPost({
-      variables: {
-        title,
-        content,
-        category: selectedCategory || newCategory,
-      },
+  const user = Auth.getProfile(); 
+
+const handleSubmit = () => {
+  addPost({
+    variables: {
+      title,
+      content,
+      category: selectedCategory || newCategory,
+      author: user.username, 
+
+    },
+  })
+    .then((response) => {
+
+      console.log("New post created:", response.data.addPost);
+      handleClose();
     })
-      .then((response) => {
-        console.log("New post created:", response.data.createPost);
-        handleClose();
-      })
-      .catch((error) => {
-        console.error("Error creating a new post:", error);
-      });
-  };
+    .catch((error) => {
+      console.error("Error creating a new post:", error);
+    });
+};
+
 
   const handleAddCategory = () => {
     addCategory({

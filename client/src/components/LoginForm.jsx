@@ -55,7 +55,7 @@ const LoginForm = () => {
         });
       }
 
-      Auth.login(data.data.login.token);
+      Auth.login(userFormData.login.token);
     } catch (err) {
       console.error(err);
     }

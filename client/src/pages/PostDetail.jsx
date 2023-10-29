@@ -43,6 +43,29 @@ const CommentCard = styled.div`
   }
 `;
 
+const CategoryButton = styled.div`
+  .custom-button {
+    display: inline-block;
+    padding: 0.5rem 0.8rem;
+    margin-top: 0.5rem;
+    background-color: #dbbb2c;
+    color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    text-align: center;
+    user-select: none;
+    text-decoration: none;
+  }
+
+  .custom-button:hover {
+    background-color: #c99c06;
+  }
+
+  .custom-button:active {
+    background-color: #c99c06;
+  }
+`;
+
 
 function PostDetail() {
   const { postId } = useParams();
@@ -128,6 +151,8 @@ function PostDetail() {
   };
 
   const handleEditComment = (commentId) => {
+    console.log("Edit button clicked") //debugging
+
     if (editingCommentId === commentId) {
       if (editCommentText) {
         editComment({
@@ -150,6 +175,8 @@ function PostDetail() {
       const commentToEdit = comments.find((comment) => comment._id === commentId);
 
       if (commentToEdit) {
+        console.log(commentToEdit.text) //debugging
+
         setEditCommentText(commentToEdit.text);
         setEditingCommentId(commentId);
       }
@@ -215,9 +242,9 @@ function PostDetail() {
     }
   `;
 
-  const cardStyle = {
-    background: "#fff",
-    padding: "0.5rem 0",
+    const cardStyle = {
+    background: "#e9e9e9",
+    padding: "2rem",
     margin: "1rem 0",
     border: "none",
   };
@@ -234,6 +261,7 @@ function PostDetail() {
   };
 
   const cardBodyStyle = {
+    borderBottom: "1px solid #ddd",
     padding: "1rem 0",
   };
 
@@ -243,10 +271,6 @@ function PostDetail() {
     border: "none",
     padding: "1rem 2rem 1rem 0",
     cursor: "pointer",
-  };
-
-  const cardButtonStyle = {
-    padding: "0",
   };
 
   console.log("Post:", post);

@@ -68,7 +68,7 @@ const posts = [
   {
     title: "Introducing the Latest Smartphone Tech",
     content:
-      "We're thrilled to introduce the latest advancements in smartphone technology. Our team has been working tirelessly to bring you the most cutting-edge features, including a stunning display, improved battery life, and a powerful camera. Stay tuned for an exciting journey into the future of mobile technology.",
+      "Introducing our latest smartphone, a true masterpiece of modern technology. This device has been meticulously crafted to enhance your mobile experience in every way. One of its standout features is its brilliant display, which delivers stunning visuals with vibrant colors and exceptional clarity. Whether you're watching videos, browsing photos, or reading, the display offers an immersive and captivating experience. Additionally, we've prioritized your convenience by extending the battery life, so you can stay connected and productive throughout the day without constantly worrying about recharging. The high-performance camera is another highlight, providing you with the ability to capture stunning photos and videos with ease.\nUnder the hood, this smartphone is powered by a robust processor that ensures smooth multitasking and quick app launches. Its elegant design not only looks great but also feels comfortable in your hand. Your data and privacy are safeguarded with advanced security features such as facial recognition and fingerprint scanning.\nWith this smartphone, we're redefining your mobile lifestyle, offering you the future of technology at your fingertips. Welcome to a world of innovation and convenience.",
     author: users[1]._id,
     categories: [categories[0]._id],
     comments: [
@@ -81,7 +81,7 @@ const posts = [
   {
     title: "Exploring the Wonders of Space",
     content:
-      "Take a journey with us as we explore the mysteries of the universe. From distant galaxies to black holes, there's so much to discover beyond our planet. Join us on this cosmic adventure and expand your knowledge of the cosmos.",
+      "Take an awe-inspiring voyage with us as we venture into the enigmatic depths of the universe in this new doco. Beyond the confines of our home planet lies a cosmos teeming with wonders waiting to be unveiled. From the mesmerizing beauty of distant galaxies to the mind-boggling mysteries of black holes, there is a tapestry of celestial marvels that beckons us to explore. Join us on this cosmic odyssey, a journey that promises to expand your horizons and deepen your appreciation for the boundless expanse of the cosmos, where every star is a story and every planet a puzzle. Together, we'll traverse the vastness of space and time, igniting the flame of curiosity and understanding, and shedding light on the celestial enigmas that have captivated humanity's imagination for centuries.",
     author: users[0]._id,
     categories: [categories[1]._id],
     comments: [
@@ -94,7 +94,7 @@ const posts = [
   {
     title: "Healthy Lifestyle Tips for Everyone",
     content:
-      "Maintaining a healthy lifestyle is crucial for your overall well-being. In this post, we'll provide you with practical tips on nutrition, exercise, and mental health. Let's embark on a journey towards a healthier and happier life together.",
+      "Ensuring a healthy and fulfilling life is of utmost importance. In the following discussion, we'll share valuable insights on nutrition, exercise, and mental well-being. So, let's take the first step together on this path to an improved and joyous existence.\nFirst and foremost, nutrition plays a vital role in sustaining a healthy lifestyle. By making mindful choices about what we consume, we can provide our bodies with the essential nutrients they need to thrive. We'll explore the significance of balanced diets and the positive impact they can have on our well-being.\nPhysical activity is another key aspect of maintaining a healthy lifestyle. Regular exercise not only strengthens our bodies but also boosts our energy and mood. We'll delve into effective workout routines and simple strategies to incorporate more physical activity into our daily lives.\nLastly, we'll focus on nurturing our mental health, a cornerstone of overall wellness. Discover relaxation techniques, stress management, and mindfulness practices to foster a positive state of mind.\nTogether, let's embark on this transformative journey toward a healthier, happier life.",
     author: users[2]._id,
     categories: [categories[2]._id],
     comments: [
@@ -107,7 +107,7 @@ const posts = [
   {
     title: "Travel Diary: Exploring Beautiful Destinations",
     content:
-      "Join me on my travel adventures as I explore some of the most stunning destinations around the world. From pristine beaches to breathtaking mountains, you'll get a glimpse of the beauty our planet has to offer. Let's start this incredible journey together!",
+      "Embark on an exhilarating journey with me as I traverse the globe's enchanting landscapes. From the unspoiled shores of idyllic beaches to the awe-inspiring heights of majestic mountains, I invite you to peer through the window of my adventures and witness the sheer magnificence our planet boasts. Let's forge ahead together and start this incredible odyssey!\nUncover hidden gems in far-off places, absorb the vibrant cultures that adorn our world, and bask in the diversity of our natural wonders. Whether it's a peaceful escape by the azure waters, an adrenaline-filled mountain hike, or a leisurely stroll through charming streets, you'll experience it all as if you were right there.\nPrepare to be transported to remarkable destinations, each with its own unique allure. So fasten your seatbelts, as we embark on this incredible journey to explore the breathtaking beauty that our extraordinary world has to offer.",
     author: users[3]._id,
     categories: [categories[3]._id],
     comments: [
@@ -121,8 +121,6 @@ const posts = [
 
 module.exports = {
   category: categories,
-
   user: users,
-
   post: posts,
 };

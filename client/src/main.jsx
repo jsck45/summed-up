@@ -6,14 +6,20 @@ import Homepage from './pages/Home';
 import PostDetail from './pages/PostDetail.jsx';
 import Profile from './pages/Profile.jsx';
 import Category from './pages/Category.jsx';
+import LandingPage from './pages/LandingPage.jsx';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
+    errorElement: <h1 className='display-2'>Wrong page!</h1>,
     children: [
       {
-        index: true,
+        index:true,
+        element: <LandingPage />
+      },
+      {
+        path: '/home',
         element: <Homepage />,
       },
       {

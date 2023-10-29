@@ -1,56 +1,54 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { Navbar, Nav, Container, Modal, Tab } from "react-bootstrap";
-import SignUpForm from "./SignupForm";
-import LoginForm from "./LoginForm";
-import Auth from "../utils/auth";
+import React, { useState } from 'react';
+import { Navbar, Nav, Container, Modal, Tab } from 'react-bootstrap';
+import NavbarToggle from 'react-bootstrap/NavbarToggle';
+import NavbarCollapse from 'react-bootstrap/NavbarCollapse';
+import { Link } from 'react-router-dom';
+import SignUpForm from './SignupForm';
+import LoginForm from './LoginForm';
+import Auth from '../utils/auth';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFilter } from "@fortawesome/free-solid-svg-icons";
+import { faFilter, faBars, faTimes } from "@fortawesome/free-solid-svg-icons"; // Import icons for open and closed states
 
-const AppNavbar = () => {
-  const [showModal, setShowModal] = useState(false);
-  const [activeModal, setActiveModal] = useState("login");
+function AppNavbar() {
+  const [expanded, setExpanded] = useState(false);
+  const [showModal, setShowModal] = useState (false);
+  const [activeModal, setActiveModal] = useState('login');
   const [menuExpanded, setMenuExpanded] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // State variable to track menu state
 
   const handleShowLoginModal = () => {
-    setActiveModal("login");
+    setActiveModal('login');
     setShowModal(true);
   };
 
   const handleShowSignupModal = () => {
-    setActiveModal("signup");
+    setActiveModal('signup');
     setShowModal(true);
   };
 
   const handleMenuToggle = () => {
     setMenuExpanded(!menuExpanded);
+    setIsMenuOpen(!isMenuOpen); 
   };
 
-  const closeMenu = () => {
-    setMenuExpanded(false);
-  };
 
   return (
     <>
-      <Navbar
-        bg="dark"
-        variant="dark"
-        expand="lg"
-        onToggle={handleMenuToggle}
-        expanded={menuExpanded}
-      >
-        <Container fluid>
-          <Navbar.Brand as={Link} to="/home" >
-            <FontAwesomeIcon
-              icon={faFilter}
-              style={{ margin: "0 1rem" }}
-            />
-            <span>summed up</span>
-          </Navbar.Brand>
-
-          <Navbar.Toggle aria-controls="navbar" onClick={closeMenu} />
-          <Navbar.Collapse id="navbar" className="d-flex flex-row-reverse">
-            <Nav className="ml-auto d-flex">
+      <Navbar bg="light" expand="lg">
+        <Container>
+          <div className="d-flex justify-content-between w-100">
+            <Navbar.Brand as={Link} to="/">
+              <FontAwesomeIcon icon={faFilter} style={{ marginRight: '1rem' }} />
+              <span>summed up</span>
+            </Navbar.Brand>
+            <div>
+              <NavbarToggle aria-controls="basic-navbar-nav" onClick={handleMenuToggle}>
+                <FontAwesomeIcon icon={isMenuOpen ? faTimes : faBars} /> {/* Toggle the icon based on the state */}
+              </NavbarToggle>
+            </div>
+          </div>
+          <NavbarCollapse id="basic-navbar-nav" expanded={expanded}>
+            <Nav className="ml-auto">
               {Auth.loggedIn() ? (
                 <>
                   <Nav.Link as={Link} to="/me">
@@ -61,13 +59,14 @@ const AppNavbar = () => {
               ) : (
                 <>
                   <Nav.Link onClick={handleShowLoginModal}>Login</Nav.Link>
-                  <Nav.Link onClick={handleShowSignupModal}>Sign Up</Nav.Link>
+                  <Nav.Link onClick={handleShowSignupModal}>Signup</Nav.Link>
                 </>
               )}
             </Nav>
-          </Navbar.Collapse>
+          </NavbarCollapse>
         </Container>
       </Navbar>
+
       <Modal
         size="lg"
         show={showModal}
@@ -105,6 +104,6 @@ const AppNavbar = () => {
       </Modal>
     </>
   );
-};
+}
 
 export default AppNavbar;

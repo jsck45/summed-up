@@ -1,6 +1,7 @@
 body {
   font-family: 'Poppins', sans-serif;
-  }
+  background-color: white;
+  } 
   
   h1,
   h2,
@@ -18,6 +19,11 @@ body {
 
   .categories {
     padding-top: 3rem;
+    color:#dbbb2c;
+  }
+
+  .categories h4 {
+    font-weight: bolder;
   }
 
   @media (max-width: 767px) {

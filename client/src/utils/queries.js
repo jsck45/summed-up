@@ -53,6 +53,26 @@ export const GET_POSTS = gql`
   }
 `;
 
+export const GET_USER_POSTS = gql`
+query GetUserPosts($userId: ID!) {
+  getUserPosts(userId: $userId) {
+    _id
+    title
+    content
+    dateCreated
+    comments {
+      _id
+      content
+      author {
+        _id
+        username
+      }
+      dateCreated
+    }
+  }
+}
+`
+
 
 export const GET_SINGLE_POST = gql`
   query getSinglePost($_id: ID!) {

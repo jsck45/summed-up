@@ -96,8 +96,8 @@ export const DELETE_COMMENT = gql`
 `;
 
 export const EDIT_COMMENT = gql`
-  mutation editComment($commentId: ID!, $text: String!) {
-    editComment(commentId: $commentId, text: $text) {
+  mutation editComment($PostId: ID!, $commentId: ID!, $text: String!) {
+    editComment(postId: $PostID, commentId: $commentId, text: $text) {
       _id
       text
     }

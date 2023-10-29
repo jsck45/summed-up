@@ -1,4 +1,4 @@
-const { ObjectId } = require('mongodb'); 
+const { ObjectId } = require('mongodb');
 
 const categories = [
   { _id: new ObjectId(), name: "Tech" },

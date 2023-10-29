@@ -39,7 +39,7 @@ const resolvers = {
           path: 'categories',
           select: 'name',
         });
-    
+
       const postsWithAuthorUsername = posts.map((post) => ({
         ...post.toObject(),
         author: {
@@ -55,26 +55,19 @@ const resolvers = {
 
       return postsWithAuthorUsername;
     },
+   
     
     getSinglePost: async (parent, { _id }) => {
-      try {
+
+      const post = await Post.findById(_id)
+        .populate({
+          path: 'comments',
+          populate: {
+            path: 'author',
+          },
+        });
     
-        const post = await Post.findById(_id)
-          .populate({
-            path: 'comments',
-            populate: {
-              path: 'author',
-              select: 'username',
-            },
-          })
-          .populate('author', 'username')
-          .populate('categories', 'name'); 
-        
-        return post;
-      } catch (error) {
-        console.error("Error in getSinglePost resolver: ", error);
-        throw error;
-      }
+      return post;
     },
 
     commentsByPost: async (_, { postId }) => {

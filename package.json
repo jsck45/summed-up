@@ -32,6 +32,7 @@
     "apollo-server-express": "^3.12.1",
     "bcrypt": "^5.1.1",
     "emoji-picker-react": "^4.5.5",
+    "jsonwebtoken": "^9.0.2",
     "react-emoji-picker": "^1.0.13",
     "react-router-dom": "^6.17.0",
     "styled-components": "^6.1.0",

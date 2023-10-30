@@ -50,6 +50,7 @@ const typeDefs = gql`
     getSinglePost(_id: ID!): Post
     getPosts: [Post]
     getPostsByCategory(category: String!): [Post] 
+    getUserPosts(userId: ID!): [Post]
     commentsByPost(postId: ID!): [Comment]
   }
 

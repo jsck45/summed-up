@@ -41,10 +41,10 @@ function App() {
 
   return (
     <ApolloProvider client={client}>
-      {isLandingPage && (
+      {/* {isLandingPage && (
         <LandingPage />
       )}
-      {!isLandingPage && (
+      {!isLandingPage && ( */}
         <div>
           <Nav/>
           <Container>
@@ -58,7 +58,7 @@ function App() {
             </Row>
           </Container>
         </div>
-      )}
+      {/* )} */}
     </ApolloProvider>
   );
 }

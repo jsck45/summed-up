@@ -87,6 +87,30 @@ const resolvers = {
         throw new Error('Failed to fetch comments.');
       }
     },
+    
+    getUserPosts: async (parent, { userId }, context) => {
+      try {
+        const posts = await Post.find({ author: userId })
+          .populate('author') // Populate the author field if needed
+          .populate('categories', 'name'); // Populate categories if needed
+    
+        const postsWithAuthorUsername = posts.map((post) => ({
+          ...post.toObject(),
+          author: {
+            ...post.author.toObject(),
+            username: post.author.username,
+          },
+        }));
+    
+        return postsWithAuthorUsername;
+      } catch (error) {
+        console.error("Error in getUserPosts resolver: ", error);
+        throw error;
+      }
+    },
+    
+    
+    
 
   },
   Mutation: {

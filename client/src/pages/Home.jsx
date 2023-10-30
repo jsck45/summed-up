@@ -19,7 +19,7 @@ const MainContainer = styled.div`
 const Home = () => {
   const [showModal, setShowModal] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
-  const [posts, setPosts] = useState([]); // Define the posts state
+  const [posts, setPosts] = useState([]); 
   const [newPosts, setNewPosts] = useState([]);
   const [user, setUser] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState([]);

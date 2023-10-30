@@ -265,9 +265,9 @@ function PostDetail() {
     marginTop: "1rem",
   };
 
-  const cardBodyStyle = {
+  const cardBodyDetailStyle = {
     borderBottom: "1px solid #ddd",
-    padding: "1rem 0",
+    padding: "0 1rem",
   };
 
   const commentButtonStyle = {
@@ -287,7 +287,7 @@ function PostDetail() {
         className="container"
       >
         <CardContainer>
-          <div className="card-body">
+          <div className="card-body" >
             <UserDateWrapper>
               <p className="card-text">Posted by {post?.author?.username}</p>
               <p className="card-text">
@@ -336,7 +336,7 @@ function PostDetail() {
               </button>
             </div>
           ) : (
-            <>
+            <div style={cardBodyDetailStyle}>
               <p className="card-text" style={cardTextStyle}>
                 {post && post.content ? post.content : "Content not available"}
               </p>
@@ -361,7 +361,7 @@ function PostDetail() {
                   <FontAwesomeIcon icon={faTrash} /> Delete
                 </button>
               </div>
-            </>
+            </div>
           )}
         </CardContainer>
 

@@ -178,11 +178,6 @@ const resolvers = {
 
       return { token, user };
     },
-    addPost: async (parent, args) => {
-      await Post.create(args);
-
-      return Post;
-    },
     editPost: async (parent, { postId, title, content }) => {
       await Post.findOneAndUpdate({ _id: postId }, { title, content });
 

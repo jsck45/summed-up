@@ -15,6 +15,34 @@ const CategoryPostContainer = styled.div`
   }
 `;
 
+const UserDateWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const CategoryButton = styled.div`
+  .custom-button {
+    display: inline-block;
+    padding: 0.5rem 0.8rem;
+    margin-top: 0.5rem;
+    background-color: #dbbb2c;
+    color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    text-align: center;
+    user-select: none;
+    text-decoration: none;
+  }
+
+  .custom-button:hover {
+    background-color: #c99c06;
+  }
+
+  .custom-button:active {
+    background-color: #c99c06;
+  }
+`;
+
 function CategoryPage({}) {
   const { categoryName } = useParams();
   const [showModal, setShowModal] = useState(false);
@@ -38,8 +66,8 @@ function CategoryPage({}) {
   };
 
   const cardStyle = {
-    background: "#fff",
-    padding: "0.5rem 0",
+    background: "#e9e9e9",
+    padding: "2rem",
     margin: "1rem 0",
     border: "none",
   };
@@ -104,9 +132,16 @@ function CategoryPage({}) {
         {posts.map((post) => (
           <div className="card" key={post._id} style={cardStyle}>
             <div className="card-body" style={cardBodyStyle}>
+            <UserDateWrapper>
+              <p className="card-text">Posted by {post?.author?.username}</p>
               <p className="card-text">
-                {new Date(post.createdAt).toLocaleString()}
+                <small>
+                  {post && post.dateCreated
+                    ? new Date(parseInt(post.dateCreated)).toLocaleString()
+                    : ""}
+                </small>
               </p>
+            </UserDateWrapper>
               <Link
                 to={`/posts/${post._id}`}
                 className="card-title"
@@ -114,8 +149,15 @@ function CategoryPage({}) {
               >
                 {post.title}
               </Link>
+              {post.categories.map((category) => (
+      <CategoryButton key={category._id}>
+        <Link to={`/category/${category.name}`} className="custom-button">
+          {category.name}
+        </Link>
+      </CategoryButton>
+    ))}
               <p className="card-text" style={cardTextStyle}>
-                {post.content}
+                {post.summary}
               </p>
               <button
                 onClick={() => handleCommentButtonClick(post._id)}

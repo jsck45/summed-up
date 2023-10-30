@@ -6,7 +6,6 @@ const resolvers = {
   Query: {
     me: async (parent, _, { _id }) => { return User.findById(_id) },
     users: async () => { return User.find({}) },
-    category: async (parent, id) => { return Category.findById(id) },
     categories: async () => { return Category.find({}) },
     getPosts: async () => {
       try {
@@ -29,33 +28,32 @@ const resolvers = {
       }
     },
 
-    getPostsByCategory: async (parent, { category }) => {
+    getPostsByCategory: async (parent, { category }, context) => {
+      try {
+        const categoryObject = await Category.findOne({ name: category });
 
-      const posts = await Post.find({
-        'categories.name': { $regex: new RegExp(`^${category}$`, 'i') }
-      })
+        if (!categoryObject) {
+          throw new Error(`Category not found: ${category}`);
+        }
 
-        .populate('author')
-        .populate({
-          path: 'categories',
-          select: 'name',
-        });
+        const posts = await Post.find({ categories: categoryObject._id })
+          .populate('author')
+          .populate('categories', 'name');
 
-      const postsWithAuthorUsername = posts.map((post) => ({
-        ...post.toObject(),
-        author: {
-          ...post.author.toObject(),
-          username: post.author.username,
-        },
-        categories: post.categories.map((category) => ({
-          _id: category._id,
-          name: category.name,
-        })),
-      }));
-      console.log(postsWithAuthorUsername);
+        const postsWithAuthorUsername = posts.map((post) => ({
+          ...post.toObject(),
+          author: {
+            ...post.author.toObject(),
+            username: post.author.username,
+          },
+        }));
 
-      return postsWithAuthorUsername;
-    },
+        return postsWithAuthorUsername;
+      } catch (error) {
+        console.error("Error in getPostsByCategory resolver: ", error);
+        throw error;
+      }
+    },    
 
     getSinglePost: async (parent, { _id }) => {
       try {
@@ -91,8 +89,8 @@ const resolvers = {
     getUserPosts: async (parent, { userId }, context) => {
       try {
         const posts = await Post.find({ author: userId })
-          .populate('author') // Populate the author field if needed
-          .populate('categories', 'name'); // Populate categories if needed
+          .populate('author') 
+          .populate('categories', 'name'); 
     
         const postsWithAuthorUsername = posts.map((post) => ({
           ...post.toObject(),
@@ -129,7 +127,6 @@ const resolvers = {
         throw new AuthenticationError("You must be logged in to create a post.");
       }
 
-      // Fetch the user's username
       const author = await User.findById(user._id).select('username');
 
       if (!author) {
@@ -142,7 +139,7 @@ const resolvers = {
         author: user._id,
       });
 
-      return { ...newPost.toObject(), author }; // Include the author's username in the response
+      return { ...newPost.toObject(), author }; 
     },
 
 

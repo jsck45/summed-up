@@ -156,7 +156,7 @@ function PostList() {
                     </small>
                   </div>
                   <p className="card-text" style={cardTextStyle}>
-                    {post.content}
+                    {post.summary}
                   </p>
                   <button
                     onClick={() => handleCommentButtonClick(post._id)}

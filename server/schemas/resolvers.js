@@ -1,6 +1,7 @@
 const { User, Category, Post, Comment } = require('../models');
 const { signToken } = require('../utils/auth');
 const { AuthenticationError } = require('apollo-server-express');
+require('dotenv').config();
 const axios = require('axios');
 
 const client = axios.create({
@@ -94,13 +95,13 @@ const resolvers = {
         throw new Error('Failed to fetch comments.');
       }
     },
-    
+
     getUserPosts: async (parent, { userId }, context) => {
       try {
         const posts = await Post.find({ author: userId })
           .populate('author') // Populate the author field if needed
           .populate('categories', 'name'); // Populate categories if needed
-    
+
         const postsWithAuthorUsername = posts.map((post) => ({
           ...post.toObject(),
           author: {
@@ -108,16 +109,16 @@ const resolvers = {
             username: post.author.username,
           },
         }));
-    
+
         return postsWithAuthorUsername;
       } catch (error) {
         console.error("Error in getUserPosts resolver: ", error);
         throw error;
       }
     },
-    
-    
-    
+
+
+
 
   },
   Mutation: {
@@ -151,13 +152,13 @@ const resolvers = {
       let summary = "";
       // const content = "Embark on an exhilarating journey with me as I traverse the globe's enchanting landscapes. From the unspoiled shores of idyllic beaches to the awe-inspiring heights of majestic mountains, I invite you to peer through the window of my adventures and witness the sheer magnificence our planet boasts. Let's forge ahead together and start this incredible odyssey!\nUncover hidden gems in far-off places, absorb the vibrant cultures that adorn our world, and bask in the diversity of our natural wonders. Whether it's a peaceful escape by the azure waters, an adrenaline-filled mountain hike, or a leisurely stroll through charming streets, you'll experience it all as if you were right there.\nPrepare to be transported to remarkable destinations, each with its own unique allure. So fasten your seatbelts, as we embark on this incredible journey to explore the breathtaking beauty that our extraordinary world has to offer.";
       const params = [{
-          "role": "system",
-          "content": "You are a concise and plain speaking assistant."
-        },
-        {
-          "role": "user",
-          "content": "Please summarise the following text. " + content
-        }]
+        "role": "system",
+        "content": "You are a concise and plain speaking assistant."
+      },
+      {
+        "role": "user",
+        "content": "Please summarise the following text. " + content
+      }]
 
       client
         .post("https://api.openai.com/v1/chat/completions", {
@@ -172,12 +173,12 @@ const resolvers = {
           summary = result.data.choices[0].message.content;
         })
         .then(
-          const newPost = await Post.create({
+          newPost = await Post.create({
             title,
             content,
             summary,
             author: user._id,
-          });
+          })
         )
 
 

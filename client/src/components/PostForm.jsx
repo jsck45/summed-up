@@ -16,19 +16,19 @@ const PostForm = ({ show, handleClose }) => {
   const existingCategories = data ? data.categories : [];
 
   const [addPost] = useMutation(CREATE_POST);
-  const [addCategory] = useMutation(ADD_CATEGORY, {
-    update: (cache, { data }) => {
-      const existingCategories = cache.readQuery({
-        query: GET_CATEGORIES,
-      });
-      cache.writeQuery({
-        query: GET_CATEGORIES,
-        data: {
-          categories: [...existingCategories.categories, data.addCategory],
-        },
-      });
-    },
-  });
+  // const [addCategory] = useMutation(ADD_CATEGORY, {
+  //   update: (cache, { data }) => {
+  //     const existingCategories = cache.readQuery({
+  //       query: GET_CATEGORIES,
+  //     });
+  //     cache.writeQuery({
+  //       query: GET_CATEGORIES,
+  //       data: {
+  //         categories: [...existingCategories.categories, data.addCategory],
+  //       },
+  //     });
+  //   },
+  // });
 
   const user = Auth.getProfile(); 
 
@@ -37,7 +37,7 @@ const handleSubmit = () => {
     variables: {
       title,
       content,
-      category: selectedCategory || newCategory,
+      category: selectedCategory,
       author: user.username, 
 
     },
@@ -53,18 +53,18 @@ const handleSubmit = () => {
 };
 
 
-  const handleAddCategory = () => {
-    addCategory({
-      variables: { name: newCategory },
-    })
-      .then((response) => {
-        console.log("New category added:", response.data.addCategory);
-        setNewCategory(""); 
-      })
-      .catch((error) => {
-        console.error("Error adding a new category:", error);
-      });
-  };
+  // const handleAddCategory = () => {
+  //   addCategory({
+  //     variables: { name: newCategory },
+  //   })
+  //     .then((response) => {
+  //       console.log("New category added:", response.data.addCategory);
+  //       setNewCategory(""); 
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error adding a new category:", error);
+  //     });
+  // };
 
   return (
     <Modal show={show} onHide={handleClose}>
@@ -105,7 +105,7 @@ const handleSubmit = () => {
               ))}
             </Form.Control>
           </Form.Group>
-          <Form.Group controlId="postCategoryInput">
+          {/* <Form.Group controlId="postCategoryInput">
             <Form.Label>Or Enter Your Own Category</Form.Label>
             <Form.Control
               type="text"
@@ -119,7 +119,7 @@ const handleSubmit = () => {
             >
               Add Category
             </Button>
-          </Form.Group>
+          </Form.Group> */}
         </Form>
       </Modal.Body>
       <Modal.Footer>

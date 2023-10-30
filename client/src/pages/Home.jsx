@@ -34,6 +34,7 @@ const Home = () => {
     setShowModal(false);
   };
 
+  
   const handleCreatePost = (post) => {
     const newPost = {
       _id: uuidv4(),

@@ -123,27 +123,31 @@ const resolvers = {
       return { token, user };
     },
 
-    addPost: async (parent, { title, content }, context) => {
+    addPost: async (parent, { title, content, category }, context) => {
       const { user } = context;
       if (!user) {
         throw new AuthenticationError("You must be logged in to create a post.");
       }
-
+    
       const author = await User.findById(user._id).select('username');
-
+    
       if (!author) {
         throw new Error("User not found.");
       }
+    
+      const categoryObject = await Category.findOne({ _id: category });
+      console.log('categoryObject:', categoryObject);
 
       const newPost = await Post.create({
         title,
         content,
+        category: categoryObject ? categoryObject._id : null,
         author: user._id,
       });
-
+    
       return { ...newPost.toObject(), author }; 
     },
-
+    
 
     loginEmail: async (parent, { email, password }, context) => {
       const user = await User.findOne({ email });

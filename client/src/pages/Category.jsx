@@ -41,7 +41,8 @@ const CategoryButton = styled.div`
   .custom-button:active {
     background-color: #c99c06;
   }
-`;
+};
+`
 
 function CategoryPage({}) {
   const { categoryName } = useParams();
@@ -57,7 +58,7 @@ function CategoryPage({}) {
     if (error) {
     }
     if (data) {
-      setPosts(data?.getPostsByCategory || []); 
+      setPosts(data?.getPostsByCategory || []);
     }
   }, [loading, error, data]);
 
@@ -96,14 +97,18 @@ function CategoryPage({}) {
     cursor: "pointer",
   };
 
-  const handleCommentButtonClick = () => {
-    return <Link to={`/posts/${post?._id}`}>View Post</Link>;
+  const handleCommentButtonClick = (postId) => {
+    const post = posts.find((p) => p._id === postId);
+    if (post) {
+      return <Link to={`/posts/${post._id}`}>View Post</Link>;
+    }
   };
+  
 
   const [postLink, setPostLink] = useState("");
 
-  const handleShareButtonClick = () => {
-    const postLink = `https://lit-scrubland-56813-23b87facb8d8.herokuapp.com/post/${post?._id}`;
+  const handleShareButtonClick = (postId) => {
+    const postLink = `https://summed-up-8795a7f223a9.herokuapp.com/post/${postId}`;
 
     const inputElement = document.createElement("input");
     inputElement.value = postLink;
@@ -115,7 +120,7 @@ function CategoryPage({}) {
 
     document.body.removeChild(inputElement);
 
-    handleShowShareModal();
+    handleShowModal();
     setPostLink(postLink);
   };
 
@@ -125,23 +130,22 @@ function CategoryPage({}) {
         style={{ borderLeft: "1px solid #ccc", paddingLeft: "3rem" }}
       >
         <h1 style={{ paddingBottom: "1rem", textAlign: "end" }}>
-  {categoryName}
-</h1>
-
+          {categoryName}
+        </h1>
 
         {posts.map((post) => (
           <div className="card" key={post._id} style={cardStyle}>
             <div className="card-body" style={cardBodyStyle}>
-            <UserDateWrapper>
-              <p className="card-text">Posted by {post?.author?.username}</p>
-              <p className="card-text">
-                <small>
-                  {post && post.dateCreated
-                    ? new Date(parseInt(post.dateCreated)).toLocaleString()
-                    : ""}
-                </small>
-              </p>
-            </UserDateWrapper>
+              <UserDateWrapper>
+                <p className="card-text">Posted by {post?.author?.username}</p>
+                <p className="card-text">
+                  <small>
+                    {post && post.dateCreated
+                      ? new Date(parseInt(post.dateCreated)).toLocaleString()
+                      : ""}
+                  </small>
+                </p>
+              </UserDateWrapper>
               <Link
                 to={`/posts/${post._id}`}
                 className="card-title"
@@ -150,12 +154,12 @@ function CategoryPage({}) {
                 {post.title}
               </Link>
               {post.categories.map((category) => (
-      <CategoryButton key={category._id}>
-        <Link to={`/category/${category.name}`} className="custom-button">
-          {category.name}
-        </Link>
-      </CategoryButton>
-    ))}
+                <CategoryButton key={category._id}>
+                  <Link to={`/category/${category.name}`} className="custom-button">
+                    {category.name}
+                  </Link>
+                </CategoryButton>
+              ))}
               <p className="card-text" style={cardTextStyle}>
                 {post.summary}
               </p>
@@ -180,9 +184,10 @@ function CategoryPage({}) {
             <Modal.Title>share this post</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-    <p>Share this post using the link below:</p>
-    <input type="text" value={postLink} readOnly style={{ width: '100%' }} />
-  </Modal.Body>          <Modal.Footer>
+            <p>Share this post using the link below:</p>
+            <input type="text" value={postLink} readOnly style={{ width: "100%" }} />
+          </Modal.Body>
+          <Modal.Footer>
             <Button variant="secondary" onClick={() => setShowModal(false)}>
               Close
             </Button>

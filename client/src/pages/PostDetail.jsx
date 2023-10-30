@@ -219,7 +219,7 @@ function PostDetail() {
   const [postLink, setPostLink] = useState("");
 
   const handleShareButtonClick = () => {
-    const postLink = `https://lit-scrubland-56813-23b87facb8d8.herokuapp.com/post/${post?._id}`;
+    const postLink = `https://summed-up-8795a7f223a9.herokuapp.com/post/${post?._id}`;
 
     const inputElement = document.createElement("input");
     inputElement.value = postLink;

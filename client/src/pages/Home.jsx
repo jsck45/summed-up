@@ -94,6 +94,7 @@ const Home = () => {
               handleCreatePost={handleCreatePost}
               posts={posts}
               user={user}
+              setPosts={setPosts} 
               selectedCategory={selectedCategory}
             />
           ) : null}

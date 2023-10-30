@@ -115,14 +115,10 @@ const resolvers = {
   },
   Mutation: {
     addUser: async (parent, args, context) => {
-      console.log('Received arguments:', args); //debugging
 
       const user = await User.create(args);
-      console.log('Created user:', user); // debugging
-
 
       const token = signToken(user);
-      console.log('Generated token:', token); //debugging
 
       return { token, user };
     },
@@ -178,6 +174,7 @@ const resolvers = {
 
       return { token, user };
     },
+
     editPost: async (parent, { postId, title, content }) => {
       await Post.findOneAndUpdate({ _id: postId }, { title, content });
 

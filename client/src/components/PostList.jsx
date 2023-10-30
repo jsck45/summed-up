@@ -49,7 +49,9 @@ function PostList() {
     } else if (error) {
       setPosts(null);
     } else {
-      setPosts(data.getPosts);
+      const sortedPosts = data.getPosts.slice().sort((a, b) => b.dateCreated - a.dateCreated);
+
+      setPosts(sortedPosts);
     }
   }, [loading, error, data]);
 

@@ -10,7 +10,7 @@ const PostForm = ({ show, handleClose, handleCreatePost }) => {
   const [content, setContent] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [newCategory, setNewCategory] = useState("");
-
+  const [posts, setPosts] = useState([]);
   const { loading, data } = useQuery(GET_CATEGORIES);
   
   const existingCategories = data ? data.categories : [];
@@ -43,7 +43,7 @@ const handleSubmit = () => {
     },
   })
     .then((response) => {
-
+      setPosts([...posts, response.data.addPost]);
       console.log("New post created:", response.data.addPost);
       handleClose();
     })

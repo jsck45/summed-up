@@ -30,16 +30,18 @@ const resolvers = {
 
     getPostsByCategory: async (parent, { category }, context) => {
       try {
-        const categoryObject = await Category.findOne({ name: category });
-
+        const categoryObject = await Category.findOne({
+          name: { $regex: new RegExp(category, 'i') }, 
+        });
+    
         if (!categoryObject) {
           throw new Error(`Category not found: ${category}`);
         }
-
+    
         const posts = await Post.find({ categories: categoryObject._id })
           .populate('author')
           .populate('categories', 'name');
-
+    
         const postsWithAuthorUsername = posts.map((post) => ({
           ...post.toObject(),
           author: {
@@ -47,14 +49,14 @@ const resolvers = {
             username: post.author.username,
           },
         }));
-
+    
         return postsWithAuthorUsername;
       } catch (error) {
         console.error("Error in getPostsByCategory resolver: ", error);
         throw error;
       }
-    },    
-
+    },
+    
     getSinglePost: async (parent, { _id }) => {
       try {
 

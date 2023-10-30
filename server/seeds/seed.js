@@ -9,15 +9,12 @@ db.once('open', async () => {
   await cleanDB('Post', 'posts');
 
   const categories = await Category.insertMany(category);
-  console.log(categories);
   console.log('categories seeded');
 
   const users = await User.insertMany(user);
-  console.log(users);
   console.log('users seeded');
 
   const posts = await Post.insertMany(post);
-  console.log(posts);
   console.log('posts seeded');
 
   // const postIds = [];
@@ -25,11 +22,11 @@ db.once('open', async () => {
   // console.log('postIds: ' + postIds);
   // console.log('posts: ' + posts);
 
-  posts.map(async ({ _id, author }) => {
-    // console.log('this post: ' + index + post._id);
-    const users = await User.findOneAndUpdate({ _id: author }, { $addToSet: { posts: _id } });
-    // console.log('user updated ' + post._id);
-  });
+  // posts.map(async ({ _id, author }) => {
+  // console.log('this post: ' + index + post._id);
+  // const users = await User.findOneAndUpdate({ _id: author }, { $addToSet: { posts: _id } });
+  // console.log('user updated ' + post._id);
+  // });
 
   process.exit();
 });

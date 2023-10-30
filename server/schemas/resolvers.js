@@ -181,7 +181,7 @@ const resolvers = {
             author: user._id,
           })
         )
-
+      await User.findOneAndUpdate({ _id: context._id }, { $addToSet: { posts: newPost._id } });
 
       return { ...newPost.toObject(), author }; // Include the author's username in the response
     },

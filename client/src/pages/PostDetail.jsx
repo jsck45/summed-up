@@ -380,7 +380,8 @@ function PostDetail() {
                   </strong>
                   <small>
 
-                    {new Date(comment.dateCreated).toLocaleString()}
+                    {new Date(parseInt(comment.dateCreated)).toLocaleString()}
+
 
                   </small>
                 </div>

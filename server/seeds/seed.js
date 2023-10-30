@@ -25,13 +25,11 @@ db.once('open', async () => {
   // console.log('postIds: ' + postIds);
   // console.log('posts: ' + posts);
 
-  posts.map(async ({ author, _id }) => {
+  posts.map(async ({ _id, author }) => {
     // console.log('this post: ' + index + post._id);
     const users = await User.findOneAndUpdate({ _id: author }, { $addToSet: { posts: _id } });
     // console.log('user updated ' + post._id);
   });
-  usersOut = User.find();
-  console.log(usersOut);
 
   process.exit();
 });

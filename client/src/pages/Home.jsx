@@ -18,9 +18,9 @@ const MainContainer = styled.div`
 const Home = () => {
   const [showModal, setShowModal] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
-  const [user, setUser] = useState(null);
-const [selectedCategory, setSelectedCategory] = useState("");
-const [posts, setPosts] = useState([]);
+  const [user, setUser] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState([]);
+  const [posts, setPosts] = useState([]); // Store all posts, including new ones
 
   const handleShowModal = () => {
     if (Auth.loggedIn()) {

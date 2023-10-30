@@ -50,6 +50,7 @@ function PostList() {
       setPosts(null);
     } else {
       const sortedPosts = data.getPosts.slice().sort((a, b) => b.dateCreated - a.dateCreated);
+
       setPosts(sortedPosts);
     }
   }, [loading, error, data]);

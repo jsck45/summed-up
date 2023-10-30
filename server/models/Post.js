@@ -13,13 +13,10 @@ const postSchema = new Schema({
   // reference
   dateCreated: { type: Date, default: Date.now(), },
   comments: [commentSchema], // subdocument
-  categories: [
-  {
+  categories: [{
     type: Schema.Types.ObjectId,
     ref: 'Category',
-  }
-
-],
+  }],
 
   summary: { type: String }
 })

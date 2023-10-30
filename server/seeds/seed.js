@@ -22,13 +22,14 @@ db.once('open', async () => {
 
   // const postIds = [];
   // posts.map((post) => postIds.push(post._id));
-  // console.log(postIds);
+  // console.log('postIds: ' + postIds);
+  // console.log('posts: ' + posts);
 
-  posts.map(async (post) => {
-    users = await User.findOneAndUpdate({ _id: post.author }, { $addToSet: { posts: post._id } });
-    console.log('user updated');
+  posts.map(async ({ _id, author }) => {
+    // console.log('this post: ' + index + post._id);
+    const users = await User.findOneAndUpdate({ _id: author }, { $addToSet: { posts: _id } });
+    // console.log('user updated ' + post._id);
   });
-  // console.log(users);
 
   process.exit();
 });

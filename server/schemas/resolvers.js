@@ -5,12 +5,12 @@ const { AuthenticationError } = require('apollo-server-express');
 const resolvers = {
   Query: {
     me: async (parent, _, { _id }) => { return User.findById(_id) },
-    users: async () => { return User.find() },
+    users: async () => { return User.find({}) },
     category: async (parent, id) => { return Category.findById(id) },
-    categories: async () => { return Category.find() },
+    categories: async () => { return Category.find({}) },
     getPosts: async () => {
       try {
-        const posts = await Post.find()
+        const posts = await Post.find({})
           .populate('author')
           .populate('categories', 'name');
 
@@ -128,23 +128,23 @@ const resolvers = {
       if (!user) {
         throw new AuthenticationError("You must be logged in to create a post.");
       }
-    
+
       // Fetch the user's username
       const author = await User.findById(user._id).select('username');
-    
+
       if (!author) {
         throw new Error("User not found.");
       }
-    
+
       const newPost = await Post.create({
         title,
         content,
         author: user._id,
       });
-    
+
       return { ...newPost.toObject(), author }; // Include the author's username in the response
     },
-    
+
 
     loginEmail: async (parent, { email, password }, context) => {
       const user = await User.findOne({ email });
@@ -180,23 +180,39 @@ const resolvers = {
 
       return Post;
     },
-    deletePost: async (parent, args) => {
+    deletePost: async (parent, args, context) => {
       await Post.findOneAndDelete({ _id: args._id });
+      await User.findOneAndUpdate({ _id: context._id }, { $pull: { posts: args._id } });
 
       return Post;
     },
-    addComment: async (parent, args) => {
-      await Post.create();
+    addComment: async (parent, { postId, content }, context) => {
+      await Post.findOneAndUpdate(
+        { _id: postId },
+        {
+          $addToSet: {
+            comments: { content, author: context.author }
+          }
+        });
 
       return Post;
     },
-    editComment: async (parent, args) => {
-      await Post.findOneAndUpdate();
+    editComment: async (parent, { postId, commentId, content }) => {
+      await Post.findOneAndUpdate({ _id: postId, 'comments._id': commentId }, { $set: { 'comments.$': content } });
 
       return Post;
     },
-    deleteComment: async (parent, args) => {
-      await Post.findOneAndDelete();
+    deleteComment: async (parent, { postId, commentId }) => {
+      await Post.findOneAndDelete(
+        { _id: postId },
+        {
+          $pull: {
+            comments: {
+              _id: commentId
+            }
+          }
+        }
+      );
 
       return Post;
     }

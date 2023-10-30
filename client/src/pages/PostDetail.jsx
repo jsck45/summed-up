@@ -77,7 +77,6 @@ function PostDetail() {
     setShowShareModal(true);
   };
 
-  
   const handleShowModal = (deleteCommentModal = false) => {
     if (deleteCommentModal) {
       setShowDeleteCommentModal(true);
@@ -150,7 +149,7 @@ function PostDetail() {
   };
 
   const handleEditComment = (commentId) => {
-    console.log("Edit button clicked") //debugging
+    console.log("Edit button clicked"); //debugging
 
     if (editingCommentId === commentId) {
       if (editCommentText) {
@@ -168,13 +167,14 @@ function PostDetail() {
         });
       }
       setEditingCommentId(null);
-      setEditCommentText(""); 
-
+      setEditCommentText("");
     } else {
-      const commentToEdit = comments.find((comment) => comment._id === commentId);
+      const commentToEdit = comments.find(
+        (comment) => comment._id === commentId
+      );
 
       if (commentToEdit) {
-        console.log(commentToEdit.text) //debugging
+        console.log(commentToEdit.text); //debugging
 
         setEditCommentText(commentToEdit.text);
         setEditingCommentId(commentId);
@@ -183,7 +183,7 @@ function PostDetail() {
   };
 
   const handleDeletePost = () => {
-    setSelectedCommentId(null); 
+    setSelectedCommentId(null);
     handleShowModal();
   };
 
@@ -241,10 +241,15 @@ function PostDetail() {
     }
   `;
 
-    const cardStyle = {
-    background: "#e9e9e9",
-    padding: "2rem",
-    margin: "1rem 0",
+  const CardContainer = styled.div`
+    background: #e9e9e9;
+    padding: 2rem;
+    margin: 1rem 0;
+    border: none;
+    border-radius: 10px;
+  `;
+
+  const cardStyle = {
     border: "none",
   };
 
@@ -280,78 +285,83 @@ function PostDetail() {
         style={{ borderLeft: "1px solid #ccc", paddingLeft: "3rem" }}
         className="container"
       >
-        <div className="card-body" style={cardBodyStyle}>
-          <UserDateWrapper>
-          <p className="card-text">Posted by {post?.author?.username}</p>
-            <p className="card-text">
-            <small>
-  {post && post.dateCreated
-    ? new Date(parseInt(post.dateCreated)).toLocaleString()
-    : ""}
-</small>
-
-            </p>
-          </UserDateWrapper>
-          <h2 className="card-title" style={cardTitleStyle}>
-            {post && post.title ? post.title : "Title not available"}
-          </h2>
-          <div><small>
-            { post && post.categories && post.categories.length > 0 && (
-              post.categories.map((category) => (
-                <CategoryButton key={category._id}>
-                <Link to={`/category/${category.name}`} className="custom-button">
-                  {category.name}
-                </Link>
-              </CategoryButton>
-              ))
-            )}
-            </small>
-  </div>
-
-        </div>
-        {isEditing ? (
-          <div>
-            <textarea
-              value={editPostText}
-              onChange={(e) => setEditPostText(e.target.value)}
-              style={{ width: "100%" }}
-            />
-            <br />
-            <button onClick={handleSaveEdit} style={commentButtonStyle}>
-              Save
-            </button>
-            <button onClick={handleCancelEdit} style={commentButtonStyle}>
-              Cancel
-            </button>
+        <CardContainer>
+          <div className="card-body">
+            <UserDateWrapper>
+              <p className="card-text">Posted by {post?.author?.username}</p>
+              <p className="card-text">
+                <small>
+                  {post && post.dateCreated
+                    ? new Date(parseInt(post.dateCreated)).toLocaleString()
+                    : ""}
+                </small>
+              </p>
+            </UserDateWrapper>
+            <h2 className="card-title" style={cardTitleStyle}>
+              {post && post.title ? post.title : "Title not available"}
+            </h2>
+            <div>
+              <small>
+                {post &&
+                  post.categories &&
+                  post.categories.length > 0 &&
+                  post.categories.map((category) => (
+                    <CategoryButton key={category._id}>
+                      <Link
+                        to={`/category/${category.name}`}
+                        className="custom-button"
+                      >
+                        {category.name}
+                      </Link>
+                    </CategoryButton>
+                  ))}
+              </small>
+            </div>
           </div>
-        ) : (
-          <>
-            <p className="card-text" style={cardTextStyle}>
-              {post && post.content ? post.content : "Content not available"}
-            </p>
-
-            <div className="card-buttons" style={{ display: "flex" }}>
-              <button
-                onClick={() => handleCommentButtonClick(post?._id)}
-                style={commentButtonStyle}
-              >
-                <FontAwesomeIcon icon={faComment} /> {comments.length}
+          {isEditing ? (
+            <div>
+              <textarea
+                value={editPostText}
+                onChange={(e) => setEditPostText(e.target.value)}
+                style={{ width: "100%" }}
+              />
+              <br />
+              <button onClick={handleSaveEdit} style={commentButtonStyle}>
+                Save
               </button>
-              <button
-                onClick={() => handleShareButtonClick(post?._id)}
-                style={commentButtonStyle}
-              >
-                <FontAwesomeIcon icon={faShare} /> Share
-              </button>
-              <button onClick={handleToggleEdit} style={commentButtonStyle}>
-                <FontAwesomeIcon icon={faEdit} /> Edit
-              </button>
-              <button onClick={handleDeletePost} style={commentButtonStyle}>
-                <FontAwesomeIcon icon={faTrash} /> Delete
+              <button onClick={handleCancelEdit} style={commentButtonStyle}>
+                Cancel
               </button>
             </div>
-          </>
-        )}
+          ) : (
+            <>
+              <p className="card-text" style={cardTextStyle}>
+                {post && post.content ? post.content : "Content not available"}
+              </p>
+
+              <div className="card-buttons" style={{ display: "flex" }}>
+                <button
+                  onClick={() => handleCommentButtonClick(post?._id)}
+                  style={commentButtonStyle}
+                >
+                  <FontAwesomeIcon icon={faComment} /> {comments.length}
+                </button>
+                <button
+                  onClick={() => handleShareButtonClick(post?._id)}
+                  style={commentButtonStyle}
+                >
+                  <FontAwesomeIcon icon={faShare} /> Share
+                </button>
+                <button onClick={handleToggleEdit} style={commentButtonStyle}>
+                  <FontAwesomeIcon icon={faEdit} /> Edit
+                </button>
+                <button onClick={handleDeletePost} style={commentButtonStyle}>
+                  <FontAwesomeIcon icon={faTrash} /> Delete
+                </button>
+              </div>
+            </>
+          )}
+        </CardContainer>
 
         <CommentForm postId={postId} />
 
@@ -448,20 +458,27 @@ function PostDetail() {
           </Modal.Footer>
         </Modal>
         <Modal show={showShareModal} onHide={() => setShowShareModal(false)}>
-  <Modal.Header closeButton>
-    <Modal.Title>Share Post</Modal.Title>
-  </Modal.Header>
-  <Modal.Body>
-    <p>Share this post using the link below:</p>
-    <input type="text" value={postLink} readOnly style={{ width: '100%' }} />
-  </Modal.Body>
-  <Modal.Footer>
-    <Button variant="secondary" onClick={() => setShowShareModal(false)}>
-      Close
-    </Button>
-  </Modal.Footer>
-</Modal>
-
+          <Modal.Header closeButton>
+            <Modal.Title>Share Post</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <p>Share this post using the link below:</p>
+            <input
+              type="text"
+              value={postLink}
+              readOnly
+              style={{ width: "100%" }}
+            />
+          </Modal.Body>
+          <Modal.Footer>
+            <Button
+              variant="secondary"
+              onClick={() => setShowShareModal(false)}
+            >
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </PostContainer>
     </div>
   );

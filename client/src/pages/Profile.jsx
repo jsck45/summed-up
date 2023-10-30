@@ -15,6 +15,29 @@ const ProfileContainer = styled.div`
   }
 `;
 
+const CategoryButton = styled.div`
+  .custom-button {
+    display: inline-block;
+    padding: 0.5rem 0.8rem;
+    margin-top: 0.5rem;
+    background-color: #dbbb2c;
+    color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    text-align: center;
+    user-select: none;
+    text-decoration: none;
+  }
+
+  .custom-button:hover {
+    background-color: #c99c06;
+  }
+
+  .custom-button:active {
+    background-color: #c99c06;
+  }
+`;
+
 function UserProfile() {
   
   const [userPosts, setUserPosts] = useState([]);
@@ -35,7 +58,7 @@ function UserProfile() {
   };
 
   const handleShareButtonClick = (postId) => {
-    const postLink = `https://lit-scrubland-56813-23b87facb8d8.herokuapp.com/post/${postId}`;
+    const postLink = `https://summed-up-8795a7f223a9.herokuapp.com/post/${postId}`.toLowerCase();
 
     const inputElement = document.createElement('input');
     inputElement.value = postLink;
@@ -115,6 +138,18 @@ function UserProfile() {
               <p className="card-text">
                 {new Date(parseInt(post.dateCreated)).toLocaleString()}
               </p>
+              {post.categories &&
+                        post.categories.length > 0 &&
+                        post.categories.map((category) => (
+                          <CategoryButton key={category._id}>
+                            <Link
+                              to={`/category/${category.name}`}
+                              className="custom-button"
+                            >
+                              {category.name}
+                            </Link>
+                          </CategoryButton>
+                        ))}
               <Link to={`/posts/${post._id}`} className="card-title" style={cardTitleStyle}>
                 {post.title}
               </Link>

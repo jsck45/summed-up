@@ -219,7 +219,7 @@ function PostDetail() {
   const [postLink, setPostLink] = useState("");
 
   const handleShareButtonClick = () => {
-    const postLink = `https://lit-scrubland-56813-23b87facb8d8.herokuapp.com/post/${post?._id}`;
+    const postLink = `https://summed-up-8795a7f223a9.herokuapp.com/post/${post?._id}`;
 
     const inputElement = document.createElement("input");
     inputElement.value = postLink;
@@ -265,9 +265,9 @@ function PostDetail() {
     marginTop: "1rem",
   };
 
-  const cardBodyStyle = {
+  const cardBodyDetailStyle = {
     borderBottom: "1px solid #ddd",
-    padding: "1rem 0",
+    padding: "0 1rem",
   };
 
   const commentButtonStyle = {
@@ -287,7 +287,7 @@ function PostDetail() {
         className="container"
       >
         <CardContainer>
-          <div className="card-body">
+          <div className="card-body" >
             <UserDateWrapper>
               <p className="card-text">Posted by {post?.author?.username}</p>
               <p className="card-text">
@@ -336,7 +336,7 @@ function PostDetail() {
               </button>
             </div>
           ) : (
-            <>
+            <div style={cardBodyDetailStyle}>
               <p className="card-text" style={cardTextStyle}>
                 {post && post.content ? post.content : "Content not available"}
               </p>
@@ -361,7 +361,7 @@ function PostDetail() {
                   <FontAwesomeIcon icon={faTrash} /> Delete
                 </button>
               </div>
-            </>
+            </div>
           )}
         </CardContainer>
 
@@ -380,7 +380,8 @@ function PostDetail() {
                   </strong>
                   <small>
 
-                    {new Date(comment.dateCreated).toLocaleString()}
+                    {new Date(parseInt(comment.dateCreated)).toLocaleString()}
+
 
                   </small>
                 </div>

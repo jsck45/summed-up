@@ -14,7 +14,6 @@ const resolvers = {
   Query: {
     me: async (parent, _, { _id }) => { return User.findById(_id) },
     users: async () => { return User.find({}) },
-    category: async (parent, id) => { return Category.findById(id) },
     categories: async () => { return Category.find({}) },
     getPosts: async () => {
       try {
@@ -37,34 +36,35 @@ const resolvers = {
       }
     },
 
-    getPostsByCategory: async (parent, { category }) => {
-
-      const posts = await Post.find({
-        'categories.name': { $regex: new RegExp(`^${category}$`, 'i') }
-      })
-
-        .populate('author')
-        .populate({
-          path: 'categories',
-          select: 'name',
+    getPostsByCategory: async (parent, { category }, context) => {
+      try {
+        const categoryObject = await Category.findOne({
+          name: { $regex: new RegExp(category, 'i') }, 
         });
-
-      const postsWithAuthorUsername = posts.map((post) => ({
-        ...post.toObject(),
-        author: {
-          ...post.author.toObject(),
-          username: post.author.username,
-        },
-        categories: post.categories.map((category) => ({
-          _id: category._id,
-          name: category.name,
-        })),
-      }));
-      console.log(postsWithAuthorUsername);
-
-      return postsWithAuthorUsername;
+    
+        if (!categoryObject) {
+          throw new Error(`Category not found: ${category}`);
+        }
+    
+        const posts = await Post.find({ categories: categoryObject._id })
+          .populate('author')
+          .populate('categories', 'name');
+    
+        const postsWithAuthorUsername = posts.map((post) => ({
+          ...post.toObject(),
+          author: {
+            ...post.author.toObject(),
+            username: post.author.username,
+          },
+        }));
+    
+        return postsWithAuthorUsername;
+      } catch (error) {
+        console.error("Error in getPostsByCategory resolver: ", error);
+        throw error;
+      }
     },
-
+    
     getSinglePost: async (parent, { _id }) => {
       try {
 
@@ -99,8 +99,10 @@ const resolvers = {
     getUserPosts: async (parent, { userId }, context) => {
       try {
         const posts = await Post.find({ author: userId })
-          .populate('author') // Populate the author field if needed
-          .populate('categories', 'name'); // Populate categories if needed
+          .populate('author') 
+          .populate('categories', 'name'); 
+    
+      
 
         const postsWithAuthorUsername = posts.map((post) => ({
           ...post.toObject(),
@@ -123,30 +125,29 @@ const resolvers = {
   },
   Mutation: {
     addUser: async (parent, args, context) => {
-      console.log('Received arguments:', args); //debugging
 
       const user = await User.create(args);
-      console.log('Created user:', user); // debugging
-
 
       const token = signToken(user);
-      console.log('Generated token:', token); //debugging
 
       return { token, user };
     },
 
-    addPost: async (parent, { title, content }, context) => {
+    addPost: async (parent, { title, content, category }, context) => {
       const { user } = context;
       if (!user) {
         throw new AuthenticationError("You must be logged in to create a post.");
       }
-
-      // Fetch the user's username
+    
       const author = await User.findById(user._id).select('username');
-
+    
       if (!author) {
         throw new Error("User not found.");
       }
+    
+      const categoryObject = await Category.findOne({ _id: category });
+      console.log('categoryObject:', categoryObject);
+
 
       //ChatGPT integration code
       let summary = "";
@@ -184,7 +185,7 @@ const resolvers = {
 
       return { ...newPost.toObject(), author }; // Include the author's username in the response
     },
-
+    
 
     loginEmail: async (parent, { email, password }, context) => {
       const user = await User.findOne({ email });
@@ -214,11 +215,7 @@ const resolvers = {
 
       return { token, user };
     },
-    addPost: async (parent, args, context) => {
-      const newPost = await Post.create(args);
-      await User.findOneAndUpdate({ _id: context._id }, { $addToSet: { posts: newPost._id } });
-      return Post;
-    },
+
     editPost: async (parent, { postId, title, content }) => {
       await Post.findOneAndUpdate({ _id: postId }, { title, content });
 

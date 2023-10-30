@@ -15,6 +15,35 @@ const CategoryPostContainer = styled.div`
   }
 `;
 
+const UserDateWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const CategoryButton = styled.div`
+  .custom-button {
+    display: inline-block;
+    padding: 0.5rem 0.8rem;
+    margin-top: 0.5rem;
+    background-color: #dbbb2c;
+    color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    text-align: center;
+    user-select: none;
+    text-decoration: none;
+  }
+
+  .custom-button:hover {
+    background-color: #c99c06;
+  }
+
+  .custom-button:active {
+    background-color: #c99c06;
+  }
+};
+`
+
 function CategoryPage({}) {
   const { categoryName } = useParams();
   const [showModal, setShowModal] = useState(false);
@@ -29,7 +58,7 @@ function CategoryPage({}) {
     if (error) {
     }
     if (data) {
-      setPosts(data?.getPostsByCategory || []); 
+      setPosts(data?.getPostsByCategory || []);
     }
   }, [loading, error, data]);
 
@@ -38,8 +67,8 @@ function CategoryPage({}) {
   };
 
   const cardStyle = {
-    background: "#fff",
-    padding: "0.5rem 0",
+    background: "#e9e9e9",
+    padding: "2rem",
     margin: "1rem 0",
     border: "none",
   };
@@ -68,14 +97,18 @@ function CategoryPage({}) {
     cursor: "pointer",
   };
 
-  const handleCommentButtonClick = () => {
-    return <Link to={`/posts/${post?._id}`}>View Post</Link>;
+  const handleCommentButtonClick = (postId) => {
+    const post = posts.find((p) => p._id === postId);
+    if (post) {
+      return <Link to={`/posts/${post._id}`}>View Post</Link>;
+    }
   };
+  
 
   const [postLink, setPostLink] = useState("");
 
-  const handleShareButtonClick = () => {
-    const postLink = `https://lit-scrubland-56813-23b87facb8d8.herokuapp.com/post/${post?._id}`;
+  const handleShareButtonClick = (postId) => {
+    const postLink = `https://summed-up-8795a7f223a9.herokuapp.com/post/${postId}`;
 
     const inputElement = document.createElement("input");
     inputElement.value = postLink;
@@ -87,7 +120,7 @@ function CategoryPage({}) {
 
     document.body.removeChild(inputElement);
 
-    handleShowShareModal();
+    handleShowModal();
     setPostLink(postLink);
   };
 
@@ -97,16 +130,22 @@ function CategoryPage({}) {
         style={{ borderLeft: "1px solid #ccc", paddingLeft: "3rem" }}
       >
         <h1 style={{ paddingBottom: "1rem", textAlign: "end" }}>
-  {categoryName}
-</h1>
-
+          {categoryName}
+        </h1>
 
         {posts.map((post) => (
           <div className="card" key={post._id} style={cardStyle}>
             <div className="card-body" style={cardBodyStyle}>
-              <p className="card-text">
-                {new Date(post.createdAt).toLocaleString()}
-              </p>
+              <UserDateWrapper>
+                <p className="card-text">Posted by {post?.author?.username}</p>
+                <p className="card-text">
+                  <small>
+                    {post && post.dateCreated
+                      ? new Date(parseInt(post.dateCreated)).toLocaleString()
+                      : ""}
+                  </small>
+                </p>
+              </UserDateWrapper>
               <Link
                 to={`/posts/${post._id}`}
                 className="card-title"
@@ -114,8 +153,15 @@ function CategoryPage({}) {
               >
                 {post.title}
               </Link>
+              {post.categories.map((category) => (
+                <CategoryButton key={category._id}>
+                  <Link to={`/category/${category.name}`} className="custom-button">
+                    {category.name}
+                  </Link>
+                </CategoryButton>
+              ))}
               <p className="card-text" style={cardTextStyle}>
-                {post.content}
+                {post.summary}
               </p>
               <button
                 onClick={() => handleCommentButtonClick(post._id)}
@@ -138,9 +184,10 @@ function CategoryPage({}) {
             <Modal.Title>share this post</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-    <p>Share this post using the link below:</p>
-    <input type="text" value={postLink} readOnly style={{ width: '100%' }} />
-  </Modal.Body>          <Modal.Footer>
+            <p>Share this post using the link below:</p>
+            <input type="text" value={postLink} readOnly style={{ width: "100%" }} />
+          </Modal.Body>
+          <Modal.Footer>
             <Button variant="secondary" onClick={() => setShowModal(false)}>
               Close
             </Button>

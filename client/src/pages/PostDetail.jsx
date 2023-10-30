@@ -66,6 +66,7 @@ const CategoryButton = styled.div`
   }
 `;
 
+
 function PostDetail() {
   const { postId } = useParams();
   const [showModal, setShowModal] = useState(false);
@@ -317,6 +318,7 @@ function PostDetail() {
                   ))}
               </small>
             </div>
+
           </div>
           {isEditing ? (
             <div>
@@ -377,7 +379,9 @@ function PostDetail() {
                     {comment.author ? comment.author.username : "Unknown User"}
                   </strong>
                   <small>
-                    {new Date(parseInt(comment.dateCreated)).toLocaleString()}
+
+                    {new Date(comment.dateCreated).toLocaleString()}
+
                   </small>
                 </div>
 

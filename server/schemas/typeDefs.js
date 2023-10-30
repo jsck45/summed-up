@@ -10,7 +10,7 @@ const typeDefs = gql`
   }
 
   type Auth {
-    token: ID!
+    token: ID
     user: User
   }
 
@@ -60,16 +60,7 @@ const typeDefs = gql`
       email: String!
       password: String!
     ): Auth
-    addPost(
-      title: String!
-      content: String
-      author: ID
-      categories: [ID] 
-    ): Post
-    addComment(
-      postId: ID!
-      content: String!
-    ): Comment
+    
     loginEmail(
       email: String!
       password: String!
@@ -78,6 +69,30 @@ const typeDefs = gql`
       username: String!
       password: String!
     ): Auth
+    addPost(
+      title: String!
+      content: String
+      author: ID
+      categories: [ID] 
+    ): Post
+    editPost(
+      title: String
+      content: String
+    ): Post
+    deletePost(_id: ID!): Post
+    addComment(
+      postId: ID!
+      content: String!
+    ): Post
+    editComment(
+      postId: ID!
+      commentId: ID!
+      content: String
+    ): Post
+    deleteComment(
+      postID: ID!
+      commentId: ID!  
+    ): Post
   }
 `;
 

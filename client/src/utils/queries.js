@@ -2,21 +2,21 @@ import { gql } from '@apollo/client';
 
 export const GET_ME = gql`
     query me {
-        me {
-            _id
-            username
-            email
-            posts {
-         _id
-        title
-        content
-        dateCreated
-        comments {
+      me {
+        _id
+        username
+        email
+        posts {
           _id
+          title
           content
           dateCreated
+          comments {
+            _id
+            content
+            dateCreated
+          }
         }
-      }
       }
     }
 `;
@@ -111,19 +111,19 @@ export const GET_POSTS_BY_CATEGORY = gql`
       content
       dateCreated
       author {
-      username
-    }
-    comments {
-      _id
-      content
-      dateCreated
-      author {
         username
       }
-    }
-    categories {
+      comments {
         _id
-        name
+        content
+        dateCreated
+        author {
+          username
+        }
+      }
+      categories {
+          _id
+          name
       }
     }
   }

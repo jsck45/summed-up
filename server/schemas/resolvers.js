@@ -1,4 +1,4 @@
-const { User, Category, Post, Comment } = require('../models');
+const { User, Category, Post } = require('../models');
 const { signToken } = require('../utils/auth');
 const { AuthenticationError } = require('apollo-server-express');
 require('dotenv').config();
@@ -216,7 +216,9 @@ const resolvers = {
     },
 
     editPost: async (parent, { postId, title, content }) => {
-      await Post.findOneAndUpdate({ _id: postId }, { title, content });
+      await Post.findOneAndUpdate({ _id: postId }, { title, content }, {
+        new: true
+      });
 
       return Post;
     },
@@ -233,12 +235,16 @@ const resolvers = {
           $addToSet: {
             comments: { content, author: context.author }
           }
-        });
+        }, {
+        new: true
+      });
 
       return Post;
     },
     editComment: async (parent, { postId, commentId, content }) => {
-      await Post.findOneAndUpdate({ _id: postId, 'comments._id': commentId }, { $set: { 'comments.$': content } });
+      await Post.findOneAndUpdate({ _id: postId, 'comments._id': commentId }, { $set: { 'comments.$': content } }, {
+        new: true
+      });
 
       return Post;
     },

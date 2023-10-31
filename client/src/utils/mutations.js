@@ -42,15 +42,15 @@ export const LOGIN_USER_USERNAME = gql`
 `;
 
 export const CREATE_POST = gql`
-  mutation addPost($title: String!, $content: String!) {
-    addPost(title: $title, content: $content) {
+  mutation createPost($title: String!, $content: String!) {
+    createPost(title: $title, content: $content) {
       _id
       title
       content
-      author {
+      user {
         username
       }
-      dateCreated
+      createdAt
     }
   }
 `;
@@ -79,10 +79,10 @@ export const ADD_COMMENT = gql`
     addComment(postId: $postId, text: $text) {
       _id
       text
-      author {
+      user {
         username
       }
-      dateCreated
+      createdAt
     }
   }
 `;

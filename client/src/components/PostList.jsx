@@ -49,7 +49,9 @@ function PostList() {
     } else if (error) {
       setPosts(null);
     } else {
-      setPosts(data.getPosts);
+      const sortedPosts = data.getPosts.slice().sort((a, b) => b.dateCreated - a.dateCreated);
+
+      setPosts(sortedPosts);
     }
   }, [loading, error, data]);
 
@@ -93,7 +95,7 @@ function PostList() {
   };
 
   const handleShareButtonClick = (postId) => {
-    const postLink = `https://lit-scrubland-56813-23b87facb8d8.herokuapp.com/post/${postId}`;
+    const postLink = `https://summed-up-8795a7f223a9.herokuapp.com/post/${postId}`;
 
     const inputElement = document.createElement("input");
     inputElement.value = postLink;
@@ -154,7 +156,7 @@ function PostList() {
                     </small>
                   </div>
                   <p className="card-text" style={cardTextStyle}>
-                    {post.content}
+                    {post.summary}
                   </p>
                   <button
                     onClick={() => handleCommentButtonClick(post._id)}

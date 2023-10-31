@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container, Button, Modal, Row, Col } from "react-bootstrap";
+import { Container, Button, Modal } from "react-bootstrap";
 import { useMutation } from "@apollo/client";
 import { CREATE_POST } from "../utils/mutations";
 import Auth from "../utils/auth";
@@ -7,7 +7,6 @@ import PostList from "../components/PostList";
 import PostForm from "../components/PostForm";
 import styled from "styled-components";
 import { v4 as uuidv4 } from 'uuid';
-
 
 const MainContainer = styled.div`
   @media (max-width: 767px) {
@@ -19,11 +18,9 @@ const MainContainer = styled.div`
 const Home = () => {
   const [showModal, setShowModal] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
-  const [posts, setPosts] = useState([]); // Define the posts state
-  const [newPosts, setNewPosts] = useState([]);
   const [user, setUser] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState([]);
-  const [generateUniqueId, setGenerateUniqueId] = useState([]);
+  const [posts, setPosts] = useState([]); // Store all posts, including new ones
 
   const handleShowModal = () => {
     if (Auth.loggedIn()) {
@@ -37,26 +34,25 @@ const Home = () => {
     setShowModal(false);
   };
 
+  
   const handleCreatePost = (post) => {
     const newPost = {
-      _id: uuidv4(), // Generate a unique ID for the new post
+      _id: uuidv4(),
       title: post.title,
       content: post.content,
-      author: user.username, // Assuming you have the user information
-      category: selectedCategory || newCategory, // Assuming you have the selected category
-      dateCreated: new Date().toISOString(), // Set the current date as the creation date
+      author: user.username,
+      category: selectedCategory || newCategory,
+      dateCreated: new Date().toISOString(),
     };
 
-    // Update the newPosts state with the new post
-    newPosts.unshift(newPost);
-    setNewPosts([...newPosts]); // Create a new array reference to trigger the update
+    setPosts([newPost, ...posts]);
 
     addPost({
       variables: {
         title: post.title,
         content: post.content,
-        author: user.username, // Assuming you have the user information
-        category: selectedCategory || newCategory, // Assuming you have the selected category
+        author: user.username,
+        category: selectedCategory || newCategory,
       },
       refetchQueries: ["GET_POSTS"],
     });
@@ -92,8 +88,8 @@ const Home = () => {
               show={showModal}
               handleClose={handleCloseModal}
               handleCreatePost={handleCreatePost}
-              posts={posts}
               user={user}
+              posts={setPosts}
               selectedCategory={selectedCategory}
             />
           ) : null}
@@ -113,7 +109,7 @@ const Home = () => {
               </Modal.Footer>
             </Modal>
           )}
-          <PostList posts={[...newPosts, ...posts]} />
+          <PostList posts={posts} />
         </MainContainer>
       </Container>
     </div>

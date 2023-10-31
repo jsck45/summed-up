@@ -74,7 +74,7 @@ const typeDefs = gql`
       title: String!
       content: String
       author: ID
-      categories: [ID] 
+      category: ID
     ): Post
     editPost(
       title: String

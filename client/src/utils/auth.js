@@ -7,12 +7,12 @@ class AuthService {
 
   loggedIn() {
     const token = this.getToken();
-    return !!token && !this.isTokenExpired(token); 
+    return !!token && !this.isTokenExpired(token);
   }
 
-  isTokenExpired(token) {
+  async isTokenExpired(token) {
     try {
-      const decoded = decode(token);
+      const decoded = await decode(token);
       if (decoded.exp < Date.now() / 1000) {
         return true;
       } else return false;

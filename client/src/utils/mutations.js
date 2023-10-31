@@ -55,6 +55,7 @@ export const CREATE_POST = gql`
         username
       }
       dateCreated
+      summary
     }
   }
 `;

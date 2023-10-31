@@ -153,7 +153,7 @@ function UserProfile() {
               <Link to={`/posts/${post._id}`} className="card-title" style={cardTitleStyle}>
                 {post.title}
               </Link>
-              <p className="card-text" style={cardTextStyle}>{post.content}</p>
+              <p className="card-text" style={cardTextStyle}>{post.summary}</p>
               <button onClick={() => handleCommentButtonClick(post._id)} style={commentButtonStyle}>
                 <FontAwesomeIcon icon={faComment} />{' '}
                 {post.comments ? post.comments.length : 0}
@@ -169,8 +169,14 @@ function UserProfile() {
             <Modal.Title>share this post</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            Link copied to clipboard: {postLink}
-          </Modal.Body>
+          <p>Share this post using the link below:</p>
+          <input
+            type="text"
+            value={postLink}
+            readOnly
+            style={{ width: "100%" }}
+          />
+        </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={() => setShowModal(false)}>
               Close

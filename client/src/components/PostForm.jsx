@@ -5,7 +5,7 @@ import { CREATE_POST, ADD_CATEGORY } from "../utils/mutations";
 import { GET_CATEGORIES } from "../utils/queries";
 import Auth from "../utils/auth";
 
-const PostForm = ({ show, handleClose }) => {
+const PostForm = ({ show, handleClose, handleCreatePost }) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -41,6 +41,8 @@ const handleSubmit = () => {
       author: user.username, 
 
     },
+    refetchQueries: ["GET_POSTS"], 
+
   })
     .then((response) => {
       setPosts([...posts, response.data.addPost]);
@@ -51,6 +53,23 @@ const handleSubmit = () => {
       console.error("Error creating a new post:", error);
     });
 };
+
+// const handleSubmit = () => {
+//   const post = {
+//     title,
+//     content,
+//     category: selectedCategory,
+//   };
+
+//   // Call the handleCreatePost function passed from Home
+//   handleCreatePost(post);
+
+//   // Clear the form fields and close the modal
+//   setTitle("");
+//   setContent("");
+//   setSelectedCategory("");
+//   handleClose();
+// };
 
 
   // const handleAddCategory = () => {

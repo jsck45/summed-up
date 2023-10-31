@@ -34,11 +34,15 @@ Summed Up is built on a MERN stack with hosting provided by heroku.
 
 ## Screenshot
 
-
+![image](https://github.com/ThorstenBeowulf/summed-up/assets/90459268/b519eab5-36c2-4c92-86cb-257ef1b0b48c)
 
 ## Deployed Site
 
+https://summed-up-8795a7f223a9.herokuapp.com/
 
+## Contributors
+
+Carol Kim, Thorsten Beowulf, Michael King
 
 ## Licence
 

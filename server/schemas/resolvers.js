@@ -19,7 +19,8 @@ const resolvers = {
       try {
         const posts = await Post.find({})
           .populate('author')
-          .populate('categories', 'name');
+          .populate('categories', 'name')
+          .populate('summary');
 
         const postsWithAuthorUsername = posts.map((post) => ({
           ...post.toObject(),
@@ -48,7 +49,8 @@ const resolvers = {
     
         const posts = await Post.find({ categories: categoryObject._id })
           .populate('author')
-          .populate('categories', 'name');
+          .populate('categories', 'name')
+          .populate('summary');
     
         const postsWithAuthorUsername = posts.map((post) => ({
           ...post.toObject(),
@@ -77,7 +79,8 @@ const resolvers = {
             },
           })
           .populate('author', 'username')
-          .populate('categories', 'name');
+          .populate('categories', 'name')
+          .populate('summary');
 
         return post;
       } catch (error) {
@@ -100,10 +103,9 @@ const resolvers = {
       try {
         const posts = await Post.find({ author: userId })
           .populate('author') 
-          .populate('categories', 'name'); 
+          .populate('categories', 'name')
+          .populate('summary');
     
-      
-
         const postsWithAuthorUsername = posts.map((post) => ({
           ...post.toObject(),
           author: {
@@ -172,19 +174,27 @@ const resolvers = {
           console.log(result.data.choices[0].message.content);
 
           summary = result.data.choices[0].message.content;
-        })
-        .then(
-          newPost = await Post.create({
+          return Post.create({
             title,
             content,
-            summary,
+            summary, 
             author: user._id,
-          })
-        )
-      await User.findOneAndUpdate({ _id: context._id }, { $addToSet: { posts: newPost._id } });
-
-      return { ...newPost.toObject(), author }; // Include the author's username in the response
-    },
+          });
+        })
+        .then((newPost) => {
+          // Continue with any additional actions here
+          // For example, updating user posts
+          return User.findOneAndUpdate({ _id: context._id }, { $addToSet: { posts: newPost._id } });
+        })
+        .then((updatedUser) => {
+          // Return the newPost or any other relevant data in the response
+          return { ...newPost.toObject(), author };
+        })
+        .catch((error) => {
+          // Handle any errors here
+          throw new Error("Error creating a new post: " + error.message);
+        });
+      },
     
 
     loginEmail: async (parent, { email, password }, context) => {

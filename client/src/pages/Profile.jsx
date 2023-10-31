@@ -153,7 +153,7 @@ function UserProfile() {
               <Link to={`/posts/${post._id}`} className="card-title" style={cardTitleStyle}>
                 {post.title}
               </Link>
-              <p className="card-text" style={cardTextStyle}>{post.content}</p>
+              <p className="card-text" style={cardTextStyle}>{post.summary}</p>
               <button onClick={() => handleCommentButtonClick(post._id)} style={commentButtonStyle}>
                 <FontAwesomeIcon icon={faComment} />{' '}
                 {post.comments ? post.comments.length : 0}

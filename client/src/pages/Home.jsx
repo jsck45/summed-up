@@ -20,7 +20,7 @@ const Home = () => {
   const [showMessage, setShowMessage] = useState(false);
   const [user, setUser] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState([]);
-  const [posts, setPosts] = useState([]); // Store all posts, including new ones
+  const [posts, setPosts] = useState([]);
 
   const handleShowModal = () => {
     if (Auth.loggedIn()) {
@@ -32,32 +32,33 @@ const Home = () => {
 
   const handleCloseModal = () => {
     setShowModal(false);
+    
   };
 
   
-  const handleCreatePost = (post) => {
-    const newPost = {
-      _id: uuidv4(),
-      title: post.title,
-      content: post.content,
-      author: user.username,
-      category: selectedCategory || newCategory,
-      dateCreated: new Date().toISOString(),
-    };
+  // const handleCreatePost = (post) => {
+  //   const newPost = {
+  //     _id: uuidv4(),
+  //     title: post.title,
+  //     content: post.content,
+  //     author: user.username,
+  //     category: selectedCategory || newCategory,
+  //     dateCreated: new Date().toISOString(),
+  //   };
 
-    setPosts([newPost, ...posts]);
+  //   setPosts([newPost, ...posts]);
 
-    addPost({
-      variables: {
-        title: post.title,
-        content: post.content,
-        author: user.username,
-        category: selectedCategory || newCategory,
-      },
-      refetchQueries: ["GET_POSTS"],
-    });
-    handleCloseModal();
-  };
+  //   addPost({
+  //     variables: {
+  //       title: post.title,
+  //       content: post.content,
+  //       author: user.username,
+  //       category: selectedCategory || newCategory,
+  //     },
+  //     refetchQueries: ["GET_POSTS"],
+  //   });
+  //   handleCloseModal();
+  // };
 
   const [addPost] = useMutation(CREATE_POST);
 
@@ -87,7 +88,7 @@ const Home = () => {
             <PostForm
               show={showModal}
               handleClose={handleCloseModal}
-              handleCreatePost={handleCreatePost}
+              // handleCreatePost={handleCreatePost}
               user={user}
               posts={setPosts}
               selectedCategory={selectedCategory}

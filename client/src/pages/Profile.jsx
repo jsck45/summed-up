@@ -169,8 +169,14 @@ function UserProfile() {
             <Modal.Title>share this post</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            Link copied to clipboard: {postLink}
-          </Modal.Body>
+          <p>Share this post using the link below:</p>
+          <input
+            type="text"
+            value={postLink}
+            readOnly
+            style={{ width: "100%" }}
+          />
+        </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={() => setShowModal(false)}>
               Close

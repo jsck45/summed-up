@@ -31,7 +31,6 @@ export const GET_POSTS = gql`
         _id
         username
         email
-        password
       }
       dateCreated
       comments {
@@ -41,7 +40,6 @@ export const GET_POSTS = gql`
           _id
           username
           email
-          password
         }
         dateCreated
       }

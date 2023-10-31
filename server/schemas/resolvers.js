@@ -22,15 +22,16 @@ const resolvers = {
           .populate('categories', 'name')
           .populate('summary');
 
-        const postsWithAuthorUsername = posts.map((post) => ({
-          ...post.toObject(),
-          author: {
-            ...post.author.toObject(),
-            username: post.author.username,
-          },
-        }));
+        // const postsWithAuthorUsername = posts.map((post) => ({
+        //   ...post.toObject(),
+        //   author: {
+        //     ...post.author.toObject(),
+        //     username: post.author.username,
+        //   },
+        // }));
 
-        return postsWithAuthorUsername;
+        // return postsWithAuthorUsername;
+        return posts;
       } catch (error) {
         console.error("Error in getPosts resolver: ", error);
         throw error;
@@ -40,18 +41,19 @@ const resolvers = {
     getPostsByCategory: async (parent, { category }, context) => {
       try {
         const categoryObject = await Category.findOne({
-          name: { $regex: new RegExp(category, 'i') }, 
+          name: { $regex: new RegExp(category, 'i') },
         });
-    
+
         if (!categoryObject) {
           throw new Error(`Category not found: ${category}`);
         }
-    
+
         const posts = await Post.find({ categories: categoryObject._id })
           .populate('author')
           .populate('categories', 'name')
           .populate('summary');
     
+
         const postsWithAuthorUsername = posts.map((post) => ({
           ...post.toObject(),
           author: {
@@ -59,14 +61,14 @@ const resolvers = {
             username: post.author.username,
           },
         }));
-    
+
         return postsWithAuthorUsername;
       } catch (error) {
         console.error("Error in getPostsByCategory resolver: ", error);
         throw error;
       }
     },
-    
+
     getSinglePost: async (parent, { _id }) => {
       try {
 
@@ -106,6 +108,7 @@ const resolvers = {
           .populate('categories', 'name')
           .populate('summary');
     
+
         const postsWithAuthorUsername = posts.map((post) => ({
           ...post.toObject(),
           author: {
@@ -140,13 +143,13 @@ const resolvers = {
       if (!user) {
         throw new AuthenticationError("You must be logged in to create a post.");
       }
-    
+
       const author = await User.findById(user._id).select('username');
-    
+
       if (!author) {
         throw new Error("User not found.");
       }
-    
+
       const categoryObject = await Category.findOne({ _id: category });
       console.log('categoryObject:', categoryObject);
 
@@ -182,22 +185,20 @@ const resolvers = {
           });
         })
         .then((newPost) => {
-          // Continue with any additional actions here
-          // For example, updating user posts
           return User.findOneAndUpdate({ _id: context._id }, { $addToSet: { posts: newPost._id } });
         })
         .then((updatedUser) => {
-          // Return the newPost or any other relevant data in the response
           return { ...newPost.toObject(), author };
         })
         .catch((error) => {
-          // Handle any errors here
           throw new Error("Error creating a new post: " + error.message);
         });
       },
     
 
-    loginEmail: async (parent, { email, password }, context) => {
+
+
+    loginEmail: async (parent, { email, password }) => {
       const user = await User.findOne({ email });
 
       if (!user) {
@@ -211,7 +212,7 @@ const resolvers = {
 
       return { token, user };
     },
-    loginUserName: async (parent, { username, password }, context) => {
+    loginUserName: async (parent, { username, password }) => {
       const user = await User.findOne({ username });
 
       if (!user) {

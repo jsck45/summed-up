@@ -49,6 +49,7 @@ export const GET_POSTS = gql`
         _id
         name
       }
+      summary
     }
   }
 `;
@@ -125,6 +126,7 @@ export const GET_POSTS_BY_CATEGORY = gql`
           _id
           name
       }
+      summary
     }
   }
 `;

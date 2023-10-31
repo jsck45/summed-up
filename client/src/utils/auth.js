@@ -10,9 +10,9 @@ class AuthService {
     return !!token && !this.isTokenExpired(token);
   }
 
-  async isTokenExpired(token) {
+  isTokenExpired(token) {
     try {
-      const decoded = await decode(token);
+      const decoded = decode(token);
       if (decoded.exp < Date.now() / 1000) {
         return true;
       } else return false;

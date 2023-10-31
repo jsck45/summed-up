@@ -54,7 +54,7 @@ export const CREATE_POST = gql`
       author {
         username
       }
-      dateCreated
+      createdAt
     }
   }
 `;
@@ -83,10 +83,10 @@ export const ADD_COMMENT = gql`
     addComment(postId: $postId, text: $text) {
       _id
       text
-      author {
+      user {
         username
       }
-      dateCreated
+      createdAt
     }
   }
 `;

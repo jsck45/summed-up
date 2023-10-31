@@ -44,6 +44,7 @@ const typeDefs = gql`
 
   type Query {
     me: User
+    user: User
     users: [User]
     category(_id: ID!): Category
     categories: [Category]

@@ -39,17 +39,17 @@ const resolvers = {
     getPostsByCategory: async (parent, { category }, context) => {
       try {
         const categoryObject = await Category.findOne({
-          name: { $regex: new RegExp(category, 'i') }, 
+          name: { $regex: new RegExp(category, 'i') },
         });
-    
+
         if (!categoryObject) {
           throw new Error(`Category not found: ${category}`);
         }
-    
+
         const posts = await Post.find({ categories: categoryObject._id })
           .populate('author')
           .populate('categories', 'name');
-    
+
         const postsWithAuthorUsername = posts.map((post) => ({
           ...post.toObject(),
           author: {
@@ -57,14 +57,14 @@ const resolvers = {
             username: post.author.username,
           },
         }));
-    
+
         return postsWithAuthorUsername;
       } catch (error) {
         console.error("Error in getPostsByCategory resolver: ", error);
         throw error;
       }
     },
-    
+
     getSinglePost: async (parent, { _id }) => {
       try {
 
@@ -99,10 +99,10 @@ const resolvers = {
     getUserPosts: async (parent, { userId }, context) => {
       try {
         const posts = await Post.find({ author: userId })
-          .populate('author') 
-          .populate('categories', 'name'); 
-    
-      
+          .populate('author')
+          .populate('categories', 'name');
+
+
 
         const postsWithAuthorUsername = posts.map((post) => ({
           ...post.toObject(),
@@ -138,13 +138,13 @@ const resolvers = {
       if (!user) {
         throw new AuthenticationError("You must be logged in to create a post.");
       }
-    
+
       const author = await User.findById(user._id).select('username');
-    
+
       if (!author) {
         throw new Error("User not found.");
       }
-    
+
       const categoryObject = await Category.findOne({ _id: category });
       console.log('categoryObject:', categoryObject);
 
@@ -185,9 +185,9 @@ const resolvers = {
 
       return { ...newPost.toObject(), author }; // Include the author's username in the response
     },
-    
 
-    loginEmail: async (parent, { email, password }, context) => {
+
+    loginEmail: async (parent, { email, password }) => {
       const user = await User.findOne({ email });
 
       if (!user) {
@@ -201,7 +201,7 @@ const resolvers = {
 
       return { token, user };
     },
-    loginUserName: async (parent, { username, password }, context) => {
+    loginUserName: async (parent, { username, password }) => {
       const user = await User.findOne({ username });
 
       if (!user) {

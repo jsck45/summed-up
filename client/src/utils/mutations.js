@@ -54,7 +54,7 @@ export const CREATE_POST = gql`
       author {
         username
       }
-      createdAt
+      dateCreated
     }
   }
 `;

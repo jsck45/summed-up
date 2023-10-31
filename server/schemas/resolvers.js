@@ -21,15 +21,16 @@ const resolvers = {
           .populate('author')
           .populate('categories', 'name');
 
-        const postsWithAuthorUsername = posts.map((post) => ({
-          ...post.toObject(),
-          author: {
-            ...post.author.toObject(),
-            username: post.author.username,
-          },
-        }));
+        // const postsWithAuthorUsername = posts.map((post) => ({
+        //   ...post.toObject(),
+        //   author: {
+        //     ...post.author.toObject(),
+        //     username: post.author.username,
+        //   },
+        // }));
 
-        return postsWithAuthorUsername;
+        // return postsWithAuthorUsername;
+        return posts;
       } catch (error) {
         console.error("Error in getPosts resolver: ", error);
         throw error;

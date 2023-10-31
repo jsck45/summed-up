@@ -185,16 +185,13 @@ const resolvers = {
           });
         })
         .then((newPost) => {
-          // Continue with any additional actions here
-          // For example, updating user posts
           return User.findOneAndUpdate({ _id: context._id }, { $addToSet: { posts: newPost._id } });
         })
         .then((updatedUser) => {
-          // Return the newPost or any other relevant data in the response
           return { ...newPost.toObject(), author };
         })
         .catch((error) => {
-          // Handle any errors here
+
           throw new Error("Error creating a new post: " + error.message);
         });
       },

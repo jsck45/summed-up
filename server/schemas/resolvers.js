@@ -191,6 +191,7 @@ const resolvers = {
           return { ...newPost.toObject(), author };
         })
         .catch((error) => {
+
           throw new Error("Error creating a new post: " + error.message);
         });
       },

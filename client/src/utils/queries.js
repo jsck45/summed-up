@@ -68,6 +68,7 @@ query GetUserPosts($userId: ID!) {
       }
       dateCreated
     }
+    summary
   }
 }
 `

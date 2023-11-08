@@ -167,38 +167,38 @@ const resolvers = {
       }]
 
       client
-        .post("https://api.openai.com/v1/chat/completions", {
-          model: "gpt-4",
-          messages: params,
-          max_tokens: 1024,
-          temperature: 0,
-        })
-        .then((result) => {
-          console.log(result.data.choices[0].message.content);
-
-          summary = result.data.choices[0].message.content;
-          return Post.create({
-            title,
-            content,
-            summary, 
-            author: user._id,
-          });
+      .post("https://api.openai.com/v1/chat/completions", {
+        model: "gpt-4",
+        messages: params,
+        max_tokens: 1024,
+        temperature: 0,
+      })
+      .then((result) => {
+        console.log(result.data.choices[0].message.content);
+    
+        summary = result.data.choices[0].message.content;
+        return Post.create({
+          title,
+          content,
+          summary, 
+          author: user._id,
         })
         .then((newPost) => {
-          return User.findOneAndUpdate({ _id: context._id }, { $addToSet: { posts: newPost._id } });
-        })
-        .then((updatedUser) => {
-          return { ...newPost.toObject(), author };
-        })
-        .catch((error) => {
-
-          throw new Error("Error creating a new post: " + error.message);
+          return User.findOneAndUpdate({ _id: context._id }, { $addToSet: { posts: newPost._id } })
+          .then((updatedUser) => {
+            return { ...newPost.toObject(), author };
+          })
+          .catch((error) => {
+            throw new Error("Error creating a new post: " + error.message);
+          });
         });
+      })
+      .catch((error) => {
+        throw new Error("Error creating a new post: " + error.message);
+      });
+    
       },
     
-
-
-
     loginEmail: async (parent, { email, password }) => {
       const user = await User.findOne({ email });
 

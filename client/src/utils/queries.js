@@ -68,6 +68,10 @@ query GetUserPosts($userId: ID!) {
       }
       dateCreated
     }
+    categories {
+        _id
+        name
+      }
     summary
   }
 }

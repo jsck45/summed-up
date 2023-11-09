@@ -23,7 +23,6 @@ module.exports = {
     if (!token) {
       return req;
     }
-    console.log("Received token in authMiddleware:", token); //debugging
 
     try {
       const { data } = jwt.verify(token, secret, { expiresIn: expiration });

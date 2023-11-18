@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Button, Form } from "react-bootstrap";
+import { Modal, Button, Form, Spinner } from "react-bootstrap";
 import { useMutation, useQuery } from "@apollo/client";
 import { CREATE_POST, ADD_CATEGORY } from "../utils/mutations";
 import { GET_CATEGORIES } from "../utils/queries";
@@ -141,12 +141,26 @@ const handleSubmit = () => {
           </Form.Group> */}
         </Form>
       </Modal.Body>
-      <Modal.Footer>
+      {/* <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>
           Close
         </Button>
         <Button variant="primary" onClick={handleSubmit}>
           Create Post
+        </Button>
+      </Modal.Footer> */}
+       <Modal.Footer>
+        <Button variant="secondary" onClick={handleClose}>
+          Close
+        </Button>
+        <Button variant="primary" onClick={handleSubmit}>
+          {loading ? (
+            <Spinner animation="border" role="status">
+              <span className="sr-only">Loading...</span>
+            </Spinner>
+          ) : (
+            "Create Post"
+          )}
         </Button>
       </Modal.Footer>
     </Modal>

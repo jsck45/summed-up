@@ -80,14 +80,14 @@ export const EDIT_POST = gql`
 `;
 
 export const ADD_COMMENT = gql`
-  mutation addComment($postId: ID!, $text: String!) {
-    addComment(postId: $postId, text: $text) {
+  mutation addComment($postId: ID!, $content: String!) {
+    addComment(postId: $postId, content: $content) {
       _id
-      text
-      user {
+      content
+      author {
         username
       }
-      createdAt
+      dateCreated
     }
   }
 `;

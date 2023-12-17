@@ -138,6 +138,10 @@ function UserProfile() {
               <p className="card-text">
                 {new Date(parseInt(post.dateCreated)).toLocaleString()}
               </p>
+           
+              <Link to={`/posts/${post._id}`} className="card-title" style={cardTitleStyle}>
+                {post.title}
+              </Link>
               {post.categories &&
                         post.categories.length > 0 &&
                         post.categories.map((category) => (
@@ -150,9 +154,6 @@ function UserProfile() {
                             </Link>
                           </CategoryButton>
                         ))}
-              <Link to={`/posts/${post._id}`} className="card-title" style={cardTitleStyle}>
-                {post.title}
-              </Link>
               <p className="card-text" style={cardTextStyle}>{post.summary}</p>
               <button onClick={() => handleCommentButtonClick(post._id)} style={commentButtonStyle}>
                 <FontAwesomeIcon icon={faComment} />{' '}

@@ -20,10 +20,16 @@ function CommentForm({ postId }) {
       }
 
     try {
-      await addComment({
-        variables: { postId, text: commentText },
+      const { data } = await addComment({
+        variables: { postId, content: commentText },
       });
 
+      const newComment = data.addComment;
+       
+      const { author, dateCreated } = newComment;
+
+      console.log('New Comment', newComment);
+      
       setCommentText('');
     } catch (error) {
       console.error('Error posting comment:', error);

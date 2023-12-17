@@ -49,7 +49,7 @@ function CommentList({ postId }) {
   const [editComment] = useMutation(EDIT_COMMENT);
 
   const handleEditComment = (commentId) => {
-    console.log("Edit button clicked") //debugging
+    console.log("Edit button clicked") 
     if (editingCommentId === commentId) {
       if (editCommentText) {
         editComment({
@@ -70,7 +70,6 @@ function CommentList({ postId }) {
       const commentToEdit = comments.find((comment) => comment._id === commentId);
 
       if (commentToEdit) {
-        console.log(commentToEdit.text) //debugging
         setEditCommentText(commentToEdit.text); 
         setEditingCommentId(commentId);
       }

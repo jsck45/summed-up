@@ -77,6 +77,7 @@ const typeDefs = gql`
       category: ID
     ): Post
     editPost(
+      _id:ID
       title: String
       content: String
     ): Post

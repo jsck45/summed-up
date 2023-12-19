@@ -35,31 +35,6 @@ const Home = () => {
     
   };
 
-  
-  // const handleCreatePost = (post) => {
-  //   const newPost = {
-  //     _id: uuidv4(),
-  //     title: post.title,
-  //     content: post.content,
-  //     author: user.username,
-  //     category: selectedCategory || newCategory,
-  //     dateCreated: new Date().toISOString(),
-  //   };
-
-  //   setPosts([newPost, ...posts]);
-
-  //   addPost({
-  //     variables: {
-  //       title: post.title,
-  //       content: post.content,
-  //       author: user.username,
-  //       category: selectedCategory || newCategory,
-  //     },
-  //     refetchQueries: ["GET_POSTS"],
-  //   });
-  //   handleCloseModal();
-  // };
-
   const [addPost] = useMutation(CREATE_POST);
 
   return (
@@ -88,7 +63,6 @@ const Home = () => {
             <PostForm
               show={showModal}
               handleClose={handleCloseModal}
-              // handleCreatePost={handleCreatePost}
               user={user}
               posts={setPosts}
               selectedCategory={selectedCategory}

@@ -26,9 +26,18 @@ body {
     font-weight: bolder;
   }
 
+  .about {
+    padding-top: 5rem;  
+  }
+
+  .about h5 {
+    line-height: 1.7rem;
+  }
+
+
   @media (max-width: 767px) {
-    .main {
-      padding: 3rem;
+    .about {
+      padding: 4rem 4rem 0 4rem;
     }
     .button {
       display: block;

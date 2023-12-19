@@ -7,15 +7,13 @@ import SignUpForm from './SignupForm';
 import LoginForm from './LoginForm';
 import Auth from '../utils/auth';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFilter, faBars, faTimes } from "@fortawesome/free-solid-svg-icons"; // Import icons for open and closed states
-
+import { faFilter, faBars, faTimes } from "@fortawesome/free-solid-svg-icons"; 
 function AppNavbar() {
   const [expanded, setExpanded] = useState(false);
   const [showModal, setShowModal] = useState (false);
   const [activeModal, setActiveModal] = useState('login');
   const [menuExpanded, setMenuExpanded] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false); // State variable to track menu state
-
+  const [isMenuOpen, setIsMenuOpen] = useState(false); 
   const handleShowLoginModal = () => {
     setActiveModal('login');
     setShowModal(true);
@@ -43,7 +41,7 @@ function AppNavbar() {
             </Navbar.Brand>
             <div>
               <NavbarToggle aria-controls="basic-navbar-nav" onClick={handleMenuToggle}>
-                <FontAwesomeIcon icon={isMenuOpen ? faTimes : faBars} /> {/* Toggle the icon based on the state */}
+                <FontAwesomeIcon icon={isMenuOpen ? faTimes : faBars} /> 
               </NavbarToggle>
             </div>
           </div>

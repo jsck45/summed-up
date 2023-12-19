@@ -10,6 +10,7 @@ import { setContext } from '@apollo/client/link/context';
 import Nav from './components/Nav';
 import Categories from './components/Categories';
 import LandingPage from './pages/LandingPage.jsx';
+import About from './components/About';
 import { Container, Row, Col } from 'react-bootstrap'; 
 
 const httpLink = createHttpLink({
@@ -49,11 +50,16 @@ function App() {
           <Nav/>
           <Container>
             <Row>
+              <About />
+            </Row>
+            <Row>
               <Col lg={2} md={3} className='categories d-none d-md-block'>
                 <Categories />
               </Col>
               <Col lg={10} md={9} sm={12} className='main'>
                 <Outlet />
+              </Col>
+              <Col>
               </Col>
             </Row>
           </Container>

@@ -38,7 +38,7 @@ Summed Up is built on a MERN stack with hosting provided by heroku.
 
 ## Deployed Site
 
-https://summed-up-8795a7f223a9.herokuapp.com/
+https://summed-up-102938-e35f400e5f3d.herokuapp.com/
 
 ## Contributors
 

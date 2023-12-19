@@ -48,7 +48,7 @@ const CategoryButton = styled.div`
     display: inline-block;
     padding: 0.5rem 0.8rem;
     margin-top: 0.5rem;
-    background-color: #dbbb2c;
+    background-color: #2ca9db;
     color: #fff;
     border-radius: 20px;
     cursor: pointer;
@@ -58,11 +58,11 @@ const CategoryButton = styled.div`
   }
 
   .custom-button:hover {
-    background-color: #c99c06;
+    background-color: #139fd6;
   }
 
   .custom-button:active {
-    background-color: #c99c06;
+    background-color: #139fd6;
   }
 `;
 

@@ -36,6 +36,16 @@ function CommentForm({ postId }) {
     }
   };
 
+  const postBtnStyle = {
+    backgroundColor: '#59b5d9',
+    color: 'white', 
+    transition: 'background-color 0.3s ease',
+  };
+
+  const postBtnHoverStyle = {
+    backgroundColor: '#139fd6', 
+  };
+
   return (
     <form onSubmit={handleCommentSubmit}>
       <div className="form-group my-3">
@@ -46,7 +56,10 @@ function CommentForm({ postId }) {
           onChange={(e) => setCommentText(e.target.value)}
         />
       </div>
-      <button type="submit" className="btn btn-primary my-2">
+      <button type="submit" className="btn my-2" style={postBtnStyle}
+        onMouseOver={(e) => (e.currentTarget.style.backgroundColor = postBtnHoverStyle.backgroundColor)}
+        onMouseOut={(e) => (e.currentTarget.style.backgroundColor = postBtnStyle.backgroundColor)}
+ >
         Post Comment
       </button>
       <Modal show={showModal} onHide={() => setShowModal(false)}>

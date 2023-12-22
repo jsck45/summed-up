@@ -78,7 +78,7 @@ const posts = [
       },
     ],
     summary: 
-    "This post outlines the latest smartphone's remarkable features: a brilliant display, extended battery life, and a high-performance camera. It redefines the mobile lifestyle with innovation and convenience."
+    "Introducing our latest smartphone, a true masterpiece of modern technology. Meticulously crafted to enhance your mobile experience with a brilliant display, extended battery life, and a high-performance camera. Redefining your mobile lifestyle with innovation and convenience."
   },
   {
     title: "Exploring the Wonders of Space",
@@ -92,7 +92,7 @@ const posts = [
         author: users[5]._id,
       },
     ],
-    summary: "This post embarks on an awe-inspiring cosmic voyage, unveiling the mesmerizing beauty of distant galaxies and the mysteries of black holes. Join us to explore the cosmos, igniting curiosity and understanding."
+    summary: "Embark on a cosmic odyssey, exploring the wonders of the universe. From distant galaxies to mysterious black holes, uncover celestial marvels. Join us on a journey of curiosity and understanding, revealing the captivating stories and puzzles of the cosmos."
   },
   {
     title: "Healthy Lifestyle Tips for Everyone",
@@ -106,7 +106,7 @@ const posts = [
         author: users[6]._id,
       },
     ],
-    summary: "This post emphasizes the importance of a healthy life and offers insights on nutrition, exercise, and mental well-being. Let's start the journey towards a healthier, happier life by making mindful choices, engaging in regular physical activity, and nurturing our mental health."
+    summary: "Explore the essentials of a healthy and joyful life. Learn about balanced nutrition, effective workout routines, and mental well-being strategies. Join us on a transformative journey toward improved overall wellness and happiness."
   },
   {
     title: "Travel Diary: Exploring Beautiful Destinations",
@@ -120,7 +120,7 @@ const posts = [
         author: users[7]._id,
       },
     ],
-    summary: "Embark on a thrilling journey through captivating landscapes worldwide. Explore pristine shores, towering mountains, and diverse cultures. Whether it's tranquil beaches, adventurous hikes, or leisurely strolls, experience it all. Prepare for remarkable destinations and extraordinary adventures in our beautiful world."
+    summary: "Embark on a global adventure exploring enchanting landscapes, idyllic beaches, majestic mountains, and vibrant cultures. Join me on an incredible odyssey, discovering hidden gems and experiencing the diverse beauty of our extraordinary world."
   },
 ];
 

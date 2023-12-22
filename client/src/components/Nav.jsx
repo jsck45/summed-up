@@ -35,10 +35,12 @@ function AppNavbar() {
       <Navbar bg="light" expand="lg">
         <Container>
           <div className="d-flex justify-content-between w-100">
-            <Navbar.Brand as={Link} to="/">
-              <FontAwesomeIcon icon={faFilter} style={{ marginRight: '1rem' }} />
-              <strong><span>TL;DR</span></strong>
-            </Navbar.Brand>
+          <Navbar.Brand as={Link} to="/">
+  <strong style={{ fontFamily: 'Fugaz One', fontSize: '1.5rem' }}>
+    <span>TL;DR</span>
+  </strong>
+</Navbar.Brand>
+
             <div>
               <NavbarToggle aria-controls="basic-navbar-nav" onClick={handleMenuToggle}>
                 <FontAwesomeIcon icon={isMenuOpen ? faTimes : faBars} /> 

@@ -78,8 +78,7 @@ function PostList() {
   };
 
   const cardBodyStyle = {
-    borderBottom: "1px solid #ddd",
-    padding: "1rem 0",
+    padding: "0",
   };
 
   const commentButtonStyle = {
@@ -94,23 +93,19 @@ function PostList() {
     return `/posts/${postId}`;
   };
 
-  const handleShareButtonClick = (postId) => {
-    const postLink = `https://summed-up-8795a7f223a9.herokuapp.com/post/${postId}`;
-
-    const inputElement = document.createElement("input");
-    inputElement.value = postLink;
-
-    document.body.appendChild(inputElement);
-
-    inputElement.select();
-    document.execCommand("copy");
-
-    document.body.removeChild(inputElement);
-
-    handleShowModal();
-    setPostLink(postLink);
+  const handleShareButtonClick = async (postId) => {
+    const currentURL = window.location.href;
+    const postLink = `${currentURL}post/${postId}`;
+  
+    try {
+      await navigator.clipboard.writeText(postLink);
+      handleShowModal();
+      setPostLink(postLink);
+    } catch (err) {
+      console.error('Unable to copy link to clipboard', err);
+    }
   };
-
+  
   if (loading) {
     return <p>Loading...</p>;
   }

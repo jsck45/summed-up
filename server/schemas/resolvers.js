@@ -173,14 +173,20 @@ const resolvers = {
           temperature: 0,
         });
     
-        console.log(result.data.choices[0].message.content);
+        // console.log(result.data.choices[0].message.content);
     
         summary = result.data.choices[0].message.content;
+
+        const characterLimit = 200; 
+        let limitedSummary = summary.slice(0, characterLimit);
+
+        const lastFullStopIndex = limitedSummary.lastIndexOf('.');
+        limitedSummary = lastFullStopIndex !== -1 ? limitedSummary.slice(0, lastFullStopIndex + 1) : limitedSummary;
     
         const newPost = await Post.create({
           title,
           content,
-          summary,
+          summary: limitedSummary,
           author: user._id,
           categories: categoryObject,
           });

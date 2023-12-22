@@ -22,15 +22,7 @@ const resolvers = {
           .populate('categories', 'name')
           .populate('summary');
 
-        // const postsWithAuthorUsername = posts.map((post) => ({
-        //   ...post.toObject(),
-        //   author: {
-        //     ...post.author.toObject(),
-        //     username: post.author.username,
-        //   },
-        // }));
-
-        // return postsWithAuthorUsername;
+    
         return posts;
       } catch (error) {
         console.error("Error in getPosts resolver: ", error);
@@ -177,7 +169,7 @@ const resolvers = {
     
         summary = result.data.choices[0].message.content;
 
-        const characterLimit = 200; 
+        const characterLimit = 300; 
         let limitedSummary = summary.slice(0, characterLimit);
 
         const lastFullStopIndex = limitedSummary.lastIndexOf('.');

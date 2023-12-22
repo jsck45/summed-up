@@ -34,6 +34,9 @@ body {
     line-height: 1.7rem;
   }
 
+  .content {
+padding: 0 3rem;  }
+
 
   @media (max-width: 767px) {
     .about {

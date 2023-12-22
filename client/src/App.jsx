@@ -41,7 +41,7 @@ function App() {
     <ApolloProvider client={client}>
       <div>
         <Nav />
-        <Container>
+        <Container className ='content'>
           <Row>
             {isHomepage && <About />} 
           </Row>
@@ -53,7 +53,6 @@ function App() {
               <Outlet />
             </Col>
             <Col>
-              {/* Other components or content for non-homepage pages */}
             </Col>
           </Row>
         </Container>

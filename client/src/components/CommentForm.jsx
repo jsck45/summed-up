@@ -37,13 +37,13 @@ function CommentForm({ postId }) {
   };
 
   const postBtnStyle = {
-    backgroundColor: '#59b5d9',
+    backgroundColor: '#e39c7b',
     color: 'white', 
     transition: 'background-color 0.3s ease',
   };
 
   const postBtnHoverStyle = {
-    backgroundColor: '#139fd6', 
+    backgroundColor: '#e38c64', 
   };
 
   return (

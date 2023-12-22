@@ -1,16 +1,16 @@
 const { ObjectId } = require('mongodb');
 
 const categories = [
-  { _id: new ObjectId(), name: "Tech" },
-  { _id: new ObjectId(), name: "Science" },
-  { _id: new ObjectId(), name: "Health" },
-  { _id: new ObjectId(), name: "Travel" },
-  { _id: new ObjectId(), name: "Food" },
-  { _id: new ObjectId(), name: "Sports" },
-  { _id: new ObjectId(), name: "Entertainment" },
-  { _id: new ObjectId(), name: "Fashion" },
-  { _id: new ObjectId(), name: "Music" },
-  { _id: new ObjectId(), name: "Finance" },
+  { _id: new ObjectId(), name: "🚀 Tech" },
+  { _id: new ObjectId(), name: "🔬 Science" },
+  { _id: new ObjectId(), name: "🌿 Health" },
+  { _id: new ObjectId(), name: "✈️ Travel" },
+  { _id: new ObjectId(), name: "🍔 Food" },
+  { _id: new ObjectId(), name: "⚽ Sports" },
+  { _id: new ObjectId(), name: "🎬 Entertainment" },
+  { _id: new ObjectId(), name: "👗 Fashion" },
+  { _id: new ObjectId(), name: "🎶 Music" },
+  { _id: new ObjectId(), name: "💰 Finance" },
 ];
 
 const users = [

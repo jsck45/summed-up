@@ -37,7 +37,7 @@ function AppNavbar() {
           <div className="d-flex justify-content-between w-100">
             <Navbar.Brand as={Link} to="/">
               <FontAwesomeIcon icon={faFilter} style={{ marginRight: '1rem' }} />
-              <span>summed up</span>
+              <strong><span>TL;DR</span></strong>
             </Navbar.Brand>
             <div>
               <NavbarToggle aria-controls="basic-navbar-nav" onClick={handleMenuToggle}>

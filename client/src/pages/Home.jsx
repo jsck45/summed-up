@@ -15,6 +15,16 @@ const MainContainer = styled.div`
   }
 `;
 
+const postBtnStyle = {
+  backgroundColor: '#e39c7b',
+  color: 'white', 
+  transition: 'background-color 0.3s ease',
+};
+
+const postBtnHoverStyle = {
+  backgroundColor: '#e38c64', 
+};
+
 const Home = () => {
   const [showModal, setShowModal] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
@@ -44,17 +54,12 @@ const Home = () => {
           style={{ borderLeft: "1px solid #ccc", paddingLeft: "3rem" }}
         >
           <Button
-            variant="success"
+            variant="light"
             onClick={handleShowModal}
             className="my-3 button"
-            style={{
-              backgroundColor: "#dbbb2c",
-              color: "white",
-              border: "none",
-              transition: "background-color 0.3s",
-            }}
-            onMouseEnter={(e) => (e.target.style.backgroundColor = "#c99c06")}
-            onMouseLeave={(e) => (e.target.style.backgroundColor = "#dbbb2c")}
+            style={postBtnStyle}
+        onMouseOver={(e) => (e.currentTarget.style.backgroundColor = postBtnHoverStyle.backgroundColor)}
+        onMouseOut={(e) => (e.currentTarget.style.backgroundColor = postBtnStyle.backgroundColor)}
           >
             Create Post
           </Button>

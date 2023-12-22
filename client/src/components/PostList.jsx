@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment, faShare } from "@fortawesome/free-solid-svg-icons";
 import { Modal, Button } from "react-bootstrap";
@@ -42,6 +43,7 @@ function PostList() {
   const [showModal, setShowModal] = useState(false);
   const [postLink, setPostLink] = useState("");
   const [posts, setPosts] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (loading) {
@@ -49,7 +51,9 @@ function PostList() {
     } else if (error) {
       setPosts(null);
     } else {
-      const sortedPosts = data.getPosts.slice().sort((a, b) => b.dateCreated - a.dateCreated);
+      const sortedPosts = data.getPosts
+        .slice()
+        .sort((a, b) => b.dateCreated - a.dateCreated);
 
       setPosts(sortedPosts);
     }
@@ -90,22 +94,22 @@ function PostList() {
   };
 
   const handleCommentButtonClick = (postId) => {
-    return `/posts/${postId}`;
+    navigate(`/posts/${postId}`);
   };
 
   const handleShareButtonClick = async (postId) => {
     const currentURL = window.location.href;
     const postLink = `${currentURL}post/${postId}`;
-  
+
     try {
       await navigator.clipboard.writeText(postLink);
       handleShowModal();
       setPostLink(postLink);
     } catch (err) {
-      console.error('Unable to copy link to clipboard', err);
+      console.error("Unable to copy link to clipboard", err);
     }
   };
-  
+
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -196,4 +200,5 @@ function PostList() {
     </div>
   );
 }
+
 export default PostList;

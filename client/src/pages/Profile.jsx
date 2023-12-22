@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 import { useQuery } from '@apollo/client';
 import { GET_USER_POSTS } from '../utils/queries';
 import { Link } from 'react-router-dom';
@@ -43,35 +44,31 @@ function UserProfile() {
   const [userPosts, setUserPosts] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [postLink, setPostLink] = useState('');
-  
   const loggedInUser = Auth.getProfile();
-
-  console.log(loggedInUser);
+   
   const userId = loggedInUser.data._id;
+  const navigate = useNavigate(); 
+
 
   const handleShowModal = () => {
     setShowModal(true);
   };
 
   const handleCommentButtonClick = (postId) => {
-    return `/posts/${postId}`;
+    navigate(`/posts/${postId}`);
   };
 
-  const handleShareButtonClick = (postId) => {
-    const postLink = `https://summed-up-8795a7f223a9.herokuapp.com/post/${postId}`.toLowerCase();
+  const handleShareButtonClick = async (postId) => {
+    const currentURL = window.location.href;
+    const postLink = `${currentURL}post/${postId}`;
 
-    const inputElement = document.createElement('input');
-    inputElement.value = postLink;
-
-    document.body.appendChild(inputElement);
-
-    inputElement.select();
-    document.execCommand('copy');
-
-    document.body.removeChild(inputElement);
-
-    handleShowModal();
-    setPostLink(postLink);
+    try {
+      await navigator.clipboard.writeText(postLink);
+      handleShowModal();
+      setPostLink(postLink);
+    } catch (err) {
+      console.error("Unable to copy link to clipboard", err);
+    }
   };
 
   console.log('userId:', userId);
@@ -114,8 +111,7 @@ function UserProfile() {
   };
 
   const cardBodyStyle = {
-    borderBottom: "1px solid #ddd",
-    padding: "1rem 0",
+    padding: "0",
   };
 
   const commentButtonStyle = {

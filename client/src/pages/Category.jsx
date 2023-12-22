@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { useParams } from "react-router-dom";
 import { GET_POSTS_BY_CATEGORY } from "../utils/queries";
@@ -51,6 +52,7 @@ function CategoryPage({}) {
     variables: { category: categoryName },
   });
   const [posts, setPosts] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (loading) {
@@ -85,8 +87,7 @@ function CategoryPage({}) {
   };
 
   const cardBodyStyle = {
-    borderBottom: "1px solid #ddd",
-    padding: "1rem 0",
+    padding: "0",
   };
 
   const commentButtonStyle = {
@@ -98,10 +99,7 @@ function CategoryPage({}) {
   };
 
   const handleCommentButtonClick = (postId) => {
-    const post = posts.find((p) => p._id === postId);
-    if (post) {
-      return <Link to={`/posts/${post._id}`}>View Post</Link>;
-    }
+    navigate(`/posts/${postId}`);
   };
   
 

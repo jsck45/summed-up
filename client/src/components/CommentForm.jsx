@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
-import { useMutation } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 import { ADD_COMMENT } from '../utils/mutations';
 import Auth from '../utils/auth';
 import { Modal } from 'react-bootstrap';
+import { GET_COMMENTS } from '../utils/queries';
 
 function CommentForm({ postId }) {
   const [commentText, setCommentText] = useState('');
-  const [addComment] = useMutation(ADD_COMMENT);
+  const [addComment] = useMutation(ADD_COMMENT, { refetchQueries: [{ query: GET_COMMENTS}],});
   const [showModal, setShowModal] = useState(false);
+  const { refetch } = useQuery(GET_COMMENTS);
 
-
+  const user = Auth.getProfile(); 
+  
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
 
@@ -21,7 +24,7 @@ function CommentForm({ postId }) {
 
     try {
       const { data } = await addComment({
-        variables: { postId, content: commentText },
+        variables: { postId, content: commentText, author: user.username },
       });
 
       const newComment = data.addComment;
@@ -31,6 +34,7 @@ function CommentForm({ postId }) {
       console.log('New Comment', newComment);
       
       setCommentText('');
+      refetch();
     } catch (error) {
       console.error('Error posting comment:', error);
     }

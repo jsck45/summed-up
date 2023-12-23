@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Modal, Button, Form, Spinner } from "react-bootstrap";
 import { useMutation, useQuery } from "@apollo/client";
 import { CREATE_POST } from "../utils/mutations";
-import { GET_CATEGORIES } from "../utils/queries";
+import { GET_CATEGORIES, GET_POSTS } from "../utils/queries";
 import Auth from "../utils/auth";
 
 const PostForm = ({ show, handleClose, handleCreatePost }) => {
@@ -12,12 +12,15 @@ const PostForm = ({ show, handleClose, handleCreatePost }) => {
   const [posts, setPosts] = useState([]);
   const { data } = useQuery(GET_CATEGORIES);
   const [loading, setLoading] = useState(false); 
+  const { refetch } = useQuery(GET_POSTS);
 
 
   const existingCategories = data ? data.categories : [];
 
-  const [addPost] = useMutation(CREATE_POST);
-
+  const [addPost] = useMutation(CREATE_POST, {
+    refetchQueries: [{ query: GET_POSTS }],
+  });
+  
   const user = Auth.getProfile(); 
 
 const handleSubmit = () => {
@@ -31,19 +34,17 @@ const handleSubmit = () => {
       author: user.username, 
 
     },
-    refetchQueries: ["GET_POSTS"], 
 
   })
     .then((response) => {
       setLoading(false);
-
       setPosts([...posts, response.data.addPost]);
       console.log("New post created:", response.data.addPost);
       handleClose();
+      refetch(); 
     })
     .catch((error) => {
       setLoading(false);
-
       console.error("Error creating a new post:", error);
     });
 };

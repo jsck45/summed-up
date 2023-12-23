@@ -11,7 +11,6 @@ import styled from "styled-components";
 const CardContainer = styled.div`
   @media (max-width: 767px) {
     border-left: none !important;
-    padding: 2rem !important;
   }
 `;
 

@@ -181,6 +181,7 @@ const resolvers = {
           summary: limitedSummary,
           author: user._id,
           categories: categoryObject,
+          dateCreated: new Date(),
           });
         
         const updatedUser = await User.findOneAndUpdate(
@@ -240,17 +241,37 @@ const resolvers = {
       return Post;
     },
     addComment: async (parent, { postId, content }, context) => {
-      await Post.findOneAndUpdate(
-        { _id: postId },
-        {
-          $addToSet: {
-            comments: { content, author: context.author }
-          }
-        }, {
-        new: true
-      });
+      try {
+        // Check if the user is authenticated
+        if (!context.user) {
+          throw new AuthenticationError("You must be logged in to add a comment.");
+        }
 
-      return Post;
+        // Retrieve the author details (e.g., username) from the database
+        const author = await User.findById(context.user._id).select('username');
+
+        if (!author) {
+          throw new Error("User not found.");
+        }
+
+        // Update the post with the new comment
+        const updatedPost = await Post.findOneAndUpdate(
+          { _id: postId },
+          {
+            $addToSet: {
+              comments: { content, author }
+            }
+          },
+          {
+            new: true
+          }
+        );
+
+        return updatedPost;
+      } catch (error) {
+        console.error("Error adding comment:", error);
+        throw error;
+      }
     },
     editComment: async (parent, { postId, commentId, content }) => {
       await Post.findOneAndUpdate({ _id: postId, 'comments._id': commentId }, { $set: { 'comments.$': content } }, {

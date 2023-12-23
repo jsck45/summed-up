@@ -242,19 +242,16 @@ const resolvers = {
     },
     addComment: async (parent, { postId, content }, context) => {
       try {
-        // Check if the user is authenticated
         if (!context.user) {
           throw new AuthenticationError("You must be logged in to add a comment.");
         }
 
-        // Retrieve the author details (e.g., username) from the database
         const author = await User.findById(context.user._id).select('username');
 
         if (!author) {
           throw new Error("User not found.");
         }
 
-        // Update the post with the new comment
         const updatedPost = await Post.findOneAndUpdate(
           { _id: postId },
           {
@@ -281,19 +278,20 @@ const resolvers = {
       return Post;
     },
     deleteComment: async (parent, { postId, commentId }) => {
-      await Post.findOneAndDelete(
+      await Post.updateOne(
         { _id: postId },
         {
           $pull: {
             comments: {
-              _id: commentId
-            }
-          }
+              _id: commentId,
+            },
+          },
         }
       );
-
-      return Post;
-    }
+      const updatedPost = await Post.findById(postId);
+      return updatedPost;
+    },
+    
   },
 };
 

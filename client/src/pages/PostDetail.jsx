@@ -192,6 +192,23 @@ function PostDetail() {
     setSelectedCommentId(commentId);
     handleShowModal(true);
   };
+  
+  useEffect(() => {
+    if (selectedCommentId !== null) {
+      const postId = post?._id;
+  
+      deleteComment({
+        variables: {
+          postId: postId,
+          commentId: selectedCommentId,
+        },
+      });
+  
+      // Reset selectedCommentId after deletion
+      setSelectedCommentId(null);
+    }
+  }, [selectedCommentId, deleteComment, post]);
+
 
   const handleDeleteConfirmed = () => {
     if (showModal) {
@@ -203,6 +220,7 @@ function PostDetail() {
     } else if (showDeleteCommentModal) {
       deleteComment({
         variables: {
+          postId: post?._id,
           commentId: selectedCommentId,
         },
       });
@@ -272,8 +290,6 @@ function PostDetail() {
     padding: "1rem 2rem 1rem 0",
     cursor: "pointer",
   };
-
-  console.log("Post:", post);
 
   return (
     <div className="card py-5" key={post?._id} style={cardStyle}>

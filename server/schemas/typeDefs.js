@@ -92,7 +92,7 @@ const typeDefs = gql`
       content: String
     ): Post
     deleteComment(
-      postId: ID!
+      postId: ID
       commentId: ID!  
     ): Post
   }

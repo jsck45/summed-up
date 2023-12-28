@@ -85,8 +85,9 @@ const resolvers = {
 
     commentsByPost: async (_, { postId }) => {
       try {
-        const comments = await Comment.find({ postId }).populate('author');
-        return comments;
+        const comments = await Post.findById(postId).select('comments').populate('comments.author');
+
+        return comments.comments;
       } catch (error) {
         console.error('Error fetching comments:', error);
         throw new Error('Failed to fetch comments.');

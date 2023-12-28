@@ -40,6 +40,7 @@ const typeDefs = gql`
     content: String
     author: User
     dateCreated: String
+    postId: ID 
   }
 
   type Query {

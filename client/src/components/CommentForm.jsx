@@ -9,7 +9,7 @@ function CommentForm({ postId }) {
   const [commentText, setCommentText] = useState('');
   const [addComment] = useMutation(ADD_COMMENT, { refetchQueries: [{ query: GET_COMMENTS}],});
   const [showModal, setShowModal] = useState(false);
-  const { refetch } = useQuery(GET_COMMENTS);
+  // const { refetch } = useQuery(GET_COMMENTS);
 
   const user = Auth.getProfile(); 
   
@@ -34,7 +34,7 @@ function CommentForm({ postId }) {
       console.log('New Comment', newComment);
       
       setCommentText('');
-      refetch();
+      // refetch();
     } catch (error) {
       console.error('Error posting comment:', error);
     }

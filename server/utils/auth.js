@@ -41,8 +41,7 @@ module.exports = {
     console.log('Current server time:', currentTime);
 
     const token = jwt.sign({ data: payload }, secret, { expiresIn: expiration });
-    // const tokenExpiration = new Date((jwt.decode(token).exp) * 1000).toISOString();
-    // console.log('Token created with expiration:', tokenExpiration);
+  
 
     return token;
   }

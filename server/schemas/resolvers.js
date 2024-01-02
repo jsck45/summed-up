@@ -235,12 +235,7 @@ const resolvers = {
 
       return Post;
     },
-    deletePost: async (parent, args, context) => {
-      await Post.findOneAndDelete({ _id: args._id });
-      await User.findOneAndUpdate({ _id: context._id }, { $pull: { posts: args._id } });
-
-      return Post;
-    },
+  
     addComment: async (parent, { postId, content }, context) => {
       try {
         if (!context.user) {
@@ -292,6 +287,22 @@ const resolvers = {
       const updatedPost = await Post.findById(postId);
       return updatedPost;
     },
+    
+    deletePost: async (parent, { _id }, context) => {
+      try {
+    
+        const postToDelete = await Post.findById(_id);
+    
+        const deletedPost = await Post.findOneAndDelete({ _id: _id });
+       
+        return deletedPost;
+      } catch (error) {
+        console.error('Error deleting post:', error);
+        throw new Error('Post not found');
+      }
+    },
+    
+    
     
   },
 };

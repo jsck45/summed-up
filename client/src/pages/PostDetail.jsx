@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { Container, Button, Modal } from "react-bootstrap";
 import { useMutation, useQuery } from "@apollo/client";
 import { GET_SINGLE_POST, GET_COMMENTS } from "../utils/queries";
@@ -72,6 +72,7 @@ function PostDetail() {
   const [showDeleteCommentModal, setShowDeleteCommentModal] = useState(false);
   const [selectedCommentId, setSelectedCommentId] = useState(null);
   const [showShareModal, setShowShareModal] = useState(false);
+  const navigate = useNavigate();
 
   const handleShowShareModal = () => {
     setShowShareModal(true);
@@ -199,11 +200,21 @@ function PostDetail() {
   };
 
   const handleDeleteConfirmed = () => {
+
     if (showModal) {
       deletePost({
         variables: {
-          postId: post?._id,
+          _id: post?._id,
         },
+        onCompleted: () => {
+          setShowModal(false);
+        },
+      })
+      .then(() => {
+        navigate("/post-deleted");
+      })
+      .catch((error) =>  {
+        console.error("Error deleting post", error);
       });
     } else if (showDeleteCommentModal && selectedCommentId !== null) {
       deleteComment({
@@ -211,12 +222,13 @@ function PostDetail() {
           postId: post?._id,
           commentId: selectedCommentId,
         },
+        onCompleted: () => {
+          setShowDeleteCommentModal(false);
+        },
       });
     }
-
-    setShowModal(false);
-    setShowDeleteCommentModal(false);
   };
+  
 
   const handleCommentButtonClick = () => {
     window.location.href = `/posts/${post?._id}`;
@@ -354,7 +366,7 @@ function PostDetail() {
                 <button onClick={handleToggleEdit} style={commentButtonStyle}>
                   <FontAwesomeIcon icon={faEdit} /> Edit
                 </button>
-                <button onClick={() => handleDelete(false)} style={commentButtonStyle}>
+                <button onClick={() => handleDeletePost(false)} style={commentButtonStyle}>
                   <FontAwesomeIcon icon={faTrash} /> Delete
                 </button>
               </div>

@@ -6,6 +6,7 @@ import Homepage from "./pages/Home";
 import PostDetail from "./pages/PostDetail.jsx";
 import Profile from "./pages/Profile.jsx";
 import Category from "./pages/Category.jsx";
+import PostDeleted from "./pages/PostDeleted.jsx";
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
       {
         path: "me",
         element: <Profile />,
+      },
+      {
+        path: "post-deleted",
+        element: <PostDeleted />,
       },
     ],
   },

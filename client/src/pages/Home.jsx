@@ -6,7 +6,6 @@ import Auth from "../utils/auth";
 import PostList from "../components/PostList";
 import PostForm from "../components/PostForm";
 import styled from "styled-components";
-import { v4 as uuidv4 } from 'uuid';
 
 const MainContainer = styled.div`
   @media (max-width: 767px) {

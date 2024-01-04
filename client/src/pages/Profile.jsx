@@ -8,6 +8,8 @@ import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComment, faShare } from '@fortawesome/free-solid-svg-icons';
 import Auth from '../utils/auth';
+import { CREATE_POST } from '../utils/mutations'; 
+import PostForm from '../components/PostForm'; 
 
 const ProfileContainer = styled.div`
   @media (max-width: 767px) {
@@ -40,7 +42,6 @@ const CategoryButton = styled.div`
 `;
 
 function UserProfile() {
-  
   const [userPosts, setUserPosts] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [postLink, setPostLink] = useState('');
@@ -121,14 +122,37 @@ function UserProfile() {
     padding: "1rem 2rem 1rem 0",
     cursor: "pointer",
   };
+  
+const postBtnStyle = {
+  backgroundColor: '#e39c7b',
+  color: 'white', 
+  transition: 'background-color 0.3s ease',
+};
+
+const postBtnHoverStyle = {
+  backgroundColor: '#e38c64', 
+};
 
 
   return (
     <div className="py-5">
       <ProfileContainer style={{ borderLeft: '1px solid #ccc', paddingLeft: '3rem' }}>
         <h1 style={{ paddingBottom: '1rem', textAlign: 'end' }}>hi, {loggedInUser ? loggedInUser.data.username : 'you'}!</h1>
+        <Button
+          variant="light"
+          onClick={handleShowModal}
+          className="my-4 button"
+          style={{ backgroundColor: '#e39c7b', color: 'white' }}
+        >
+          Create Post
+        </Button>
         <h2 style={{ fontWeight: 'bolder' }}>your posts</h2>
-        {userPosts.map((post) => (
+
+        {userPosts.length === 0 && (
+        <p>You have no posts yet! Create your first post!</p>
+        )}
+
+        {userPosts.length > 0  && userPosts.map((post) => (
           <div className="card" key={post._id} style={cardStyle}>
             <div className="card-body" style= {cardBodyStyle}>
               <p className="card-text">
@@ -138,6 +162,7 @@ function UserProfile() {
               <Link to={`/posts/${post._id}`} className="card-title" style={cardTitleStyle}>
                 {post.title}
               </Link>
+              
               {post.categories &&
                         post.categories.length > 0 &&
                         post.categories.map((category) => (
@@ -161,7 +186,8 @@ function UserProfile() {
             </div>
           </div>
         ))}
-        <Modal show={showModal} onHide={() => setShowModal(false)}>
+
+          <Modal show={showModal} onHide={() => setShowModal(false)}>
           <Modal.Header closeButton>
             <Modal.Title>share this post</Modal.Title>
           </Modal.Header>

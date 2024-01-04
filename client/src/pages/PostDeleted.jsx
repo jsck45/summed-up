@@ -34,7 +34,8 @@ const GoBackButton = styled(Link)`
 
 const NotFoundPage = () => {
   return (
-    <NotFoundContainer>
+    <NotFoundContainer           style={{ borderLeft: "1px solid #ccc", paddingLeft: "3rem" }}
+    >
       <NotFoundText>Post Deleted!</NotFoundText>
       <ErrorMessage>This post doesn't exist.</ErrorMessage>
       <GoBackButton to="/">Go back home</GoBackButton>

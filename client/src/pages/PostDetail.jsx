@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { Container, Button, Modal } from "react-bootstrap";
 import { useMutation, useQuery } from "@apollo/client";
-import { GET_SINGLE_POST, GET_COMMENTS } from "../utils/queries";
+import { GET_SINGLE_POST, GET_COMMENTS, GET_POSTS } from "../utils/queries";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -104,6 +104,7 @@ function PostDetail() {
     onError: (error) => {
       console.error("Error deleting post:", error);
     },
+    refetchQueries: [{ query: GET_POSTS }],
   });
 
   const [deleteComment] = useMutation(DELETE_COMMENT, {

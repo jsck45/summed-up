@@ -70,8 +70,8 @@ export const DELETE_POST = gql`
 `;
 
 export const EDIT_POST = gql`
-  mutation editPost($postId: ID!, $title: String!, $content: String!) {
-    editPost(postId: $postId, title: $title, content: $content) {
+  mutation editPost($_id: ID!, $title: String!, $content: String!) {
+    editPost(_id: $_id, title: $title, content: $content) {
       _id
       title
       content

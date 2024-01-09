@@ -228,13 +228,22 @@ const resolvers = {
       return { token, user };
     },
 
-    editPost: async (parent, { postId, title, content }) => {
-      await Post.findOneAndUpdate({ _id: postId }, { title, content }, {
-        new: true
-      });
+    editPost: async (parent, { _id, title, content }) => {
+      console.log("Received postId:", _id);
 
-      return Post;
+      const updatedPost = await Post.findOneAndUpdate(
+        { _id: _id },
+        { title, content },
+        { new: true }
+      );
+    
+      if (!updatedPost) {
+        throw new Error("Post not found");
+      }
+    
+      return updatedPost;
     },
+    
   
     addComment: async (parent, { postId, content }, context) => {
       try {

@@ -68,6 +68,8 @@ const CategoryButton = styled.div`
 
 function PostDetail() {
   const { postId } = useParams();
+  console.log("postId:", postId);
+
   const [showModal, setShowModal] = useState(false);
   const [showDeleteCommentModal, setShowDeleteCommentModal] = useState(false);
   const [selectedCommentId, setSelectedCommentId] = useState(null);
@@ -129,11 +131,13 @@ function PostDetail() {
   };
 
   const handleSaveEdit = () => {
+    console.log("postId before mutation:", postId);
+
     editPost({
       variables: {
-        postId: post?._id,
+        _id: post?._id,
         title: post?.title,
-        text: editPostText,
+        content: editPostText,
       },
       onCompleted: (data) => {
         console.log("Post edited:", data.editPost);

@@ -55,6 +55,11 @@ function UserProfile() {
     setShowCreatePostModal(true);
   };
 
+  const handleCreatePostFormClose = () => {
+    setShowCreatePostModal(false);
+    refetch(); 
+  };
+
   const handleCommentButtonClick = (postId) => {
     navigate(`/posts/${postId}`);
   };
@@ -65,7 +70,7 @@ function UserProfile() {
 
     try {
       await navigator.clipboard.writeText(postLink);
-      setSelectedPost(postId); // Store the selected post
+      setSelectedPost(postId); 
       setPostLink(postLink);
     } catch (err) {
       console.error('Unable to copy link to clipboard', err);
@@ -73,8 +78,8 @@ function UserProfile() {
   };
 
   const handleHideShareModal = () => {
-    setSelectedPost(null); // Reset the selected post when closing the Share modal
-    setPostLink(''); // Reset the postLink when closing the Share modal
+    setSelectedPost(null); 
+    setPostLink(''); 
   };
 
   const { loading, error, data } = useQuery(GET_USER_POSTS, {

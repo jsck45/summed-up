@@ -11,7 +11,7 @@ function CommentForm({ postId }) {
   const [showModal, setShowModal] = useState(false);
   // const { refetch } = useQuery(GET_COMMENTS);
 
-  const user = Auth.getProfile(); 
+  const user = Auth.loggedIn() ? Auth.getProfile() : null;
   
   const handleCommentSubmit = async (e) => {
     e.preventDefault();

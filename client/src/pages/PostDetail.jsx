@@ -130,8 +130,9 @@ function PostDetail() {
     setIsEditing(!isEditing);
   };
 
+  
   const handleSaveEdit = () => {
-    console.log("postId before mutation:", postId);
+  setIsEditing(false);
 
     editPost({
       variables: {

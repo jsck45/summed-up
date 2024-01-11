@@ -17,6 +17,7 @@ class AuthService {
         return true;
       } else return false;
     } catch (err) {
+      console.error('Error decoding token:', err);
       return false;
     }
   }

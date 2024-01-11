@@ -1,4 +1,4 @@
-# Summed-Up
+# TL-DR
 
 ![Github licence](http://img.shields.io/badge/license-MIT-blue.svg)
 ![JavaScript Badge](https://img.shields.io/badge/JavaScript-100%25-yellow.svg)
@@ -16,9 +16,9 @@
 
 ## Description
 
-Summed Up is intended as a reddit-style forum where users can make posts, comment on posts and create categories. The defining feature of Summed Up is the integration of openai to generate summaries of user posts which are then viewable on the homepage and categories pages to provide a snapshot of the post content. 
+Tl-DR is intended as a reddit-style forum where users can make posts, comment on posts and create categories. The defining feature of TL-DR is the integration of openai to generate summaries of user posts which are then viewable on the homepage and categories pages to provide a snapshot of the post content. 
 
-Summed Up is built on a MERN stack with hosting provided by heroku.
+TL-DR is built on a MERN stack with hosting provided by heroku.
 
 ## Tech-stack
 
@@ -38,7 +38,7 @@ Summed Up is built on a MERN stack with hosting provided by heroku.
 
 ## Deployed Site
 
-https://summed-up-102938-e35f400e5f3d.herokuapp.com/
+https://tl-dr-00224c165de8.herokuapp.com/
 
 ## Contributors
 

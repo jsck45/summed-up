@@ -55,7 +55,9 @@ const LoginForm = () => {
         });
       }
 
-      Auth.login(userFormData.login.token);
+      console.log('Mutation Response:', data); // Log the response
+
+      Auth.login(data.login.token);
     } catch (err) {
       console.error(err);
     }

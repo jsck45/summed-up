@@ -5,6 +5,11 @@ import styled from "styled-components";
 const NotFoundContainer = styled.div`
   text-align: center;
   margin-top: 4rem;
+
+  @media (max-width: 767px) {
+    border-left: none;
+    padding-left: 0;
+  }
 `;
 
 const NotFoundText = styled.div`
@@ -34,8 +39,7 @@ const GoBackButton = styled(Link)`
 
 const NotFoundPage = () => {
   return (
-    <NotFoundContainer           style={{ borderLeft: "1px solid #ccc", paddingLeft: "3rem" }}
-    >
+    <NotFoundContainer>
       <NotFoundText>Post Deleted!</NotFoundText>
       <ErrorMessage>This post doesn't exist.</ErrorMessage>
       <GoBackButton to="/">Go back home</GoBackButton>

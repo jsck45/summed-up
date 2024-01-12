@@ -201,40 +201,43 @@ function PostDetail() {
     handleShowModal(true);
   };
 
-  const handleDelete = (isComment) => {
-    setSelectedCommentId(isComment ? post?._id : null);
-    handleShowModal(isComment);
-  };
+  // const handleDelete = (isComment) => {
+  //   setSelectedCommentId(isComment ? post?._id : null);
+  //   handleShowModal(isComment);
+  // };
 
-  const handleDeleteConfirmed = () => {
-
+  const handleDeleteConfirmed = async () => {
     if (showModal) {
-      deletePost({
-        variables: {
-          _id: post?._id,
-        },
-        onCompleted: () => {
-          setShowModal(false);
-        },
-      })
-      .then(() => {
+      try {
+        await deletePost({
+          variables: {
+            _id: post?._id,
+          },
+          refetchQueries: [{ query: GET_POSTS }],
+        });
+  
+        setShowModal(false);
         navigate("/post-deleted");
-      })
-      .catch((error) =>  {
+      } catch (error) {
         console.error("Error deleting post", error);
-      });
+      }
     } else if (showDeleteCommentModal && selectedCommentId !== null) {
-      deleteComment({
-        variables: {
-          postId: post?._id,
-          commentId: selectedCommentId,
-        },
-        onCompleted: () => {
-          setShowDeleteCommentModal(false);
-        },
-      });
+      try {
+        await deleteComment({
+          variables: {
+            postId: post?._id,
+            commentId: selectedCommentId,
+          },
+          refetchQueries: [{ query: GET_SINGLE_POST, variables: { _id: post?._id } }],
+        });
+  
+        setShowDeleteCommentModal(false);
+      } catch (error) {
+        console.error("Error deleting comment", error);
+      }
     }
   };
+  
   
 
   const handleCommentButtonClick = () => {

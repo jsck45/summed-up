@@ -133,6 +133,8 @@ const resolvers = {
 
     addPost: async (parent, { title, content, category }, context) => {
       try {
+        console.log('Mutation: addPost');
+
         const { user } = context;
     
         if (!user) {
@@ -192,6 +194,8 @@ const resolvers = {
     
         return { ...newPost.toObject(), author };
       } catch (error) {
+        console.error("Error creating a new post: ", error.message);
+
         throw new Error("Error creating a new post: " + error.message);
       }
 

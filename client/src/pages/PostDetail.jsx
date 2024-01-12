@@ -68,12 +68,13 @@ const CategoryButton = styled.div`
 
 function PostDetail() {
   const { postId } = useParams();
-  console.log("postId:", postId);
 
   const [showModal, setShowModal] = useState(false);
   const [showDeleteCommentModal, setShowDeleteCommentModal] = useState(false);
   const [selectedCommentId, setSelectedCommentId] = useState(null);
   const [showShareModal, setShowShareModal] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+
   const navigate = useNavigate();
 
   const handleShowShareModal = () => {
@@ -201,14 +202,10 @@ function PostDetail() {
     handleShowModal(true);
   };
 
-  // const handleDelete = (isComment) => {
-  //   setSelectedCommentId(isComment ? post?._id : null);
-  //   handleShowModal(isComment);
-  // };
-
   const handleDeleteConfirmed = async () => {
     if (showModal) {
       try {
+        setDeleting(true);
         await deletePost({
           variables: {
             _id: post?._id,
@@ -216,13 +213,18 @@ function PostDetail() {
           refetchQueries: [{ query: GET_POSTS }],
         });
   
+        // Reset state variables and close the modal
         setShowModal(false);
+        setSelectedCommentId(null);
         navigate("/post-deleted");
       } catch (error) {
         console.error("Error deleting post", error);
+      } finally {
+        setDeleting(false);
       }
     } else if (showDeleteCommentModal && selectedCommentId !== null) {
       try {
+        setDeleting(true);
         await deleteComment({
           variables: {
             postId: post?._id,
@@ -231,13 +233,16 @@ function PostDetail() {
           refetchQueries: [{ query: GET_SINGLE_POST, variables: { _id: post?._id } }],
         });
   
+        // Reset state variables and close the modal
         setShowDeleteCommentModal(false);
+        setSelectedCommentId(null);
       } catch (error) {
         console.error("Error deleting comment", error);
+      } finally {
+        setDeleting(false);
       }
     }
   };
-  
   
 
   const handleCommentButtonClick = () => {
@@ -449,8 +454,8 @@ function PostDetail() {
           </Container>
         </div>
         <Modal
-          show={showModal || showDeleteCommentModal}
-          onHide={() => {
+  show={(showModal || showDeleteCommentModal) && !deleting}
+  onHide={() => {
             setShowModal(false);
             setShowDeleteCommentModal(false);
           }}

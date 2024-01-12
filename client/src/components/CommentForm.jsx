@@ -7,7 +7,9 @@ import { GET_COMMENTS } from '../utils/queries';
 
 function CommentForm({ postId }) {
   const [commentText, setCommentText] = useState('');
-  const [addComment] = useMutation(ADD_COMMENT, { refetchQueries: [{ query: GET_COMMENTS}],});
+  const [addComment] = useMutation(ADD_COMMENT
+    // , { refetchQueries: [{ query: GET_COMMENTS}],}
+    );
   const [showModal, setShowModal] = useState(false);
   // const { refetch } = useQuery(GET_COMMENTS);
 

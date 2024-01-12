@@ -116,7 +116,8 @@ function PostDetail() {
     onError: (error) => {
       console.error("Error deleting comment:", error);
     },
-    refetchQueries: [{ query: GET_COMMENTS, variables: { postId: post?._id } }],
+    refetchQueries: [    { query: GET_SINGLE_POST, variables: { _id: post?._id } },
+    ],
   });
 
   const [editPostText, setEditPostText] = useState("");

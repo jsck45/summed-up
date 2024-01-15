@@ -36,9 +36,9 @@ function AppNavbar() {
         <Container>
           <div className="d-flex justify-content-between w-100">
           <Navbar.Brand as={Link} to="/">
-  <strong style={{ fontFamily: 'Fugaz One', fontSize: '1.5rem' }}>
-    <span>TL;DR</span>
-  </strong>
+  <div style={{ fontFamily: 'Anton', fontSize: '1.5rem' }}>
+    <span>TL ; DR</span>
+  </div>
 </Navbar.Brand>
 
             <div>

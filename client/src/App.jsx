@@ -39,7 +39,7 @@ function App() {
 
   return (
     <ApolloProvider client={client}>
-      <div>
+      <div className="grid-background">
         <Nav />
         <Container className ='content'>
           <Row>

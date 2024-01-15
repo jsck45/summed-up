@@ -70,13 +70,13 @@ function PostList() {
   };
 
   const cardTitleStyle = {
-    fontSize: "1.5rem",
+    fontSize: "1.2rem",
     fontWeight: "bold",
     textDecoration: "none",
   };
 
   const cardTextStyle = {
-    fontSize: "1rem",
+    fontSize: "1 rem",
     marginTop: "1rem",
   };
 

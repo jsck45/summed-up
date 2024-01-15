@@ -24,7 +24,7 @@ function Categories() {
 
   const linkStyle = {
     textDecoration: "none",
-    color: "grey",
+    color: "#4b4848",
   };
 
   return (

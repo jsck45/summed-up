@@ -1,23 +1,27 @@
 import React from "react";
+import tlDrIcon from "../../public/icon.png"; // Replace with the correct path to your icon image
 
 function About() {
   const tlDrStyle = {
-    fontFamily: 'Fugaz One',
-    fontSize: '1.2rem', 
-    paddingRight: 3
+    fontFamily: 'Anton',
+    fontSize: '3.5rem',
+    paddingRight: 3,
+  };
+
+  const aboutStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center', 
+    justifyContent: 'center', 
+    textAlign: 'center',
   };
 
   return (
-    <div className="about">
-      <h1>welcome 👋 </h1>
-      <br />
-      <br/>
+    <div className="about" style={aboutStyle}>
+      <img src={tlDrIcon} alt="TL;DR Icon" width="100" height="100" />
       <p>
-        <span style={tlDrStyle}>TL;DR</span>      isn't your average social forum - we use OpenAI magic to whip up nifty
-        summaries for your awesome posts.
-        <br />
-        No more endless scrolling, our summaries are like speed-reading for social media.
-        <br />Dive in, share your world, and let OpenAI sprinkle its summarization stardust. ✨
+        <span style={tlDrStyle}>TL ; DR  </span>
+        <br/>No more endless scrolling. <br/> Get to the heart of every post.
       </p>
     </div>
   );

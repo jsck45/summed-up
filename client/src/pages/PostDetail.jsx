@@ -309,7 +309,7 @@ function PostDetail() {
   return (
     <div className="card py-5" key={post?._id} style={cardStyle}>
       <PostContainer
-        // style={{ borderLeft: "1px solid #ccc", paddingLeft: "3rem" }}
+        style={{ borderLeft: "1px solid #ccc", paddingLeft: "3rem" }}
         className="container"
       >
         <CardContainer>

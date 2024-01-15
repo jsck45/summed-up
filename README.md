@@ -34,7 +34,7 @@ TL-DR is built on a MERN stack with hosting provided by heroku.
 
 ## Screenshot
 
-![image](https://github.com/ThorstenBeowulf/summed-up/assets/90459268/b519eab5-36c2-4c92-86cb-257ef1b0b48c)
+![image](./client/public/tldr.png)
 
 ## Deployed Site
 
